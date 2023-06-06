@@ -7,7 +7,7 @@ function Sponsor() {
       <div className="row">
         <div className="column column-md-8 column-lg-6 column-md-offset-2 column-lg-offset-3 text-center s0 between">
           <div className="component component--heading">
-            <h2 className="fnt-wt font-wt- fnt-mg font-mgn- fnt-ln font-lnh- heading">
+            <h2 className="fnt-wt font-wt- fnt-mg font-mgn- fnt-ln font-lnh- heading text-light">
               Move fast, stay aligned, and build better - together{" "}
             </h2>
           </div>
