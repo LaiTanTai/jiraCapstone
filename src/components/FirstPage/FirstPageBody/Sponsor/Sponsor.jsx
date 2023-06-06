@@ -3,33 +3,85 @@ import styles from "./Sponsor.module.scss";
 
 function Sponsor() {
   return (
-    <div className={styles.Sponsor_background}>
-      <div className="row">
-        <div className="column column-md-8 column-lg-6 column-md-offset-2 column-lg-offset-3 text-center s0 between">
-          <div className="component component--heading">
-            <h2 className="fnt-wt font-wt- fnt-mg font-mgn- fnt-ln font-lnh- heading">
-              Move fast, stay aligned, and build better - together{" "}
-            </h2>
-          </div>
-          <div className="component component--link-button">
-            <a
-              href="#start-trial"
-              data-event="clicked"
-              data-uuid="582af884-e7"
-              data-event-component="linkButton"
-              data-event-container="linkButton"
-              data-schema-version={1}
-              data-product-key="jiraSoftware"
-              data-label="Get it free"
-              data-label-english="Get it free"
-              className="component__link button button--two button--regular button--primary "
-            >
-              Get it free
-            </a>
+    <>
+      <div className={styles.Sponsor_background}>
+        <div className={styles.Sponsor_position}>
+          <div className={styles.Sponsor_children}>
+            <div className="text-center">
+              <h2 className={styles.h2_text}>
+                Move fast, stay aligned, and build better -
+                <br /> together{" "}
+              </h2>
+            </div>
+            <div className={`text-center mt-4 `}>
+              <button className={`${styles.button_text} btn btn-warning `}>
+                Get it free
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <div className={styles.feature}>
+        {" "}
+        <div className={styles.worldwide_feature}>
+          {" "}
+          <div className="text-center">
+            {" "}
+            <h3 className="fnt-wt font-wt- fnt-mg font-mgn- fnt-ln font-lnh- heading">
+              {" "}
+              Trusted by over 100,000 customers world-wide{" "}
+            </h3>{" "}
+          </div>{" "}
+          <div className={`row mt-5 justify-content-between`}>
+            {" "}
+            <div className="col-3 text-center">
+              {" "}
+              <img
+                id="151707d5"
+                alt="Square logo"
+                className="component__image"
+                style={{ height: 60 }}
+                src="https://wac-cdn.atlassian.com/dam/jcr:4cba45db-e328-4abd-88ea-bfe276355cb5/Square%20Logo.svg?cdnVersion=1042"
+                loading="auto"
+              />{" "}
+            </div>{" "}
+            <div className="col-3 text-center">
+              {" "}
+              <img
+                id="f15adc7b"
+                alt="ebay logo"
+                className="component__image"
+                style={{ height: 60 }}
+                src="https://wac-cdn.atlassian.com/dam/jcr:db51d228-2145-498b-ab73-064aa651770d/ebay%20logo.svg?cdnVersion=1042"
+                loading="auto"
+              />{" "}
+            </div>{" "}
+            <div className="col-3 text-center">
+              {" "}
+              <img
+                id="a2c9f3e7"
+                alt="Spotify logo"
+                className="component__image"
+                style={{ height: 60 }}
+                src="https://wac-cdn.atlassian.com/dam/jcr:7db3e103-186c-4413-950d-dea2f2a5755c/Spotify%20logo.svg?cdnVersion=1042"
+                loading="auto"
+              />{" "}
+            </div>{" "}
+            <div className="col-3 text-center">
+              {" "}
+              <img
+                id="67d47758"
+                alt="Cisco logo"
+                className="component__image"
+                style={{ height: 75 }}
+                src="https://wac-cdn.atlassian.com/dam/jcr:4d6ede5b-a9ea-410b-baab-6cb7166c080d/Cisco%20Logo.svg?cdnVersion=1042"
+                loading="auto"
+              />{" "}
+            </div>{" "}
+          </div>{" "}
+        </div>{" "}
+      </div>
+    </>
   );
 }
 

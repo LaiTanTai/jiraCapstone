@@ -1,9 +1,8 @@
-import React from 'react'
+import React from "react";
+import Footer from "./Footer/Footer";
 
 function FirstPageFooter() {
-  return (
-    <div>FirstPageFooter</div>
-  )
+  return <Footer />;
 }
 
-export default FirstPageFooter
+export default FirstPageFooter;
