@@ -3,7 +3,6 @@ import AboutUs from "./AboutUs/AboutUs";
 import Banner from "./Banner/Banner";
 import Customize from "./Customize/Customize";
 import Sponsor from "./Sponsor/Sponsor";
-import WorkTogether from "./WorkTogether/WorkTogether";
 function FirstPageBody() {
   return (
     <>
@@ -11,7 +10,6 @@ function FirstPageBody() {
       <AboutUs />
       <Customize />
       <Sponsor />
-      <WorkTogether />
     </>
   );
 }
