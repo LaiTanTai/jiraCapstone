@@ -2,8 +2,22 @@ import React from "react";
 import Neon_Button from "./../../../Button/Neon_Button/Neon_Button";
 import Aos from "aos";
 import styles from "./Banner.module.scss";
+import { useSelector, useDispatch } from "react-redux";
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { signout } from "../../../../slice/userslice";
+
 Aos.init();
 function Banner() {
+  const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSignout = () => {
+    dispatch(signout());
+    localStorage.removeItem("user");
+  };
+
   return (
     <div className={`${styles.bannerBackGround}`}>
       <section className={styles.getStart}>
@@ -15,6 +29,7 @@ function Banner() {
           <Neon_Button style={"1.5rem"} Nav={"/register"}>
             Register
           </Neon_Button>
+          <Button onClick={handleSignout}>Log out</Button>
         </div>
       </section>
       <section className={styles.Banner}>

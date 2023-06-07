@@ -4,20 +4,43 @@ import { useSelector, useDispatch } from "react-redux";
 import { Navigate, useSearchParams } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import {
-  Container,
-  Row,
-  Col,
-  Form,
-  Dropdown,
-  DropdownButton,
-  InputGroup,
-  Button,
-} from "react-bootstrap";
-
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import styles from "./Signup.module.scss";
+import { apiSignup } from "../../../apis/userAPI";
+const schema = yup.object({
+  email: yup.string().email().required("email không được để trống"),
+  passWord: yup.string().required("Mật khẩu không được để trống"),
+  name: yup.string().required("Tên không được để trống"),
+  phoneNumber: yup.number().required("Số điện thoại không được để trống"),
+});
 
 function Signup() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    // declare initial value for inputs
+    defaultValues: {
+      email: "",
+      passWord: "",
+      name: "",
+      phoneNumber: "",
+    },
+    mode: "onTouched",
+    // Khai báo schema validation bằng yup
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = async (value) => {
+    console.log("value", value);
+    try {
+      await apiSignup(value);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className={`${styles.bannerBackGround}`}>
       <div className={`${styles.feature} `}>
@@ -26,7 +49,11 @@ function Signup() {
           <Row className="mb-3">
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label className={styles.label}>Email</Form.Label>
-              <Form.Control className="py-2" type="email" placeholder="Email" />
+              <Form.Control
+                type="email"
+                placeholder="Email"
+                {...register("email")}
+              />
             </Form.Group>
           </Row>
 
@@ -34,26 +61,35 @@ function Signup() {
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label className={styles.label}>Mật Khẩu</Form.Label>
               <Form.Control
-                className="py-2"
                 type="password"
                 placeholder="Mật Khẩu"
+                {...register("passWord")}
               />
             </Form.Group>
           </Row>
           <Row className="mb-3">
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label className={styles.label}>Tên Tài Khoản</Form.Label>
-              <Form.Control className="py-2" placeholder="Name" />
+              <Form.Control placeholder="Name" {...register("name")} />
             </Form.Group>
           </Row>
           <Row className="mb-3">
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label className={styles.label}>Số Điện Thoại</Form.Label>
-              <Form.Control className="py-2" type="phone" placeholder="phone" />
+              <Form.Control
+                type="phone"
+                placeholder="phone"
+                {...register("phoneNumber")}
+              />
             </Form.Group>
           </Row>
 
-          <Button variant="primary" className="btn-lg" type="submit">
+          <Button
+            variant="primary"
+            onClick={handleSubmit(onSubmit)}
+            className="btn-lg"
+            type="submit"
+          >
             Submit
           </Button>
         </Form>{" "}

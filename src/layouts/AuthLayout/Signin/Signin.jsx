@@ -4,20 +4,51 @@ import { useSelector, useDispatch } from "react-redux";
 import { Navigate, useSearchParams } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import {
-  Container,
-  Row,
-  Col,
-  Form,
-  Dropdown,
-  DropdownButton,
-  InputGroup,
-  Button,
-} from "react-bootstrap";
-
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import styles from "./Signin.module.scss";
+import { apiSignup } from "../../../apis/userAPI";
+import { signin } from "../../../slice/userslice";
+
+const schema = yup.object({
+  email: yup.string().email().required("email không được để trống"),
+  passWord: yup.string().required("Mật khẩu không được để trống"),
+});
 
 function Signin() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    // declare initial value for inputs
+    defaultValues: {
+      email: "",
+      passWord: "",
+    },
+    mode: "onTouched",
+    // Khai báo schema validation bằng yup
+    resolver: yupResolver(schema),
+  });
+
+  const { user, isLoading, error } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const onSubmit = (values) => {
+    dispatch(signin(values));
+  };
+
+  const onError = (errors) => {
+    console.log(errors);
+  };
+
+  // Kiểm tra nếu có thông tin user => đã đăng nhập => điều hướng về trang Home
+  if (user) {
+    const url = searchParams.get("redirectUrl") || "/";
+    return <Navigate to={url} />;
+  }
+
   return (
     <div className={`${styles.bannerBackGround}`}>
       <div className={`${styles.feature} `}>
@@ -25,7 +56,12 @@ function Signin() {
         <Form>
           <Row className="mb-3">
             <Form.Group as={Col} controlId="formGridEmail">
-              <Form.Control className="py-2" type="email" placeholder="Email" />
+              <Form.Control
+                className="py-2"
+                type="email"
+                placeholder="Email"
+                {...register("email")}
+              />
             </Form.Group>
           </Row>
 
@@ -35,10 +71,16 @@ function Signin() {
                 className="py-2"
                 type="password"
                 placeholder="Mật Khẩu"
+                {...register("passWord")}
               />
             </Form.Group>
           </Row>
-          <Button variant="primary" className="btn-lg" type="submit">
+          <Button
+            variant="primary"
+            className="btn-lg"
+            type="submit"
+            onClick={handleSubmit(onSubmit)}
+          >
             Submit
           </Button>
         </Form>{" "}
