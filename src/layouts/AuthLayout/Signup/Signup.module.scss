@@ -1,0 +1,25 @@
+.bannerBackGround {
+    background-image: url('https://wac-cdn.atlassian.com/dam/jcr:f96e5a0a-7af5-4cc6-884c-b51416e65e41/JSM_BG%20Graphics.png?cdnVersion=984'), linear-gradient(287.15deg,
+            #fafbfc 0%,
+            #deebff 8.06%,
+            #b3d4ff 35.45%,
+            #deebff 77.6%,
+            #fafbfc 100%);
+    background-position: top right, 0 0;
+    background-repeat: no-repeat, no-repeat;
+    background-size: auto 100%, auto;
+    width: 100%;
+    min-height: 100vh;
+}
+.feature{
+    width: 100%;
+    padding: 100px 750px;
+}
+.text{
+    font-size: 3rem;
+}
+.label{
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: black;
+}
