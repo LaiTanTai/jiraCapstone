@@ -13,11 +13,6 @@ function Banner() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleSignout = () => {
-    dispatch(signout());
-    localStorage.removeItem("user");
-  };
-
   return (
     <div className={`${styles.bannerBackGround}`}>
       <section className={styles.getStart}>
@@ -29,7 +24,6 @@ function Banner() {
           <Neon_Button style={"1.5rem"} Nav={"/register"}>
             Register
           </Neon_Button>
-          <Button onClick={handleSignout}>Log out</Button>
         </div>
       </section>
       <section className={styles.Banner}>
