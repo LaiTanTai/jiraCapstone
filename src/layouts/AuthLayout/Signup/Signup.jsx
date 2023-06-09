@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
-import { Navigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import styles from "./Signup.module.scss";
 import { apiSignup } from "../../../apis/userAPI";
+import Alert from "@mui/material/Alert";
 const schema = yup.object({
   email: yup.string().email().required("email không được để trống"),
   passWord: yup.string().required("Mật khẩu không được để trống"),
@@ -15,6 +16,7 @@ const schema = yup.object({
 });
 
 function Signup() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -31,12 +33,14 @@ function Signup() {
     // Khai báo schema validation bằng yup
     resolver: yupResolver(schema),
   });
-
+  const [errorSignUp, setErrorSignUp] = useState("");
   const onSubmit = async (value) => {
     console.log("value", value);
     try {
       await apiSignup(value);
+      navigate("/login");
     } catch (error) {
+      setErrorSignUp(error);
       console.log(error);
     }
   };
@@ -83,7 +87,11 @@ function Signup() {
               />
             </Form.Group>
           </Row>
-
+          {errorSignUp && (
+            <Alert className="mb-3" severity="error">
+              Tài khoản đã được tồn tại !!
+            </Alert>
+          )}
           <Button
             variant="primary"
             onClick={handleSubmit(onSubmit)}

@@ -1,14 +1,13 @@
 import React, { useRef, useState, useEffect } from "react";
 import { DiJira } from "react-icons/di";
-import styles from "./MainPageHeader.module.scss";
+import styles from "../../FirstPage/FirstpageHeader/FirstPageHeader.module.scss";
 import "./MainPageHeader.scss";
 import { Container, Dropdown } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { Navigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import { signout } from "../../../slice/userslice";
 import Avatar from "@mui/material/Avatar";
-import DropdownButton from "react-bootstrap/DropdownButton";
 
 function stringToColor(string) {
   let hash = 0;
@@ -45,14 +44,14 @@ function MainPageHeader() {
 
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   useEffect(() => {
     setName(nameLogin);
   }, []);
   const handleSignout = () => {
     dispatch(signout());
     localStorage.removeItem("user");
-    // <Navigate to={url} />;
+    navigate("/");
   };
 
   return (
@@ -73,10 +72,8 @@ function MainPageHeader() {
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              <Dropdown.Item href="#/action-2">Setting</Dropdown.Item>
-              <Dropdown.Item href="#/action-3" onClick={handleSignout}>
-                Log out
-              </Dropdown.Item>
+              <Dropdown.Item>Setting</Dropdown.Item>
+              <Dropdown.Item onClick={handleSignout}>Log out</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         </div>
