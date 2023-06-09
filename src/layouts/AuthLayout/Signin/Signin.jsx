@@ -45,7 +45,7 @@ function Signin() {
 
   // Kiểm tra nếu có thông tin user => đã đăng nhập => điều hướng về trang Home
   if (user) {
-    const url = searchParams.get("redirectUrl") || "/";
+    const url = searchParams.get("redirectUrl") || "/Main";
     return <Navigate to={url} />;
   }
 
