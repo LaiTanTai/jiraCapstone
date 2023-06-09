@@ -29,9 +29,7 @@ function Banner() {
           <Neon_Button style={"1.5rem"} Nav={"/register"}>
             Register
           </Neon_Button>
-          <Neon_Button style={"1.5rem"} onClick={handleSignout}>
-            Log out
-          </Neon_Button>
+          <Button onClick={handleSignout}>Log out</Button>
         </div>
       </section>
       <section className={styles.Banner}>
