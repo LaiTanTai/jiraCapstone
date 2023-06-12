@@ -4,20 +4,28 @@
     .pageLeftOpen {
         flex: 0 0 auto;
         width: 17%;
+        height: 92vh;
     }
 
     .pageLeftClose {
         flex: 0 0 auto;
-        width: 6%;
+        width: 2%;
+        height: 92vh;
+        border-right: 1px solid rgb(66 153 225 / .5);
+        box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+        border-radius: 20px;
     }
 
     .pageRightOpen {
         flex: 0 0 auto;
         width: 83%;
+        height: 92vh;
     }
 
     .pageRightClose {
         flex: 0 0 auto;
         width: 94%;
+        height: 92vh;
+        padding-left: 20px;
     }
 }

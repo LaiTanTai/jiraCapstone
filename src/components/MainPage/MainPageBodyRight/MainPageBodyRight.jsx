@@ -1,7 +1,12 @@
 import React from "react";
+import CardMain from "../../CardMain/CardMain";
 
 function MainPageBodyRight() {
-  return <div>MainPageBodyRight</div>;
+  return (
+    <>
+      <CardMain />
+    </>
+  );
 }
 
 export default MainPageBodyRight;
