@@ -64,7 +64,7 @@
     width: 40px;
     border: none;
     background-color: rgb(66 153 225 / .5);
-    transform: translateX(0);
-    transform: translateY(360px);
+
+    transform: translate(5px, 360px);
     transition: all .3s;
 }
