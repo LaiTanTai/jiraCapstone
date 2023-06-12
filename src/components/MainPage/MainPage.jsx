@@ -1,16 +1,24 @@
-import React from "react";
+import React, { Fragment, useState } from "react";
 import MainPageHeader from "./MainPageHeader/MainPageHeader.jsx";
-import MainPageBody from "./MainPageBody/MainPageBody";
-import MainPageFooter from "./MainPageFooter/MainPageFooter";
 import { Navigate, useSearchParams } from "react-router-dom";
+import MainPageBodyLeft from "./MainPageBodyLeft/MainPageBodyLeft.jsx";
+import MainPageBodyRight from "./MainPageBodyRight/MainPageBodyRight.jsx";
+import "./MainPage.scss";
 
 function MainPage() {
+  const [open, setOpen] = useState(true);
   return (
-    <>
+    <div style={{ margin: "0" }}>
       <MainPageHeader />
-      <MainPageBody />
-      <MainPageFooter />
-    </>
+      <div className="row" style={{ width: "100%" }}>
+        <div className={`${open ? "pageLeftOpen" : "pageLeftClose"}`}>
+          <MainPageBodyLeft open={open} setOpen={setOpen} />
+        </div>
+        <div className={`${open ? "pageRightOpen" : "pageRightClose"}`}>
+          <MainPageBodyRight />
+        </div>
+      </div>
+    </div>
   );
 }
 

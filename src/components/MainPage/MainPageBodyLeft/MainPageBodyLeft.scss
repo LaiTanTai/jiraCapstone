@@ -1,0 +1,70 @@
+.content {
+    border-radius: 10px;
+    height: 92vh;
+    max-width: 100%;
+    overflow: hidden;
+    transition: all .5s;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+    border-right: 1px solid rgb(66 153 225 / .5);
+
+
+    ul {
+        list-style: none;
+        margin: 0px;
+        height: 100%;
+        padding: 0px;
+        margin-top: 50px;
+
+        li {
+
+            text-align: center;
+
+            a {
+                vertical-align: middle;
+                text-decoration: none;
+                height: 30px;
+                color: black;
+            }
+        }
+    }
+
+}
+
+.open {
+    max-width: 100%;
+    transform: scale(1);
+    /* Không thay đổi tỷ lệ scale */
+}
+
+.closed {
+    max-width: 0;
+    transform: scale(0);
+    /* Scale phần chữ về 0 */
+}
+
+.btn__close {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    border: none;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px;
+    transform: translate(700%, 50px);
+    position: fixed;
+    z-index: 1000;
+    transition: all .3s;
+
+    &:hover {
+        background-color: rgb(66 153 225 / .5);
+    }
+}
+
+.btn__open {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    border: none;
+    background-color: rgb(66 153 225 / .5);
+    transform: translateX(0);
+    transform: translateY(360px);
+    transition: all .3s;
+}

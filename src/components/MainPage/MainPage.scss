@@ -1,0 +1,23 @@
+.row {
+    transition: all .5s;
+
+    .pageLeftOpen {
+        flex: 0 0 auto;
+        width: 17%;
+    }
+
+    .pageLeftClose {
+        flex: 0 0 auto;
+        width: 6%;
+    }
+
+    .pageRightOpen {
+        flex: 0 0 auto;
+        width: 83%;
+    }
+
+    .pageRightClose {
+        flex: 0 0 auto;
+        width: 94%;
+    }
+}
