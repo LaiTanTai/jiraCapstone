@@ -8,7 +8,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import NewReleasesRoundedIcon from "@mui/icons-material/NewReleasesRounded";
 import GppGoodRoundedIcon from "@mui/icons-material/GppGoodRounded";
 import SettingsInputComponentRoundedIcon from "@mui/icons-material/SettingsInputComponentRounded";
-import BuildCircleRoundedIcon from "@mui/icons-material/BuildCircleRounded";
+
 
 function MainPageBodyLeft({ open, setOpen }) {
   const [renderOpen, setRenderOpen] = useState(false);
@@ -45,18 +45,13 @@ function MainPageBodyLeft({ open, setOpen }) {
       )}
       <nav className={`content ${open ? "open" : "closed"}`}>
         <div
-          style={{ display: "flex", alignItems: "center", marginTop: "25px" }}
+          style={{ display: "flex", alignItems: "center", marginTop: "25px"}}
         >
-          <BuildCircleRoundedIcon
-            sx={{
-              color: "rgb(66 153 225 / .5)",
-              display: "block",
-              textAlign: "center",
-              width: "25%",
-              fontSize: "35px",
-            }}
-          />
-          <h2 style={{ lineHeight: "35px", margin: "0" }}>Tool</h2>
+          <img className="React_image-left-open" src="./img/th.jfif"/>
+          <div style={{ marginLeft: "10px",marginTop:"9%"}}>
+            <h2 style={{ lineHeight: "10px",fontSize:"18px",fontWeight:"700"}}>React Jira Clone</h2>
+            <p style={{fontSize:"10px"}}>Software project</p>
+          </div>
         </div>
         <ul>
           <li>
@@ -82,7 +77,7 @@ function MainPageBodyLeft({ open, setOpen }) {
                 }}
               >
                 <SettingsIcon sx={{ width: "25%" }} />
-                Setings
+                Settings
               </a>
             </div>
 

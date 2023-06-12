@@ -10,7 +10,7 @@ function MainPage() {
   return (
     <div style={{ margin: "0" }}>
       <MainPageHeader />
-      <div className="row" style={{ width: "100%" }}>
+      <div className="MainPage" style={{ width: "100%"}}>
         <div className={`${open ? "pageLeftOpen" : "pageLeftClose"}`}>
           <MainPageBodyLeft open={open} setOpen={setOpen} />
         </div>
