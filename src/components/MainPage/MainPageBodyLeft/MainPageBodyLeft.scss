@@ -37,7 +37,7 @@
 }
 
 .closed {
-    max-width: 0;
+    width: 0;
     transform: scale(0);
     /* Scale phần chữ về 0 */
 }
@@ -64,10 +64,11 @@
     width: 40px;
     border: none;
     background-color: rgb(66 153 225 / .5);
-    transform: translate(-15px,50px);
+    transform: translate(-15px, 50px);
     transition: all .3s;
 }
-.React_image-left-open{
+
+.React_image-left-open {
     display: block;
     text-align: center;
     width: 20%;
