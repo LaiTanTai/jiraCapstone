@@ -1,13 +1,18 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import CardMain from "../../CardMain/CardMain";
+import Boards from "./Boards/Boards";
+import CreateProject from "./CreateProject/CreateProject";
 
-function MainPageBodyRight() {
+function MainPageBodyRight({ render }) {
   return (
-    <div
-      style={{ display: "flex", gap: "10px", height: "100%", width: "100%" }}
-    >
-      <CardMain />
-      <CardMain />
+    <div>
+      {render == "Boards" ? (
+        <Boards />
+      ) : "CreateProject" ? (
+        <CreateProject />
+      ) : (
+        ""
+      )}
     </div>
   );
 }

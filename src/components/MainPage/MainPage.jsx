@@ -7,15 +7,20 @@ import "./MainPage.scss";
 
 function MainPage() {
   const [open, setOpen] = useState(true);
+  const [render, setRender] = useState("Boards");
   return (
     <div style={{ margin: "0" }}>
       <MainPageHeader />
-      <div className="MainPage" style={{ width: "100%"}}>
+      <div className="MainPage" style={{ width: "100%" }}>
         <div className={`${open ? "pageLeftOpen" : "pageLeftClose"}`}>
-          <MainPageBodyLeft open={open} setOpen={setOpen} />
+          <MainPageBodyLeft
+            open={open}
+            setRender={setRender}
+            setOpen={setOpen}
+          />
         </div>
         <div className={`${open ? "pageRightOpen" : "pageRightClose"}`}>
-          <MainPageBodyRight />
+          <MainPageBodyRight render={render} />
         </div>
       </div>
     </div>
