@@ -40,7 +40,7 @@ function CardMain() {
     setName(nameLogin);
   }, []);
   return (
-    <div className="container box__card" style={{ width: "25%" }}>
+    <div className="container box__card">
       <p className="card__times">day</p>
       <div className="card my-3">
         <h5> Angular Spotify 🎧 </h5>

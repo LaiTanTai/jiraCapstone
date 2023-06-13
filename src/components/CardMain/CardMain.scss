@@ -38,3 +38,23 @@
         }
     }
 }
+@media screen and (min-width:576px) {
+    .box__card{
+        width: 100%;
+    }
+}
+@media screen and (min-width:768px) {
+    .box__card{
+        width: 50%;
+    }
+}
+@media screen and (min-width:986px) {
+    .box__card{
+        width: 33%;
+    }
+}
+@media screen and (min-width:1400px) {
+    .box__card{
+        width: 25%;
+    }
+}
