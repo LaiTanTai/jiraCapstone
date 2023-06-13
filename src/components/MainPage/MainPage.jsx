@@ -19,7 +19,7 @@ function MainPage() {
             setOpen={setOpen}
           />
         </div>
-        <div className={`${open ? "pageRightOpen" : "pageRightClose"}`}>
+        <div style={{marginLeft:"20px"}} className={`${open ? "pageRightOpen" : "pageRightClose"}`}>
           <MainPageBodyRight render={render} />
         </div>
       </div>

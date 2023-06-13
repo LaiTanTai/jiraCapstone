@@ -5,7 +5,17 @@ export const apiCreateProject = async (values) => {
   return data;
 };
 
+
 export const apiProjectCategory = async (values) => {
   const { data } = await axiosClient.get("/Projectcategory", values);
   return data;
 };
+
+export const apigetProject = async (name)=>{
+  const {data} = await axiosClient.get("/Project/getAllProject",{
+    params:{
+      keyword:name
+    }
+  })
+  return data
+}
