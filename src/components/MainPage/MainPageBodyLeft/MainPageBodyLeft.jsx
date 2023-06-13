@@ -9,8 +9,7 @@ import NewReleasesRoundedIcon from "@mui/icons-material/NewReleasesRounded";
 import GppGoodRoundedIcon from "@mui/icons-material/GppGoodRounded";
 import SettingsInputComponentRoundedIcon from "@mui/icons-material/SettingsInputComponentRounded";
 
-
-function MainPageBodyLeft({ open, setOpen }) {
+function MainPageBodyLeft({ open, setOpen, setRender }) {
   const [renderOpen, setRenderOpen] = useState(false);
   const [renderClose, setRenderClose] = useState(true);
 
@@ -45,12 +44,20 @@ function MainPageBodyLeft({ open, setOpen }) {
       )}
       <nav className={`content ${open ? "open" : "closed"}`}>
         <div
-          style={{ display: "flex", alignItems: "center", marginTop: "25px"}}
+          style={{ display: "flex", alignItems: "center", marginTop: "25px" }}
         >
-          <img className="React_image-left-open" src="./img/th.jfif"/>
-          <div style={{ marginLeft: "10px",marginTop:"9%"}}>
-            <h2 style={{ lineHeight: "10px",fontSize:"18px",fontWeight:"700"}}>React Jira Clone</h2>
-            <p style={{fontSize:"10px"}}>Software project</p>
+          <img className="React_image-left-open" src="./img/th.jfif" />
+          <div style={{ marginLeft: "10px", marginTop: "9%" }}>
+            <h2
+              style={{
+                lineHeight: "10px",
+                fontSize: "18px",
+                fontWeight: "700",
+              }}
+            >
+              React Jira Clone
+            </h2>
+            <p style={{ fontSize: "10px" }}>Software project</p>
           </div>
         </div>
         <ul>
@@ -63,6 +70,7 @@ function MainPageBodyLeft({ open, setOpen }) {
                   alignItems: "center",
                   height: "35px",
                 }}
+                onClick={() => setRender("Boards")}
               >
                 <TocIcon sx={{ width: "25%" }} />
                 Board
@@ -75,9 +83,10 @@ function MainPageBodyLeft({ open, setOpen }) {
                   alignItems: "center",
                   height: "35px",
                 }}
+                onClick={() => setRender("CreateProject")}
               >
                 <SettingsIcon sx={{ width: "25%" }} />
-                Settings
+                Create Project
               </a>
             </div>
 
