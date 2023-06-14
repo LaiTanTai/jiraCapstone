@@ -6,8 +6,9 @@ import Loader from "../../../Loader/Loader";
 // Lấy tên user từ phía client localstorage
 function Boards() {
   const [dataproject, setdataproject] = useState([]);
+  console.log(dataproject);
   useEffect(() => {
-    apigetProject("ab")
+    apigetProject("Luong")
       .then((res) => {
         setdataproject(res.content);
       })
