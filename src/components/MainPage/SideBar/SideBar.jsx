@@ -1,5 +1,12 @@
 import React from "react";
 import "./SideBar.css";
+import { Space } from "antd";
+import {
+  SearchOutlined,
+  PlusOutlined,
+  BulbOutlined,
+  QuestionOutlined,
+} from "@ant-design/icons";
 
 function SideBar() {
   return (
@@ -7,7 +14,9 @@ function SideBar() {
       <div className="sideBar">
         <div className="sideBar-top">
           <div className="sideBar-icon">
-            <i className="fab fa-jira" />
+            <Space>
+              <BulbOutlined style={{ color: "#fff" }} />
+            </Space>
           </div>
           <div
             className="sideBar-icon"
@@ -15,18 +24,24 @@ function SideBar() {
             data-target="#searchModal"
             style={{ cursor: "pointer" }}
           >
-            <i className="fa fa-search" />
-            <span className="title">SEARCH ISSUES</span>
+            <Space>
+              <SearchOutlined style={{ color: "#fff", fontSize: "20px" }} />
+              <span className="title">SEARCH ISSUES</span>
+            </Space>
           </div>
           <div className="sideBar-icon">
-            <i className="fa fa-plus" />
-            <span className="title">CREATE ISSUES</span>
+            <Space>
+              <PlusOutlined style={{ color: "#fff", fontSize: "20px" }} />
+              <span className="title">CREATE ISSUES</span>
+            </Space>
           </div>
         </div>
-        <div className="sideBar-bottom">
+        <div className="sideBar-bottom pb-5 mb-3">
           <div className="sideBar-icon">
-            <i className="fa fa-question-circle" />
-            <span className="title">ABOUT</span>
+            <Space>
+              <QuestionOutlined style={{ color: "#fff", fontSize: "20px" }} />
+              <span className="title">ABOUT</span>
+            </Space>
           </div>
         </div>
       </div>
