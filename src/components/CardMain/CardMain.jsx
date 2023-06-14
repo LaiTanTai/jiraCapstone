@@ -33,7 +33,7 @@ function stringAvatar(name) {
     children: `${name.charAt(0).toUpperCase()}`,
   };
 }
-function CardMain() {
+function CardMain({ value }) {
   const [name, setName] = useState("");
   const nameLogin = JSON.parse(localStorage.getItem("user"))?.name;
   useEffect(() => {
@@ -43,10 +43,10 @@ function CardMain() {
     <div className="container box__card">
       <p className="card__times">day</p>
       <div className="card my-3">
-        <h5> Angular Spotify 🎧 </h5>
+        <h5> {value.categoryName} </h5>
         <div className="card-body">
           <Avatar {...stringAvatar(`${name}`)} />
-          <p className="card-title">Card title</p>
+          <p className="card-title">{value.description}</p>
         </div>
       </div>
     </div>
