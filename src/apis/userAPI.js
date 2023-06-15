@@ -16,6 +16,13 @@ export const apiGetUser = async () => {
   return data;
 };
 
+export const apiGetUserById = async (values) => {
+  const { data } = await axiosAdmin.get("/Users/getUserByProjectId", {
+    params: { idProject: values },
+  });
+  return data;
+};
+
 export const apiDeleteUser = async (values) => {
   const { data } = await axiosAdmin.delete("/Users/deleteUser", {
     params: { id: values },

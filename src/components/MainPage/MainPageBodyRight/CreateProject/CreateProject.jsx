@@ -62,7 +62,7 @@ function CreateProject() {
   const onSubmit = async (value) => {
     console.log("value", value);
     try {
-      //   const data = await apiCreateProject(value);
+      const data = await apiCreateProject(value);
     } catch (error) {
       console.log(error);
     }
@@ -106,7 +106,7 @@ function CreateProject() {
                 placeholder="Description"
                 {...register("description")}
               />
-              <Editor
+              {/* <Editor
                 onInit={(evt, editor) => (editorRef.current = editor)}
                 initialValue="<p>This is the initial content of the editor.</p>"
                 init={{
@@ -127,7 +127,7 @@ function CreateProject() {
                 }}
                 onEditorChange={handleDescription}
                 {...register("description")}
-              />
+              /> */}
             </Form.Group>
             <Form.Group as={Col} controlId="formGridEmail"></Form.Group>
           </Row>
@@ -148,7 +148,9 @@ function CreateProject() {
             <Form.Group as={Col} controlId="formGridEmail"></Form.Group>
           </Row>
 
-          <Button onClick={handleSubmit(onSubmit)}>Create Project</Button>
+          <Button onClick={handleSubmit(onSubmit)} type="submit">
+            Create Project
+          </Button>
         </Form>{" "}
       </div>
     </div>
