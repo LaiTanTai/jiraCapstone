@@ -5,6 +5,9 @@ const Firstpage = lazy(() => import("./components/FirstPage/FirstPage"));
 const Mainpage = lazy(() => import("./components/MainPage/MainPage"));
 const Signin = lazy(() => import("./layouts/AuthLayout/Signin/Signin"));
 const Signup = lazy(() => import("./layouts/AuthLayout/Signup/Signup"));
+const CreateTask = lazy(() =>
+  import("./components/MainPage/CreateTask/CreateTask")
+);
 
 function App() {
   return (
@@ -15,7 +18,10 @@ function App() {
           <Route path="/Home"></Route>
           <Route path="/login" element={<Signin />}></Route>
           <Route path="/register" element={<Signup />}></Route>
-          <Route path="/Main" element={<Mainpage />}></Route>
+          <Route path="/Main" element={<Mainpage />}>
+            {" "}
+          </Route>
+          <Route path="/Main/CreateTask" element={<CreateTask />}></Route>
         </Routes>
       </BrowserRouter>
     </Suspense>
