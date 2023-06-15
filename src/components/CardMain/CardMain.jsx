@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import  { gettaskAPI } from './../../apis/TaskAPI'
+import { DragDropContext,Draggable,Droppable } from "react-beautiful-dnd";
 import "./CardMain.scss";
 import Avatar from "@mui/material/Avatar";
 
@@ -33,23 +35,29 @@ function stringAvatar(name) {
     children: `${name.charAt(0).toUpperCase()}`,
   };
 }
-function CardMain({ value }) {
+function CardMain({ value,index }) {
   const [name, setName] = useState("");
   const nameLogin = JSON.parse(localStorage.getItem("user"))?.name;
   useEffect(() => {
+    gettaskAPI();
     setName(nameLogin);
   }, []);
   return (
+  
     <div className="container box__card">
-      <p className="card__times">day</p>
-      <div className="card my-3">
-        <h5> {value.categoryName} </h5>
-        <div className="card-body">
-          <Avatar {...stringAvatar(`${name}`)} />
-          <p className="card-title">{value.description}</p>
+      <p className="card__times">{value.projectName}</p>
+            <Draggable key={index} draggableId={index} index={index}>
+            {(provided)=>(
+              <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}  className="card my-3">
+                <h5> {value.categoryName} </h5>
+                <div className="card-body">
+                  <Avatar {...stringAvatar(`${name}`)} />
+                  <p className="card-title">{value.description}</p>
+                </div>
+              </div>
+              )}
+            </Draggable>
         </div>
-      </div>
-    </div>
   );
 }
 
