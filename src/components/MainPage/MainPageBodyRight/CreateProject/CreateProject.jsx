@@ -18,6 +18,7 @@ import { useForm } from "react-hook-form";
 // import dayjs from "dayjs";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { Editor } from "@tinymce/tinymce-react";
 
 const schema = yup.object({
   projectName: yup.string().required("Tên dự án không được để trống"),
@@ -70,6 +71,13 @@ function CreateProject() {
   useEffect(() => {
     getListCategory();
   }, []);
+
+  const editorRef = useRef(null);
+  const handleDescription = () => {
+    if (editorRef.current) {
+      console.log(editorRef.current.getContent());
+    }
+  };
 
   return (
     <div className={`mt-4 ${style.inputSchedule}`}>
