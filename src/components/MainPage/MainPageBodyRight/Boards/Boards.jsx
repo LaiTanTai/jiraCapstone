@@ -6,8 +6,9 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 // Lấy tên user từ phía client localstorage
 function Boards() {
   const [dataproject, setdataproject] = useState([]);
+  console.log(dataproject);
   useEffect(() => {
-    apigetProject("Vũ Lê Bảo Long")
+    apigetProject("Luong")
       .then((res) => {
         setdataproject(res.content);
       })
