@@ -27,6 +27,7 @@ const schema = yup.object({
 
 function CreateProject() {
   const [category, setCategory] = useState([]);
+  const [valDescription, setValDescription] = useState();
 
   const {
     register,
@@ -76,6 +77,7 @@ function CreateProject() {
   const handleDescription = () => {
     if (editorRef.current) {
       console.log(editorRef.current.getContent());
+      setValDescription(editorRef.current.getContent());
       return editorRef.current.getContent();
     }
   };
@@ -108,7 +110,7 @@ function CreateProject() {
               />
               <Editor
                 onInit={(evt, editor) => (editorRef.current = editor)}
-                initialValue="<p>This is the initial content of the editor.</p>"
+                initialValue=""
                 init={{
                   height: 500,
                   menubar: false,
@@ -125,6 +127,7 @@ function CreateProject() {
                   content_style:
                     "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                 }}
+                placeholder="Description"
                 onEditorChange={handleDescription}
                 {...register("description")}
               />

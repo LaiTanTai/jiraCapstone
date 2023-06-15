@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -8,8 +8,6 @@ import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import styles from "./CreateTask.module.scss";
 import { apiSignup } from "../../../apis/userAPI";
 import Alert from "@mui/material/Alert";
-import { Editor } from "@tinymce/tinymce-react";
-
 const schema = yup.object({
   email: yup.string().email().required("email không được để trống"),
   passWord: yup.string().required("Mật khẩu không được để trống"),
@@ -44,14 +42,6 @@ function CreateTask() {
     } catch (error) {
       setErrorSignUp(error);
       console.log(error);
-    }
-  };
-
-  const editorRef = useRef(null);
-  const handleDescription = () => {
-    if (editorRef.current) {
-      console.log(editorRef.current.getContent());
-      return editorRef.current.getContent();
     }
   };
 
@@ -94,28 +84,6 @@ function CreateTask() {
                 type="phone"
                 placeholder="phone"
                 {...register("phoneNumber")}
-              />
-              <Editor
-                onInit={(evt, editor) => (editorRef.current = editor)}
-                initialValue="<p>This is the initial content of the editor.</p>"
-                init={{
-                  height: 500,
-                  menubar: false,
-                  plugins: [
-                    "advlist autolink lists link image charmap print preview anchor",
-                    "searchreplace visualblocks code fullscreen",
-                    "insertdatetime media table paste code help wordcount",
-                  ],
-                  toolbar:
-                    "undo redo | formatselect | " +
-                    "bold italic backcolor | alignleft aligncenter " +
-                    "alignright alignjustify | bullist numlist outdent indent | " +
-                    "removeformat | help",
-                  content_style:
-                    "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-                }}
-                onEditorChange={handleDescription}
-                {...register("description")}
               />
             </Form.Group>
           </Row>
