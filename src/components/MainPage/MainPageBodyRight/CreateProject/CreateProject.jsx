@@ -18,6 +18,7 @@ import { useForm } from "react-hook-form";
 // import dayjs from "dayjs";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { Editor } from "@tinymce/tinymce-react";
 
 const schema = yup.object({
   projectName: yup.string().required("Tên dự án không được để trống"),
@@ -26,6 +27,7 @@ const schema = yup.object({
 
 function CreateProject() {
   const [category, setCategory] = useState([]);
+  const [valDescription, setValDescription] = useState();
 
   const {
     register,
@@ -61,7 +63,7 @@ function CreateProject() {
   const onSubmit = async (value) => {
     console.log("value", value);
     try {
-      //   const data = await apiCreateProject(value);
+      const data = await apiCreateProject(value);
     } catch (error) {
       console.log(error);
     }
@@ -70,6 +72,15 @@ function CreateProject() {
   useEffect(() => {
     getListCategory();
   }, []);
+
+  const editorRef = useRef(null);
+  const handleDescription = () => {
+    if (editorRef.current) {
+      console.log(editorRef.current.getContent());
+      setValDescription(editorRef.current.getContent());
+      return editorRef.current.getContent();
+    }
+  };
 
   return (
     <div className={`mt-4 ${style.inputSchedule}`}>
@@ -97,6 +108,29 @@ function CreateProject() {
                 placeholder="Description"
                 {...register("description")}
               />
+              {/* <Editor
+                onInit={(evt, editor) => (editorRef.current = editor)}
+                initialValue=""
+                init={{
+                  height: 500,
+                  menubar: false,
+                  plugins: [
+                    "advlist autolink lists link image charmap print preview anchor",
+                    "searchreplace visualblocks code fullscreen",
+                    "insertdatetime media table paste code help wordcount",
+                  ],
+                  toolbar:
+                    "undo redo | formatselect | " +
+                    "bold italic backcolor | alignleft aligncenter " +
+                    "alignright alignjustify | bullist numlist outdent indent | " +
+                    "removeformat | help",
+                  content_style:
+                    "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                }}
+                placeholder="Description"
+                onEditorChange={handleDescription}
+                {...register("description")}
+              /> */}
             </Form.Group>
             <Form.Group as={Col} controlId="formGridEmail"></Form.Group>
           </Row>
@@ -117,7 +151,9 @@ function CreateProject() {
             <Form.Group as={Col} controlId="formGridEmail"></Form.Group>
           </Row>
 
-          <Button onClick={handleSubmit(onSubmit)}>Create Project</Button>
+          <Button onClick={handleSubmit(onSubmit)} type="submit">
+            Create Project
+          </Button>
         </Form>{" "}
       </div>
     </div>
