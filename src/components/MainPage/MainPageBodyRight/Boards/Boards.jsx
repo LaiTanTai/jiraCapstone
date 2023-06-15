@@ -18,18 +18,16 @@ function Boards() {
   }, []);
   return (
   <DragDropContext>
-    <div className="container-fluid">
+  
+    <div className="container-fluid characters" >
     
       <div className="row">
         {dataproject.length > 0 ? (
           dataproject.map((value, index) => {
+            
             return(
-              <Droppable droppableId={index}>
-                {(provided)=>(
-                <CardMain className="drag"  {...provided.droppableProps} {...provided.droppableProps} ref={provided.innerRef} value={value} index={index}/>
+                    <CardMain  value={value} index={index}/>
                 )}
-              </Droppable>  
-              )}
             ) 
           ) : (
           <img className={style.img} src="./img/nodatafound.jpg"/>

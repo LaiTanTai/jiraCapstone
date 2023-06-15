@@ -39,25 +39,28 @@ function CardMain({ value,index }) {
   const [name, setName] = useState("");
   const nameLogin = JSON.parse(localStorage.getItem("user"))?.name;
   useEffect(() => {
-    gettaskAPI();
+    // gettaskAPI();
     setName(nameLogin);
   }, []);
   return (
-  
-    <div className="container box__card">
-      <p className="card__times">{value.projectName}</p>
-            <Draggable key={index} draggableId={index} index={index}>
-            {(provided)=>(
-              <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}  className="card my-3">
-                <h5> {value.categoryName} </h5>
-                <div className="card-body">
-                  <Avatar {...stringAvatar(`${name}`)} />
-                  <p className="card-title">{value.description}</p>
-                </div>
-              </div>
-              )}
-            </Draggable>
-        </div>
+    <Droppable droppableId={`drop ${index}`}>
+        {(provided)=>(
+        <div className="container box__card" {...provided.droppableProps} {...provided.droppableProps}   ref={provided.innerRef}>
+          <p className="card__times">{value.projectName}</p>
+                <Draggable key={value.id} draggableId={`drag${value.id}`} index={index}>
+                {(provided)=>(
+                  <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}  className="card my-3">
+                    <h5> {value.categoryName} </h5>
+                    <div className="card-body">
+                      <Avatar {...stringAvatar(`${name}`)} />
+                      <p className="card-title">{value.description}</p>
+                    </div>
+                  </div>
+                  )}
+                </Draggable>
+            </div>
+        )}
+      </Droppable>      
   );
 }
 
