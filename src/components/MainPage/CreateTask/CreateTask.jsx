@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-import React, { useState } from "react";
-=======
 import React, { useState, useRef, useEffect } from "react";
->>>>>>> Luong
+
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -19,12 +16,10 @@ import {
   getAssignUserTask,
 } from "../../../apis/TaskAPI";
 import Alert from "@mui/material/Alert";
-<<<<<<< HEAD
-=======
+
 import { Editor } from "@tinymce/tinymce-react";
 import Item from "antd/es/list/Item";
 
->>>>>>> Luong
 const schema = yup.object({
   email: yup.string().email().required("email không được để trống"),
   passWord: yup.string().required("Mật khẩu không được để trống"),
@@ -79,8 +74,6 @@ function CreateTask() {
     }
   };
 
-<<<<<<< HEAD
-=======
   const getListStatus = async () => {
     try {
       const data = await getStatus();
@@ -156,7 +149,6 @@ function CreateTask() {
     }
   };
 
->>>>>>> Luong
   return (
     <div className={`${styles.bannerBackGround}`}>
       <div className={`${styles.feature} `}>
@@ -202,14 +194,6 @@ function CreateTask() {
           </Row>
           <Row className="mb-3">
             <Form.Group as={Col} controlId="formGridEmail">
-<<<<<<< HEAD
-              <Form.Label className={styles.label}>Số Điện Thoại</Form.Label>
-              <Form.Control
-                type="phone"
-                placeholder="phone"
-                {...register("phoneNumber")}
-              />
-=======
               <Form.Label className={styles.label}>Priority</Form.Label>
               <Form.Select onChange={getListStatus}>
                 <option>Chọn priority</option>
@@ -226,7 +210,6 @@ function CreateTask() {
                   return <option value={item.taskType}>{item.taskType}</option>;
                 })}
               </Form.Select>
->>>>>>> Luong
             </Form.Group>
           </Row>
           <Row className="mb-3">
