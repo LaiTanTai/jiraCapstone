@@ -16,8 +16,8 @@ import {
   getAssignUserTask,
 } from "../../../apis/TaskAPI";
 import Alert from "@mui/material/Alert";
+import { Select, Space } from "antd";
 
-import { Editor } from "@tinymce/tinymce-react";
 import Item from "antd/es/list/Item";
 
 const schema = yup.object({
@@ -149,6 +149,21 @@ function CreateTask() {
     }
   };
 
+  // select antd
+  const options = [];
+
+  user.map((item) => {
+    console.log(item);
+    options.push({
+      label: item.name,
+      value: item.name,
+    });
+  });
+
+  // const handleChange = (value) => {
+  //   console.log(`selected ${value}`);
+  // };
+
   return (
     <div className={`${styles.bannerBackGround}`}>
       <div className={`${styles.feature} `}>
@@ -215,12 +230,30 @@ function CreateTask() {
           <Row className="mb-3">
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label className={styles.label}>Assigness</Form.Label>
-              <Form.Select ref={inputUser} onChange={getListUser}>
+              {/* <Form.Select ref={inputUser} onChange={getListUser}>
                 <option>Chọn Assigness</option>
                 {user.map((item) => {
+                  console.log(item);
                   return <option value={item.UserId}>{item.name}</option>;
                 })}
-              </Form.Select>
+              </Form.Select> */}
+              <Space
+                style={{
+                  width: "100%",
+                }}
+                direction="vertical"
+              >
+                <Select
+                  mode="multiple"
+                  allowClear
+                  style={{
+                    width: "100%",
+                  }}
+                  placeholder="chon Assigness"
+                  onChange={getListUser}
+                  options={options}
+                />
+              </Space>
             </Form.Group>
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label className={styles.label}>Task Type</Form.Label>
