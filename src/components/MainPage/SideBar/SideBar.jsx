@@ -1,5 +1,6 @@
 import React from "react";
 import "./SideBar.css";
+import { Navigate, useSearchParams, useNavigate } from "react-router-dom";
 import { Space } from "antd";
 import {
   SearchOutlined,
@@ -9,6 +10,11 @@ import {
 } from "@ant-design/icons";
 
 function SideBar() {
+  const navigate = useNavigate();
+  const handleCreateTask = () => {
+    return navigate("/Main/CreateTask");
+  };
+
   return (
     <>
       <div className="sideBar">
@@ -26,13 +32,17 @@ function SideBar() {
           >
             <Space>
               <SearchOutlined style={{ color: "#fff", fontSize: "20px" }} />
-              <span className="title">SEARCH ISSUES</span>
+              <span className="title">SEARCH TASK</span>
             </Space>
           </div>
-          <div className="sideBar-icon">
+          <div
+            className="sideBar-icon"
+            style={{ cursor: "pointer" }}
+            onClick={handleCreateTask}
+          >
             <Space>
               <PlusOutlined style={{ color: "#fff", fontSize: "20px" }} />
-              <span className="title">CREATE ISSUES</span>
+              <span className="title">CREATE TASK</span>
             </Space>
           </div>
         </div>
