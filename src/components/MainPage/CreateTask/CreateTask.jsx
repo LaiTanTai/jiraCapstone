@@ -160,10 +160,6 @@ function CreateTask() {
     });
   });
 
-  // const handleChange = (value) => {
-  //   console.log(`selected ${value}`);
-  // };
-
   return (
     <div className={`${styles.bannerBackGround}`}>
       <div className={`${styles.feature} `}>
@@ -230,13 +226,6 @@ function CreateTask() {
           <Row className="mb-3">
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label className={styles.label}>Assigness</Form.Label>
-              {/* <Form.Select ref={inputUser} onChange={getListUser}>
-                <option>Chọn Assigness</option>
-                {user.map((item) => {
-                  console.log(item);
-                  return <option value={item.UserId}>{item.name}</option>;
-                })}
-              </Form.Select> */}
               <Space
                 style={{
                   width: "100%",
