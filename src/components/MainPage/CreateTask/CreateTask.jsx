@@ -16,9 +16,8 @@ import {
   getAssignUserTask,
 } from "../../../apis/TaskAPI";
 import Alert from "@mui/material/Alert";
-import { Select, Space } from "antd";
-
-import Item from "antd/es/list/Item";
+import { Select, Space, DatePicker } from "antd";
+import { Editor } from "@tinymce/tinymce-react";
 
 const schema = yup.object({
   email: yup.string().email().required("email không được để trống"),
@@ -160,6 +159,48 @@ function CreateTask() {
     });
   });
 
+  // date-picker
+  // time tricking
+  const onChangeTimeTricking = (value, dateString) => {
+    console.log("Selected Time Tricking: ", value?.$M);
+    console.log("Formatted Selected Time Tricking: ", dateString);
+  };
+  const onOkTimeTricking = (value) => {
+    console.log("onOk: ", value);
+  };
+  // time spents
+  const onChangeTimeSpent = (value, dateString) => {
+    console.log("Selected Time Spent: ", value);
+    console.log("Formatted Selected Time Tricking: ", dateString);
+  };
+  const onOkTimeSpent = (value) => {
+    console.log("onOk: ", value);
+  };
+  // time remaining
+  const onChangeTimeRemaining = (value, dateString) => {
+    console.log("Selected Time Remaining: ", value);
+    console.log("Formatted Selected Time Tricking: ", dateString);
+  };
+  const onOkTimeRemaining = (value) => {
+    console.log("onOk: ", value);
+  };
+  // origin estimate
+  const onChangeOriginEstimate = (value, dateString) => {
+    console.log("Selected Time Remaining: ", value);
+    console.log("Formatted Selected Time Tricking: ", dateString);
+  };
+  const onOkTimeOriginEstimate = (value) => {
+    console.log("onOk: ", value);
+  };
+  //editor
+
+  const editorRef = useRef(null);
+  const handleDescription = () => {
+    if (editorRef.current) {
+      console.log(editorRef.current.getContent());
+    }
+  };
+
   return (
     <div className={`${styles.bannerBackGround}`}>
       <div className={`${styles.feature} `}>
@@ -253,6 +294,65 @@ function CreateTask() {
                 })}
               </Form.Select>
             </Form.Group>
+          </Row>
+          <Row className="mb-3">
+            <Form.Group as={Col} controlId="formGridEmail">
+              <Space direction="vertical" size={12}>
+                <DatePicker
+                  showTime
+                  placeholder="time tricking"
+                  onChange={onChangeTimeTricking}
+                  onOk={onOkTimeTricking}
+                />
+                <DatePicker
+                  showTime
+                  placeholder="time spent"
+                  onChange={onChangeTimeSpent}
+                  onOk={onOkTimeSpent}
+                />
+                <DatePicker
+                  showTime
+                  placeholder="time remaining"
+                  onChange={onChangeTimeRemaining}
+                  onOk={onOkTimeRemaining}
+                />
+                <DatePicker
+                  showTime
+                  placeholder="origin estimate"
+                  onChange={onChangeOriginEstimate}
+                  onOk={onOkTimeOriginEstimate}
+                />
+              </Space>
+            </Form.Group>
+          </Row>
+          <Row className="mb-3">
+            <Form.Group as={Col} controlId="formGridEmail">
+              <Form.Label className="text-dark">Description</Form.Label>
+              <Editor
+                onInit={(evt, editor) => (editorRef.current = editor)}
+                initialValue=""
+                init={{
+                  height: 500,
+                  menubar: false,
+                  plugins: [
+                    "advlist autolink lists link image charmap print preview anchor",
+                    "searchreplace visualblocks code fullscreen",
+                    "insertdatetime media table paste code help wordcount",
+                  ],
+                  toolbar:
+                    "undo redo | formatselect | " +
+                    "bold italic backcolor | alignleft aligncenter " +
+                    "alignright alignjustify | bullist numlist outdent indent | " +
+                    "removeformat | help",
+                  content_style:
+                    "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                }}
+                placeholder="Description"
+                onEditorChange={handleDescription}
+                {...register("description")}
+              />
+            </Form.Group>
+            <Form.Group as={Col} controlId="formGridEmail"></Form.Group>
           </Row>
 
           {errorSignUp && (
