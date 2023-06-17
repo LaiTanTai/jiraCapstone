@@ -14,16 +14,29 @@ import {
   getStatus,
   getTaskType,
   getAssignUserTask,
+  apiCreateTask,
 } from "../../../apis/TaskAPI";
 import Alert from "@mui/material/Alert";
 import { Select, Space, DatePicker, Slider, InputNumber } from "antd";
 import { Editor } from "@tinymce/tinymce-react";
 
 const schema = yup.object({
-  email: yup.string().email().required("email không được để trống"),
-  passWord: yup.string().required("Mật khẩu không được để trống"),
-  name: yup.string().required("Tên không được để trống"),
-  phoneNumber: yup.number().required("Số điện thoại không được để trống"),
+  listUserAsign: yup.string().required("Danh sách user không được để trống"),
+  taskName: yup.string().required("task name không được để trống"),
+  description: yup.string().required("mô tả không được để trống"),
+  statusId: yup.string().required("trạng thái không được để trống"),
+  originalEstimate: yup
+    .number()
+    .required("thời gian dự kiến không được để trống"),
+  timeTrackingSpent: yup
+    .number()
+    .required("thời gian dành không được để trống"),
+  timeTrackingRemaining: yup
+    .number()
+    .required("thời gian còn không được để trống"),
+  projectId: yup.string().required("dự án không được để trống"),
+  typeId: yup.string().required("loại task không được để trống"),
+  priorityId: yup.string().required("ưu tiên không được để trống"),
 });
 
 function CreateTask() {
@@ -35,8 +48,7 @@ function CreateTask() {
   const [user, setUser] = useState([]);
   const [payload, setPayload] = useState("");
   const [inputValue, setInputValue] = useState(1);
-  const [spent, setSpent] = useState(0);
-  const [timing, setTiming] = useState(0);
+  const [getId, setGetId] = useState([]);
 
   const onChange = () => {
     let Spent = inputSpent.current.value;
@@ -51,11 +63,11 @@ function CreateTask() {
       setInputValue(Spent);
     }
   };
-
   const inputRef = useRef();
   const inputUser = useRef();
   const inputSpent = useRef();
   const inputRemaining = useRef();
+  const inputAssign = useRef();
 
   const {
     register,
@@ -64,10 +76,16 @@ function CreateTask() {
   } = useForm({
     // declare initial value for inputs
     defaultValues: {
-      email: "",
-      passWord: "",
-      name: "",
-      phoneNumber: "",
+      listUserAsign: [0],
+      taskName: "",
+      description: "",
+      statusId: 0,
+      originalEstimate: 0,
+      timeTrackingSpent: 0,
+      timeTrackingRemaining: 0,
+      projectId: 0,
+      typeId: 0,
+      priorityId: 0,
     },
     mode: "onTouched",
     // Khai báo schema validation bằng yup
@@ -159,8 +177,7 @@ function CreateTask() {
   const onSubmit = async (value) => {
     console.log("value", value);
     try {
-      //   await apiSignup(value);
-      navigate("/login");
+      // await apiCreateTask(value);
     } catch (error) {
       setErrorSignUp(error);
       console.log(error);
@@ -168,15 +185,22 @@ function CreateTask() {
   };
 
   // select antd
-  const options = [];
+  let options = [];
 
   user.map((item) => {
     console.log(item);
     options.push({
       label: item.name,
       value: item.name,
+      id: item.userId,
     });
   });
+
+  const getIdUser = () => {
+    // setGetId(options);
+    const assignNew = inputAssign.current.value;
+    console.log("getId", assignNew);
+  };
 
   // date-picker
   // time tricking
@@ -229,7 +253,7 @@ function CreateTask() {
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label className={styles.label}>Project</Form.Label>
               <Form.Select
-                // {...register("categoryId")}
+                {...register("projectId")}
                 ref={inputRef}
                 onChange={getListProject}
               >
@@ -244,21 +268,16 @@ function CreateTask() {
           <Row className="mb-3">
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label className={styles.label}>Task Name</Form.Label>
-              <Form.Control
-                placeholder="Task Name"
-                // {...register("passWord")}
-              />
+              <Form.Control placeholder="Task Name" {...register("taskName")} />
             </Form.Group>
           </Row>
           <Row className="mb-3">
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label className={styles.label}>Status</Form.Label>
-              <Form.Select onChange={getListStatus}>
+              <Form.Select onChange={getListStatus} {...register("statusId")}>
                 <option>Chọn trạng thái</option>
                 {status.map((item) => {
-                  return (
-                    <option value={item.statusName}>{item.statusName}</option>
-                  );
+                  return <option value={item.id}>{item.statusName}</option>;
                 })}
               </Form.Select>
             </Form.Group>
@@ -266,19 +285,19 @@ function CreateTask() {
           <Row className="mb-3">
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label className={styles.label}>Priority</Form.Label>
-              <Form.Select onChange={getListStatus}>
+              <Form.Select onChange={getListStatus} {...register("priorityId")}>
                 <option>Chọn priority</option>
                 {priority.map((item) => {
-                  return <option value={item.priority}>{item.priority}</option>;
+                  return <option value={item.id}>{item.priority}</option>;
                 })}
               </Form.Select>
             </Form.Group>
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label className={styles.label}>Task Type</Form.Label>
-              <Form.Select onChange={getListStatus}>
+              <Form.Select onChange={getListStatus} {...register("typeId")}>
                 <option>Chọn Task Type</option>
                 {tasktype.map((item) => {
-                  return <option value={item.taskType}>{item.taskType}</option>;
+                  return <option value={item.id}>{item.taskType}</option>;
                 })}
               </Form.Select>
             </Form.Group>
@@ -299,8 +318,9 @@ function CreateTask() {
                     width: "100%",
                   }}
                   placeholder="chon Assigness"
-                  onChange={getListUser}
+                  onChange={getIdUser}
                   options={options}
+                  ref={inputAssign}
                 />
               </Space>
             </Form.Group>
@@ -325,12 +345,9 @@ function CreateTask() {
               <Form.Label className={styles.label}>
                 Original Estimate
               </Form.Label>
-              <DatePicker
-                showTime
-                placeholder="origin estimate"
-                onChange={onChangeOriginEstimate}
-                onOk={onOkTimeOriginEstimate}
-                className="form-control"
+              <Form.Control
+                placeholder="Nhập thời gian dự kiến"
+                {...register("originalEstimate")}
               />
             </Form.Group>
             <Form.Group as={Col} controlId="formGridEmail">
