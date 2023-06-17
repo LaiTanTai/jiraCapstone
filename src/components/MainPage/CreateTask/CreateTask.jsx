@@ -16,7 +16,7 @@ import {
   getAssignUserTask,
 } from "../../../apis/TaskAPI";
 import Alert from "@mui/material/Alert";
-import { Select, Space, DatePicker } from "antd";
+import { Select, Space, DatePicker, Slider, InputNumber } from "antd";
 import { Editor } from "@tinymce/tinymce-react";
 
 const schema = yup.object({
@@ -34,9 +34,28 @@ function CreateTask() {
   const [tasktype, setTaskType] = useState([]);
   const [user, setUser] = useState([]);
   const [payload, setPayload] = useState("");
+  const [inputValue, setInputValue] = useState(1);
+  const [spent, setSpent] = useState(0);
+  const [timing, setTiming] = useState(0);
+
+  const onChange = () => {
+    let Spent = inputSpent.current.value;
+    let Timing = inputRemaining.current.value;
+    if (Spent !== undefined && Timing !== undefined) {
+      let Sum = parseInt(Spent) + parseInt(Timing);
+      console.log("Sum", Sum);
+      setInputValue(Sum);
+    } else if (Timing !== undefined) {
+      setInputValue(Timing);
+    } else if (Spent !== undefined) {
+      setInputValue(Spent);
+    }
+  };
 
   const inputRef = useRef();
   const inputUser = useRef();
+  const inputSpent = useRef();
+  const inputRemaining = useRef();
 
   const {
     register,
@@ -286,45 +305,66 @@ function CreateTask() {
               </Space>
             </Form.Group>
             <Form.Group as={Col} controlId="formGridEmail">
-              <Form.Label className={styles.label}>Task Type</Form.Label>
-              <Form.Select onChange={getListStatus}>
-                <option>Chọn Task Type</option>
-                {tasktype.map((item) => {
-                  return <option value={item.taskType}>{item.taskType}</option>;
-                })}
-              </Form.Select>
+              <Form.Label className={styles.label}>Time tracking</Form.Label>
+              {/* <DatePicker
+                showTime
+                placeholder="time tracking"
+                onChange={onChangeTimeTricking}
+                onOk={onOkTimeTricking}
+                className="form-control"
+              /> */}
+              <Slider
+                min={1}
+                max={20}
+                value={inputValue !== undefined ? inputValue : 0}
+              />
             </Form.Group>
           </Row>
           <Row className="mb-3">
             <Form.Group as={Col} controlId="formGridEmail">
-              <Space direction="vertical" size={12}>
-                <DatePicker
-                  showTime
-                  placeholder="time tricking"
-                  onChange={onChangeTimeTricking}
-                  onOk={onOkTimeTricking}
-                />
-                <DatePicker
-                  showTime
-                  placeholder="time spent"
-                  onChange={onChangeTimeSpent}
-                  onOk={onOkTimeSpent}
-                />
-                <DatePicker
-                  showTime
-                  placeholder="time remaining"
-                  onChange={onChangeTimeRemaining}
-                  onOk={onOkTimeRemaining}
-                />
-                <DatePicker
-                  showTime
-                  placeholder="origin estimate"
-                  onChange={onChangeOriginEstimate}
-                  onOk={onOkTimeOriginEstimate}
-                />
-              </Space>
+              <Form.Label className={styles.label}>
+                Original Estimate
+              </Form.Label>
+              <DatePicker
+                showTime
+                placeholder="origin estimate"
+                onChange={onChangeOriginEstimate}
+                onOk={onOkTimeOriginEstimate}
+                className="form-control"
+              />
+            </Form.Group>
+            <Form.Group as={Col} controlId="formGridEmail">
+              <Form.Label className={styles.label}>Time Spent</Form.Label>
+              {/* <DatePicker
+                showTime
+                placeholder="time spent"
+                onChange={onChangeTimeSpent}
+                onOk={onOkTimeSpent}
+                className="form-control"
+              /> */}
+              <InputNumber
+                min={1}
+                max={20}
+                ref={inputSpent}
+                onChange={onChange}
+                className="form-control"
+              />
             </Form.Group>
           </Row>
+          <Row className="mb-3">
+            <Form.Group as={Col} controlId="formGridEmail">
+              <Form.Label className={styles.label}>Time Remaining</Form.Label>
+              <InputNumber
+                min={1}
+                max={20}
+                ref={inputRemaining}
+                onChange={onChange}
+                className="form-control"
+              />
+            </Form.Group>
+            <Form.Group as={Col} controlId="formGridEmail"></Form.Group>
+          </Row>
+
           <Row className="mb-3">
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label className="text-dark">Description</Form.Label>
@@ -332,7 +372,7 @@ function CreateTask() {
                 onInit={(evt, editor) => (editorRef.current = editor)}
                 initialValue=""
                 init={{
-                  height: 500,
+                  height: 200,
                   menubar: false,
                   plugins: [
                     "advlist autolink lists link image charmap print preview anchor",
@@ -352,7 +392,6 @@ function CreateTask() {
                 {...register("description")}
               />
             </Form.Group>
-            <Form.Group as={Col} controlId="formGridEmail"></Form.Group>
           </Row>
 
           {errorSignUp && (
