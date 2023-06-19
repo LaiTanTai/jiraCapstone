@@ -97,6 +97,7 @@ function CreateTask() {
 
       setProjectName(newData);
       let Ref = inputRef.current?.value;
+      console.log("inputRef", inputRef);
       console.log("Ref", Ref);
       getListUser(Ref);
     } catch (error) {
@@ -249,8 +250,8 @@ function CreateTask() {
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label className={styles.label}>Project</Form.Label>
               <Form.Select
-                ref={inputRef}
                 {...register("projectId")}
+                ref={inputRef}
                 onChange={getListProject}
               >
                 <option value="">Chọn dự án</option>
