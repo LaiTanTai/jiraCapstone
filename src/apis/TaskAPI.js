@@ -19,6 +19,11 @@ const getAssignUserTask = async (values) => {
   return data;
 };
 
+const getAssignUserProject = async (values) => {
+  const { data } = await axiosAdmin.post("/Project/assignUserProject", values);
+  return data;
+};
+
 const apiCreateTask = async (values) => {
   const { data } = await axiosAdmin.post("/Project/createTask", values);
   return data;
@@ -36,4 +41,5 @@ export {
   getPriority,
   getAssignUserTask,
   apiCreateTask,
+  getAssignUserProject,
 };

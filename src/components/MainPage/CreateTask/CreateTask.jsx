@@ -8,35 +8,31 @@ import * as yup from "yup";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import styles from "./CreateTask.module.scss";
 import { apigetProject } from "../../../apis/projectAPI";
-import { apiGetUserById } from "../../../apis/userAPI";
+import { apiGetUserById, apiGetUser } from "../../../apis/userAPI";
 import {
   getPriority,
   getStatus,
   getTaskType,
   getAssignUserTask,
   apiCreateTask,
+  getAssignUserProject,
 } from "../../../apis/TaskAPI";
 import Alert from "@mui/material/Alert";
 import { Select, Space, DatePicker, Slider, InputNumber } from "antd";
 import { Editor } from "@tinymce/tinymce-react";
+import { NewReleases } from "@mui/icons-material";
 
 const schema = yup.object({
-  listUserAsign: yup.string().required("Danh sách user không được để trống"),
+  // listUserAsign: yup.string().required("Danh sách user không được để trống"),
   taskName: yup.string().required("task name không được để trống"),
-  description: yup.string().required("mô tả không được để trống"),
-  statusId: yup.string().required("trạng thái không được để trống"),
-  originalEstimate: yup
-    .number()
-    .required("thời gian dự kiến không được để trống"),
-  timeTrackingSpent: yup
-    .number()
-    .required("thời gian dành không được để trống"),
-  timeTrackingRemaining: yup
-    .number()
-    .required("thời gian còn không được để trống"),
-  projectId: yup.string().required("dự án không được để trống"),
-  typeId: yup.string().required("loại task không được để trống"),
-  priorityId: yup.string().required("ưu tiên không được để trống"),
+  // description: yup.string().required("mô tả không được để trống"),
+  // statusId: yup.number().required("trạng thái không được để trống"),
+  // originalEstimate: yup
+  //   .number()
+  //   .required("thời gian dự kiến không được để trống"),
+  // projectId: yup.number().required("dự án không được để trống"),
+  // typeId: yup.number().required("loại task không được để trống"),
+  // priorityId: yup.number().required("ưu tiên không được để trống"),
 });
 
 function CreateTask() {
@@ -46,7 +42,6 @@ function CreateTask() {
   const [priority, setPriority] = useState([]);
   const [tasktype, setTaskType] = useState([]);
   const [user, setUser] = useState([]);
-  const [payload, setPayload] = useState("");
   const [inputValue, setInputValue] = useState(1);
   const [getId, setGetId] = useState([]);
 
@@ -55,7 +50,6 @@ function CreateTask() {
     let Timing = inputRemaining.current.value;
     if (Spent !== undefined && Timing !== undefined) {
       let Sum = parseInt(Spent) + parseInt(Timing);
-      console.log("Sum", Sum);
       setInputValue(Sum);
     } else if (Timing !== undefined) {
       setInputValue(Timing);
@@ -72,17 +66,18 @@ function CreateTask() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({
     // declare initial value for inputs
     defaultValues: {
-      listUserAsign: [0],
+      listUserAsign: 0,
       taskName: "",
       description: "",
       statusId: 0,
       originalEstimate: 0,
-      timeTrackingSpent: 0,
-      timeTrackingRemaining: 0,
+      // timeTrackingSpent: 0,
+      // timeTrackingRemaining: 0,
       projectId: 0,
       typeId: 0,
       priorityId: 0,
@@ -91,7 +86,6 @@ function CreateTask() {
     // Khai báo schema validation bằng yup
     resolver: yupResolver(schema),
   });
-
   const getListProject = async () => {
     try {
       const name = "";
@@ -102,9 +96,9 @@ function CreateTask() {
       //   });
 
       setProjectName(newData);
-      const Ref = inputRef.current.value;
-      setPayload(Ref);
-      getListUser();
+      let Ref = inputRef.current?.value;
+      console.log("Ref", Ref);
+      getListUser(Ref);
     } catch (error) {
       console.log(error);
     }
@@ -142,15 +136,21 @@ function CreateTask() {
       console.log(error);
     }
   };
-  console.log(payload);
-  const getListUser = async () => {
+  const getListUser = async (ref) => {
     try {
-      if (payload !== "") {
-        const data = await apiGetUserById(payload);
+      let memberProjectName = projectName.find((item) => {
+        return item.id == ref;
+      });
+      const haveMembers = memberProjectName?.members;
+      if (haveMembers?.length > 0) {
+        const data = await apiGetUserById(ref);
+        const newData = data.content;
+        setUser(newData);
+      } else {
+        const data = await apiGetUser();
         const newData = data.content;
         setUser(newData);
       }
-      console.log("payload", payload);
     } catch (error) {
       console.log(error);
     }
@@ -166,18 +166,42 @@ function CreateTask() {
     }
   };
 
+  // const addUserIntoProject = async () => {
+  //   try {
+  //     const value = {
+  //       projectId: +inputRef.current?.value,
+  //       userId: +inputAssign.current?.value,
+  //     };
+  //     const data = await getAssignUserProject(value);
+  //     const newData = data.content;
+  //     console.log("newData", newData);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
   useEffect(() => {
     getListProject();
     getListStatus();
     getListPriority();
     getListTaskType();
+    // addUserIntoProject();
   }, []);
 
   const [errorSignUp, setErrorSignUp] = useState("");
   const onSubmit = async (value) => {
-    console.log("value", value);
     try {
-      // await apiCreateTask(value);
+      const payload = {
+        ...value,
+        listUserAsign: [0],
+        timeTrackingSpent: +inputSpent.current.value,
+        timeTrackingRemaining: +inputRemaining.current.value,
+        projectId: +value.projectId,
+        typeId: +value.typeId,
+        priorityId: +value.priorityId,
+        originalEstimate: +value.originalEstimate,
+      };
+      await apiCreateTask(payload);
     } catch (error) {
       setErrorSignUp(error);
       console.log(error);
@@ -196,50 +220,23 @@ function CreateTask() {
   });
 
   const getIdUser = () => {
-    // setGetId(options);
-    const assignNew = inputAssign.current.value;
-    console.log("getId", assignNew);
+    const listAssign = [
+      {
+        userId: inputAssign.current.value,
+        name: "Name",
+      },
+    ];
+    setGetId(listAssign);
   };
 
   // date-picker
   // time tricking
-  const onChangeTimeTricking = (value, dateString) => {
-    console.log("Selected Time Tricking: ", value?.$M);
-    console.log("Formatted Selected Time Tricking: ", dateString);
-  };
-  const onOkTimeTricking = (value) => {
-    console.log("onOk: ", value);
-  };
-  // time spents
-  const onChangeTimeSpent = (value, dateString) => {
-    console.log("Selected Time Spent: ", value);
-    console.log("Formatted Selected Time Tricking: ", dateString);
-  };
-  const onOkTimeSpent = (value) => {
-    console.log("onOk: ", value);
-  };
-  // time remaining
-  const onChangeTimeRemaining = (value, dateString) => {
-    console.log("Selected Time Remaining: ", value);
-    console.log("Formatted Selected Time Tricking: ", dateString);
-  };
-  const onOkTimeRemaining = (value) => {
-    console.log("onOk: ", value);
-  };
-  // origin estimate
-  const onChangeOriginEstimate = (value, dateString) => {
-    console.log("Selected Time Remaining: ", value);
-    console.log("Formatted Selected Time Tricking: ", dateString);
-  };
-  const onOkTimeOriginEstimate = (value) => {
-    console.log("onOk: ", value);
-  };
   //editor
 
   const editorRef = useRef(null);
   const handleDescription = () => {
     if (editorRef.current) {
-      console.log(editorRef.current.getContent());
+      setValue("description", editorRef.current.getContent());
     }
   };
 
@@ -252,8 +249,8 @@ function CreateTask() {
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label className={styles.label}>Project</Form.Label>
               <Form.Select
-                {...register("projectId")}
                 ref={inputRef}
+                {...register("projectId")}
                 onChange={getListProject}
               >
                 <option value="">Chọn dự án</option>
@@ -276,7 +273,9 @@ function CreateTask() {
               <Form.Select onChange={getListStatus} {...register("statusId")}>
                 <option>Chọn trạng thái</option>
                 {status.map((item) => {
-                  return <option value={item.id}>{item.statusName}</option>;
+                  return (
+                    <option value={item.statusId}>{item.statusName}</option>
+                  );
                 })}
               </Form.Select>
             </Form.Group>
@@ -287,7 +286,9 @@ function CreateTask() {
               <Form.Select onChange={getListStatus} {...register("priorityId")}>
                 <option>Chọn priority</option>
                 {priority.map((item) => {
-                  return <option value={item.id}>{item.priority}</option>;
+                  return (
+                    <option value={item.priorityId}>{item.priority}</option>
+                  );
                 })}
               </Form.Select>
             </Form.Group>
@@ -304,30 +305,12 @@ function CreateTask() {
           <Row className="mb-3">
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label className={styles.label}>Assigness</Form.Label>
-              <Form.Select onChange={getListStatus}>
-                <option>Chọn Task Type</option>
+              <Form.Select {...register("listUserAsign")}>
+                <option>Chọn User</option>
                 {user.map((item) => {
-                  return <option value={item.name}>{item.name}</option>;
+                  return <option value={item.userId}>{item.name}</option>;
                 })}
               </Form.Select>
-              <Space
-                style={{
-                  width: "100%",
-                }}
-                direction="vertical"
-              >
-                <Select
-                  mode="multiple"
-                  allowClear
-                  style={{
-                    width: "100%",
-                  }}
-                  placeholder="chon Assigness"
-                  onChange={getIdUser}
-                  options={options}
-                  ref={inputAssign}
-                />
-              </Space>
             </Form.Group>
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label className={styles.label}>Time tracking</Form.Label>
@@ -378,7 +361,7 @@ function CreateTask() {
               <Form.Label className="text-dark">Description</Form.Label>
               <Editor
                 onInit={(evt, editor) => (editorRef.current = editor)}
-                initialValue=""
+                initialValue="nam"
                 init={{
                   height: 200,
                   menubar: false,
