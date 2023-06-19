@@ -142,7 +142,7 @@ function CreateTask() {
       console.log(error);
     }
   };
-
+  console.log(payload);
   const getListUser = async () => {
     try {
       if (payload !== "") {
@@ -188,7 +188,6 @@ function CreateTask() {
   let options = [];
 
   user.map((item) => {
-    console.log(item);
     options.push({
       label: item.name,
       value: item.name,
@@ -305,6 +304,12 @@ function CreateTask() {
           <Row className="mb-3">
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label className={styles.label}>Assigness</Form.Label>
+              <Form.Select onChange={getListStatus}>
+                <option>Chọn Task Type</option>
+                {user.map((item) => {
+                  return <option value={item.name}>{item.name}</option>;
+                })}
+              </Form.Select>
               <Space
                 style={{
                   width: "100%",
@@ -326,16 +331,9 @@ function CreateTask() {
             </Form.Group>
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label className={styles.label}>Time tracking</Form.Label>
-              {/* <DatePicker
-                showTime
-                placeholder="time tracking"
-                onChange={onChangeTimeTricking}
-                onOk={onOkTimeTricking}
-                className="form-control"
-              /> */}
               <Slider
                 min={1}
-                max={20}
+                max={40}
                 value={inputValue !== undefined ? inputValue : 0}
               />
             </Form.Group>
@@ -352,13 +350,6 @@ function CreateTask() {
             </Form.Group>
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label className={styles.label}>Time Spent</Form.Label>
-              {/* <DatePicker
-                showTime
-                placeholder="time spent"
-                onChange={onChangeTimeSpent}
-                onOk={onOkTimeSpent}
-                className="form-control"
-              /> */}
               <InputNumber
                 min={1}
                 max={20}
