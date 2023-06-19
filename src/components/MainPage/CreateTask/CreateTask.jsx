@@ -43,7 +43,8 @@ function CreateTask() {
   const [tasktype, setTaskType] = useState([]);
   const [user, setUser] = useState([]);
   const [inputValue, setInputValue] = useState(1);
-  const [getId, setGetId] = useState([]);
+  const [userId, setUserId] = useState([]);
+  const [projectId, setProjectId] = useState();
 
   const onChange = () => {
     let Spent = inputSpent.current.value;
@@ -71,7 +72,7 @@ function CreateTask() {
   } = useForm({
     // declare initial value for inputs
     defaultValues: {
-      listUserAsign: 0,
+      listUserAsign: [],
       taskName: "",
       description: "",
       statusId: 0,
@@ -97,8 +98,7 @@ function CreateTask() {
 
       setProjectName(newData);
       let Ref = inputRef.current?.value;
-      console.log("inputRef", inputRef);
-      console.log("Ref", Ref);
+      setProjectId(Ref);
       getListUser(Ref);
     } catch (error) {
       console.log(error);
@@ -109,10 +109,6 @@ function CreateTask() {
     try {
       const data = await getStatus();
       const newData = data.content;
-      //   const newListSystem = newData.map((item) => {
-      //     return item.projectName;
-      //   });
-
       setStatus(newData);
     } catch (error) {
       console.log(error);
@@ -194,44 +190,36 @@ function CreateTask() {
     try {
       const payload = {
         ...value,
-        listUserAsign: [0],
+        listUserAsign: userId,
         timeTrackingSpent: +inputSpent.current.value,
         timeTrackingRemaining: +inputRemaining.current.value,
-        projectId: +value.projectId,
+        projectId: +projectId,
         typeId: +value.typeId,
         priorityId: +value.priorityId,
         originalEstimate: +value.originalEstimate,
       };
+      console.log("payload", payload);
       await apiCreateTask(payload);
     } catch (error) {
       setErrorSignUp(error);
-      console.log(error);
+      console.log(error.response);
     }
   };
 
   // select antd
   let options = [];
 
-  user.map((item) => {
+  user?.map((item) => {
     options.push({
       label: item.name,
-      value: item.name,
-      id: item.userId,
+      value: item.userId,
     });
   });
 
-  const getIdUser = () => {
-    const listAssign = [
-      {
-        userId: inputAssign.current.value,
-        name: "Name",
-      },
-    ];
-    setGetId(listAssign);
+  const getIdUser = (value) => {
+    console.log(value);
+    setUserId(value);
   };
-
-  // date-picker
-  // time tricking
   //editor
 
   const editorRef = useRef(null);
@@ -256,6 +244,7 @@ function CreateTask() {
               >
                 <option value="">Chọn dự án</option>
                 {projectName.map((item) => {
+                  // console.log(item);
                   return <option value={item.id}>{item.projectName}</option>;
                 })}
               </Form.Select>
@@ -271,7 +260,7 @@ function CreateTask() {
           <Row className="mb-3">
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label className={styles.label}>Status</Form.Label>
-              <Form.Select onChange={getListStatus} {...register("statusId")}>
+              <Form.Select {...register("statusId")} onChange={getListStatus}>
                 <option>Chọn trạng thái</option>
                 {status.map((item) => {
                   return (
@@ -306,12 +295,24 @@ function CreateTask() {
           <Row className="mb-3">
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label className={styles.label}>Assigness</Form.Label>
-              <Form.Select {...register("listUserAsign")}>
-                <option>Chọn User</option>
-                {user.map((item) => {
-                  return <option value={item.userId}>{item.name}</option>;
-                })}
-              </Form.Select>
+              <Space
+                style={{
+                  width: "100%",
+                }}
+                direction="vertical"
+              >
+                <Select
+                  mode="multiple"
+                  allowClear
+                  style={{
+                    width: "100%",
+                  }}
+                  placeholder="Assigness"
+                  {...register("listUserAsign")}
+                  onChange={getIdUser}
+                  options={options}
+                />
+              </Space>
             </Form.Group>
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label className={styles.label}>Time tracking</Form.Label>
@@ -362,7 +363,6 @@ function CreateTask() {
               <Form.Label className="text-dark">Description</Form.Label>
               <Editor
                 onInit={(evt, editor) => (editorRef.current = editor)}
-                initialValue="nam"
                 init={{
                   height: 200,
                   menubar: false,
@@ -388,7 +388,7 @@ function CreateTask() {
 
           {errorSignUp && (
             <Alert className="mb-3" severity="error">
-              Tài khoản đã được tồn tại !!
+              Thất Bại !!
             </Alert>
           )}
           <Button
