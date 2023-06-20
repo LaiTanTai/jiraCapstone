@@ -35,36 +35,12 @@ function stringAvatar(name) {
     children: `${name.charAt(0).toUpperCase()}`,
   };
 }
-const task = [{
-  id:1,
-  des:"first"
-},
-{
-  id:2,
-  des:"Second"
-},
-{
-  id:3,
-  des:"third"
-},
-{
-  id:4,
-  des:"fourth"
-},
-{
-  id:5,
-  des:"firth"
-},
-{
-  id:6,
-  des:"first"
-}
-]
-function CardMain({ value,index }) {
+
+function CardMain({ value,index,task }) {
   const [name, setName] = useState("");
   const nameLogin = JSON.parse(localStorage.getItem("user"))?.name;
   useEffect(() => {
-    gettaskAPI();
+    console.log(gettaskAPI());
     setName(nameLogin);
   }, []);
   return (
@@ -72,15 +48,16 @@ function CardMain({ value,index }) {
         {(provided)=>(
         <div className="container box__card" {...provided.droppableProps} {...provided.droppableProps}   ref={provided.innerRef}>
           <p className="card__times">{value.projectName}</p>
+            <div className="drop_padding">
               {task.map((item,order)=>{
                 return(
                 <Draggable key={item.id} draggableId={`drag${item.id}`} index={order}>
                 {(provided)=>(
-                  <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}  className="card my-3">
-                    <h5> {value.categoryName} </h5>
+                  <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}  className="cards">
+                    <h5> {value.categoryName } </h5>
                     <div className="card-body">
                       <Avatar {...stringAvatar(`${name}`)} />
-                      <p className="card-title">{value.description}</p>
+                      <p className="card-title">{item.id}</p>
                     </div>
                   </div>
                   )}
@@ -88,6 +65,7 @@ function CardMain({ value,index }) {
                 )
               })
               }
+            </div>
           </div>
         )}
       </Droppable>      
