@@ -8,7 +8,7 @@ function Boards() {
   const [dataproject, setdataproject] = useState([]);
   console.log(dataproject);
   useEffect(() => {
-    apigetProject("Luong")
+    apigetProject("Tyalia")
       .then((res) => {
         setdataproject(res.content);
       })
@@ -19,7 +19,7 @@ function Boards() {
   return (
   <DragDropContext>
   
-    <div className="container-fluid characters" >
+    <div className="container-fluid characters" style={{marginLeft:"50px"}} >
     
       <div className="row">
         {dataproject.length > 0 ? (
