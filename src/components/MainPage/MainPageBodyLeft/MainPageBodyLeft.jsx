@@ -100,6 +100,18 @@ function MainPageBodyLeft({ open, setOpen, setRender }) {
                 <SettingsIcon sx={{ width: "25%" }} />
                 User Management
               </a>
+              <a
+                href="#"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  height: "35px",
+                }}
+                onClick={() => setRender("ProjectManagement")}
+              >
+                <SettingsIcon sx={{ width: "25%" }} />
+                Project Management
+              </a>
             </div>
 
             <hr />

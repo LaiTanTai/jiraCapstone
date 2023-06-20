@@ -137,7 +137,6 @@ function UserManagement() {
   useEffect(() => {
     getListUsers();
   }, [foundUser]);
-
   return (
     <div className={style.container}>
       <div>
