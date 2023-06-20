@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const Bear = JSON.parse(localStorage.getItem("user"))?.accessToken;
-console.log(Bear);
 const axiosAdmin = axios.create({
   baseURL: "https://jiranew.cybersoft.edu.vn/api",
   headers: {

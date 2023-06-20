@@ -27,11 +27,11 @@ const schema = yup.object({
 
 function CreateProject() {
   const [category, setCategory] = useState([]);
-  const [valDescription, setValDescription] = useState();
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({
     // declare initial value for inputs
@@ -77,8 +77,8 @@ function CreateProject() {
   const handleDescription = () => {
     if (editorRef.current) {
       console.log(editorRef.current.getContent());
-      setValDescription(editorRef.current.getContent());
-      return editorRef.current.getContent();
+      setValue("description", editorRef.current.getContent());
+      // console.log(props);
     }
   };
 
@@ -103,12 +103,12 @@ function CreateProject() {
           <Row className="mb-3">
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label className="text-dark">Description</Form.Label>
-              <Form.Control
+              {/* <Form.Control
                 as="textarea"
                 placeholder="Description"
                 {...register("description")}
-              />
-              {/* <Editor
+              /> */}
+              <Editor
                 onInit={(evt, editor) => (editorRef.current = editor)}
                 initialValue=""
                 init={{
@@ -130,7 +130,7 @@ function CreateProject() {
                 placeholder="Description"
                 onEditorChange={handleDescription}
                 {...register("description")}
-              /> */}
+              />
             </Form.Group>
             <Form.Group as={Col} controlId="formGridEmail"></Form.Group>
           </Row>
