@@ -42,21 +42,13 @@ function Antd_Button({ members, project }) {
       console.log(err);
     }
   };
-  const getIdUser = () => {
-    // console.log(value);
-    console.log("options", options);
-    // setUserId(value);
-  };
+
   useEffect(() => {
     getUser();
   }, []);
-  let options = [];
-  user?.map((item) => {
-    options.push({
-      label: item.name,
-      value: item.userId,
-    });
-  });
+  const getIdUser = (value) => {
+    console.log("value", value);
+  };
 
   const handleAddUser = async () => {
     try {
@@ -120,6 +112,7 @@ function Antd_Button({ members, project }) {
             </Button>
             <Modal
               className="Modal-background"
+              style={{ zIndex: "1050" }}
               show={show}
               // onHide={handleClose}
             >
@@ -130,21 +123,31 @@ function Antd_Button({ members, project }) {
                 <Row className="mb-3">
                   <Form.Group as={Col} controlId="formGridEmail">
                     <Form.Label className={style.label}>Chọn user</Form.Label>
+                    {/* <Form.Select aria-label="Default select example">
+                      <option>Open this select menu</option>
+                      <option value="1">One</option>
+                      <option value="2">Two</option>
+                      <option value="3">Three</option>
+                    </Form.Select> */}
                     <Space
                       style={{
                         width: "100%",
+                        zIndex: "1000000000000000",
                       }}
                       direction="vertical"
                     >
                       <Select
                         mode="multiple"
                         allowClear
-                        style={{
-                          width: "100%",
-                        }}
-                        placeholder="Assigness"
-                        options={options}
+                        style={{ width: "100%", zIndex: "100000000000" }}
+                        placeholder="Please select"
                         onChange={getIdUser}
+                        options={user?.map((item) => {
+                          return {
+                            label: item.name,
+                            value: item.userId,
+                          };
+                        })}
                       />
                     </Space>
                   </Form.Group>
