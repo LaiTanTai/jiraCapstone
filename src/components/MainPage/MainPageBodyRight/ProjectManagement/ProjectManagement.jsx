@@ -1,8 +1,17 @@
 import React, { useRef, useState, useEffect } from "react";
-
+import {
+  apiDeleteUser,
+  apiGetUser,
+  apiSignup,
+  apiUpdateUser,
+  apiGetUserById,
+} from "../../../../apis/userAPI";
 import { useForm } from "react-hook-form";
-import { apiGetUserById } from "../../../../apis/userAPI";
-import { apigetProject } from "../../../../apis/projectAPI";
+import {
+  apigetProject,
+  apiremoveProject,
+  apiupdateProject,
+} from "../../../../apis/projectAPI";
 import {
   Container,
   Row,
@@ -12,114 +21,275 @@ import {
   Form,
   Pagination,
 } from "react-bootstrap";
-import "./ProjectManagement.scss";
+import style from "./ProjectManagement.module.scss";
 import Table from "react-bootstrap/Table";
+import Antd_Button from "../../../Button/Neon_Button/Antd_Button";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
 import Alert from "@mui/material/Alert";
+import { Editor } from "@tinymce/tinymce-react";
 import * as yup from "yup";
 
+const schema = yup.object({
+  id: yup.number().required("id không được để trống"),
+  projectName: yup.string().required("tên project không được để trống"),
+  creator: yup.number().required("người tạo không được để trống"),
+  description: yup.string().required("mô tả không được để trống"),
+  categoryId: yup.string().required("loại không được để trống"),
+});
+
 function ProjectManagement() {
-  const [dataGetProject, setDataGetProject] = useState();
-  console.log(dataGetProject);
-  const getUserById = async (idProject) => {
+  const [listUser, setListProject] = useState([]);
+  const [updateUser, setUpdatetUser] = useState({});
+  const [foundUser, setFoundUser] = useState([]);
+  const [show, setShow] = useState(false);
+  const [showFix, setShowFix] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleCloseFix = () => setShowFix(false);
+  const handleShow = () => setShow(true);
+  const handleChooseUser = (item) => {
+    setShowFix(true);
+    const clickedUser = listUser.find((user) => user.userId === item.userId);
+    setUpdatetUser(clickedUser);
+    console.log(clickedUser);
+    getListProjects();
+  };
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    // declare initial value for inputs
+    defaultValues: {
+      id: 0,
+      projectName: "",
+      creator: 0,
+      description: "",
+      categoryId: "",
+    },
+    mode: "onTouched",
+    // Khai báo schema validation bằng yup
+    resolver: yupResolver(schema),
+  });
+
+  const [errorSignUp, setErrorSignUp] = useState("");
+  const navigate = useNavigate();
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const inputRef = useRef();
+  const timeoutRef = useRef();
+
+  useEffect(() => {
+    console.log(inputRef.current);
+    inputRef.current.focus();
+  }, []);
+
+  const handleDelete = async (id) => {
     try {
-      await apiGetUserById(idProject);
+      const data = await apiremoveProject(id);
     } catch (error) {
       console.log(error);
     }
+    getListProjects();
   };
-  const getProject = async () => {
+
+  const onUpdate = async (value) => {
+    const id = updateUser.id;
+    try {
+      const data = await apiupdateProject(id, value);
+    } catch (error) {
+      console.log(error);
+    }
+    getListProjects();
+    setShowFix(false);
+  };
+
+  const handleSearch = (evt) => {
+    setSearchTerm(evt.target.value);
+    const searchUser = listUser.filter((user) => {
+      const search = searchTerm.toLowerCase();
+      let findUser = user.name.toLowerCase();
+      return findUser.indexOf(search) !== -1;
+    });
+    clearTimeout(timeoutRef.current);
+    setFoundUser(searchUser);
+    getListProjects();
+  };
+
+  const getListProjects = async () => {
     try {
       const data = await apigetProject();
-      setDataGetProject(data.content);
+      if (searchTerm !== "") {
+        setListProject(foundUser);
+      } else {
+        setListProject(data.content);
+      }
     } catch (error) {
       console.log(error);
     }
   };
+  const editorRef = useRef(null);
+  const handleDescription = () => {
+    if (editorRef.current) {
+      console.log(editorRef.current.getContent());
+      setValue("description", editorRef.current.getContent());
+      // console.log(props);
+    }
+  };
+
   useEffect(() => {
-    getProject();
-  }, []);
+    getListProjects();
+  }, [foundUser]);
   return (
-    <div>
+    <div className={style.container}>
       <div>
-        <h1 className="text-center text-info">Project Management</h1>
+        <h1 className="text-center text-dark">Quản lý dự án</h1>
       </div>
-      <div></div>
+      <div>
+        <input
+          ref={inputRef}
+          placeholder="Tìm kiếm"
+          className={`${style.timkiem} mt-4`}
+          value={searchTerm}
+          onChange={handleSearch}
+        ></input>
+      </div>
       <div className="mt-4">
         <Table bordered hover>
           <thead>
             <tr className="text-dark text-center">
-              <th>ID</th>
+              <th>id</th>
               <th>Project Name</th>
               <th>Category</th>
               <th>Creator</th>
-              <th>Menbers</th>
-              <th></th>
+              <th>Members</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
-            {dataGetProject?.map((data, index) => {
+            {listUser.map((item, index) => {
               return (
                 <tr className="text-dark text-center" key={index}>
-                  <td>{data.id}</td>
-                  <td>{data.projectName}</td>
-                  <td>{data.categoryName}</td>
-                  <td>{data.creator.name}</td>
-                  <td>SĐT</td>
-                  <td></td>
-                  <td></td>
+                  <td>{index + 1}</td>
+                  <td>{item.projectName}</td>
+                  <td>{item.categoryName}</td>
+                  <td>{item.creator?.name}</td>
+                  <td>
+                    {/* {item.members === [] ? (
+                      <Antd_Button />
+                    ) : (
+                      item.members[0]?.name
+                    )} */}
+                    <Antd_Button project={item.id} members={item.members} />
+                  </td>
+                  <td>
+                    <div className="d-flex justify-content-between">
+                      <div>
+                        <Button
+                          onClick={() => {
+                            handleChooseUser(item);
+                          }}
+                        >
+                          Sửa
+                        </Button>
+                      </div>
+                      <div className={style.right}>
+                        <Button
+                          className="btn btn-danger"
+                          onClick={() => handleDelete(item.id)}
+                        >
+                          Xóa
+                        </Button>
+                      </div>
+                    </div>
+                  </td>
                 </tr>
               );
             })}
           </tbody>
-          <Modal className="Modal-background">
+          <Modal
+            className="Modal-background"
+            size="lg"
+            show={showFix}
+            onHide={handleCloseFix}
+          >
             <Modal.Header className="text-dark">
-              <Modal.Title>Sửa thông tin người dùng</Modal.Title>
+              <Modal.Title>Edit Project</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <Form>
                 <Row className="mb-3">
                   <Form.Group as={Col} controlId="formGridEmail">
-                    <Form.Label>id</Form.Label>
-                    <Form.Control placeholder="id" />
+                    <Form.Label className={style.label}>Project id</Form.Label>
+                    <Form.Control
+                      placeholder="id"
+                      value={updateUser.id}
+                      {...register("id")}
+                    />
+                  </Form.Group>
+                  <Form.Group as={Col} controlId="formGridEmail">
+                    <Form.Label className={style.label}>
+                      Project Name
+                    </Form.Label>
+                    <Form.Control
+                      placeholder={updateUser.projectName}
+                      {...register("projectName")}
+                    />
+                  </Form.Group>
+                  <Form.Group as={Col} controlId="formGridEmail">
+                    <Form.Label className={style.label}>
+                      Project Category
+                    </Form.Label>
+                    <Form.Select {...register("categoryId")}>
+                      <option>Chọn dự án</option>
+                      <option value="1">Dự án web</option>
+                      <option value="2">Dự án phần mềm</option>
+                      <option value="3">Dự án di động</option>
+                    </Form.Select>
                   </Form.Group>
                 </Row>
                 <Row className="mb-3">
                   <Form.Group as={Col} controlId="formGridEmail">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control type="email" />
+                    <Form.Label className="text-dark">Description</Form.Label>
+                    {/* <Form.Control
+                as="textarea"
+                placeholder="Description"
+                {...register("description")}
+              /> */}
+                    <Editor
+                      onInit={(evt, editor) => (editorRef.current = editor)}
+                      initialValue=""
+                      init={{
+                        height: 350,
+                        menubar: false,
+                        plugins: [
+                          "advlist autolink lists link image charmap print preview anchor",
+                          "searchreplace visualblocks code fullscreen",
+                          "insertdatetime media table paste code help wordcount",
+                        ],
+                        toolbar:
+                          "undo redo | formatselect | " +
+                          "bold italic backcolor | alignleft aligncenter " +
+                          "alignright alignjustify | bullist numlist outdent indent | " +
+                          "removeformat | help",
+                        content_style:
+                          "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                      }}
+                      placeholder="Description"
+                      onEditorChange={handleDescription}
+                      {...register("description")}
+                    />
                   </Form.Group>
                 </Row>
-
-                <Row className="mb-3">
-                  <Form.Group as={Col} controlId="formGridEmail">
-                    <Form.Label>Mật Khẩu</Form.Label>
-                    <Form.Control type="password" placeholder="Password" />
-                  </Form.Group>
-                </Row>
-                <Row className="mb-3">
-                  <Form.Group as={Col} controlId="formGridEmail">
-                    <Form.Label>Tên Tài Khoản</Form.Label>
-                  </Form.Group>
-                </Row>
-                <Row className="mb-3">
-                  <Form.Group as={Col} controlId="formGridEmail">
-                    <Form.Label>Số Điện Thoại</Form.Label>
-                    <Form.Control type="phone" />
-                  </Form.Group>
-                </Row>
-                {/* {errorSignUp && (
-                  <Alert className="mb-3" severity="error">
-                    Tài khoản đã được tồn tại !!
-                  </Alert>
-                )} */}
               </Form>{" "}
             </Modal.Body>
             <Modal.Footer>
-              <Button type="submit">Cập nhật</Button>
-              <Button>Đóng</Button>
+              <Button onClick={handleSubmit(onUpdate)} type="submit">
+                Cập nhật
+              </Button>
+              <Button onClick={handleCloseFix}>Đóng</Button>
             </Modal.Footer>
           </Modal>
         </Table>

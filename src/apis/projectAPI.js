@@ -1,3 +1,4 @@
+import axiosAdmin from "./axiosAdmin";
 import axiosClient from "./axiosClient";
 
 const apiCreateProject = async (values) => {
@@ -18,4 +19,35 @@ const apigetProject = async (name) => {
   });
   return data;
 };
-export { apiCreateProject, apiProjectCategory, apigetProject };
+const apiremoveUser = async (values) => {
+  const { data } = await axiosAdmin.post(
+    "/Project/removeUserFromProject",
+    values
+  );
+  return data;
+};
+
+const apiremoveProject = async (values) => {
+  const { data } = await axiosAdmin.delete("/Project/deleteProject", {
+    params: {
+      projectId: values || undefined,
+    },
+  });
+  return data;
+};
+const apiupdateProject = async (id, values) => {
+  const { data } = await axiosAdmin.put(
+    `/Project/updateProject?projectId=${id}`,
+    values
+  );
+  return data;
+};
+
+export {
+  apiCreateProject,
+  apiProjectCategory,
+  apigetProject,
+  apiremoveUser,
+  apiremoveProject,
+  apiupdateProject,
+};
