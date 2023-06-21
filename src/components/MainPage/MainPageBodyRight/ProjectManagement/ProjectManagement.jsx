@@ -42,16 +42,15 @@ function ProjectManagement() {
   const [listUser, setListProject] = useState([]);
   const [updateUser, setUpdatetUser] = useState({});
   const [foundUser, setFoundUser] = useState([]);
-  const [show, setShow] = useState(false);
   const [showFix, setShowFix] = useState(false);
+  const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleCloseFix = () => setShowFix(false);
   const handleShow = () => setShow(true);
+  const handleCloseFix = () => setShowFix(false);
   const handleChooseUser = (item) => {
     setShowFix(true);
-    const clickedUser = listUser.find((user) => user.userId === item.userId);
+    const clickedUser = listUser.find((user) => user.id === item.id);
     setUpdatetUser(clickedUser);
-    console.log(clickedUser);
     getListProjects();
   };
 
@@ -96,9 +95,11 @@ function ProjectManagement() {
   };
 
   const onUpdate = async (value) => {
-    const id = updateUser.id;
+    const Bear = JSON.parse(localStorage.getItem("user"))?.id;
+    const idUser = updateUser.id;
+    const payload = { ...value, id: idUser, creator: Bear };
     try {
-      const data = await apiupdateProject(id, value);
+      const data = await apiupdateProject(idUser, payload);
     } catch (error) {
       console.log(error);
     }

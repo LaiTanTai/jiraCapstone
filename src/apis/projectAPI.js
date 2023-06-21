@@ -2,7 +2,10 @@ import axiosAdmin from "./axiosAdmin";
 import axiosClient from "./axiosClient";
 
 const apiCreateProject = async (values) => {
-  const { data } = await axiosClient.post("/Project/createProject", values);
+  const { data } = await axiosAdmin.post(
+    "/Project/createProjectAuthorize",
+    values
+  );
   return data;
 };
 
