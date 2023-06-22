@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { Button, Space, Select } from "antd";
 import { PlusOutlined, CloseCircleFilled } from "@ant-design/icons";
 import style from "./Antd_Button.module.scss";
-import { apiremoveUser } from "../../../apis/projectAPI";
+import { apiremoveUser, apigetProject } from "../../../apis/projectAPI";
 import { getAssignUserProject } from "../../../apis/TaskAPI";
 import { apiGetUser } from "../../../apis/userAPI";
 import {
@@ -16,7 +16,7 @@ import {
   Table,
 } from "react-bootstrap";
 
-function Antd_Button({ members, project }) {
+function Antd_Button({ setList, members, project }) {
   const [show, setShow] = useState(false);
   const [userId, setUserId] = useState([]);
   const [user, setUser] = useState([]);
@@ -46,15 +46,32 @@ function Antd_Button({ members, project }) {
   useEffect(() => {
     getUser();
   }, []);
-  const getIdUser = (value) => {
-    console.log("value", value);
+  const getIdUser = async (value) => {
+    console.log("value1", value);
+    for (let i = 0; i < value.length; i++) {
+      let id = value[i];
+      console.log("id", id);
+      await handleAddUser(id)
+        .then((response) => {
+          if (response?.statusCode === 200) {
+            console.log("add user thành công");
+          } else {
+            console.log("fail");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+    const data = await apigetProject();
+    setList(data.content);
   };
 
-  const handleAddUser = async () => {
+  const handleAddUser = async (id) => {
     try {
       const payload = {
-        userId: 5230,
-        projectId: 12885,
+        userId: id,
+        projectId: project,
       };
       const data = await getAssignUserProject(payload);
     } catch (error) {

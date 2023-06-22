@@ -183,7 +183,11 @@ function ProjectManagement() {
                     ) : (
                       item.members[0]?.name
                     )} */}
-                    <Antd_Button project={item.id} members={item.members} />
+                    <Antd_Button
+                      setList={setListProject}
+                      project={item.id}
+                      members={item.members}
+                    />
                   </td>
                   <td>
                     <div className="d-flex justify-content-between">
