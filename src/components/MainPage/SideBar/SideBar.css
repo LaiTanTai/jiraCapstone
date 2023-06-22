@@ -3,12 +3,12 @@
     height: 100vh;
     z-index: 10;
     background-color: #065fd4;
-    width: 4%;
+    width: 50px;
     transition: 0.2s;
   }
   
   .sideBar:hover {
-    width: 15%;
+    width: 100px;
   }
   
   .sideBar:hover .sideBar-top .sideBar-icon:first-child {
@@ -59,7 +59,8 @@
   
   .sideBar .sideBar-top .sideBar-icon:first-child {
     padding-top: 20%;
-    font-size: 25px;
+    padding-left: 14px;
+    font-size: 20px;
   }
   
   .sideBar .sideBar-bottom {
@@ -69,6 +70,7 @@
   }
   
   .sideBar .sideBar-icon {
+    font-size: 1em;
     padding: 0 18%;
   }
   
