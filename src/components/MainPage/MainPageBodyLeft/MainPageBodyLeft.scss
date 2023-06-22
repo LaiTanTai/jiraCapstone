@@ -70,9 +70,10 @@
     border-radius: 50%;
     height: 40px;
     width: 40px;
+    position: fixed;
     border: none;
     background-color: rgb(66 153 225 / .5);
-    transform: translate(5px, 190px);
+    transform: translate(8px, 190px);
     transition: all .3s;
 }
 
