@@ -5,7 +5,8 @@ import { apigetProject } from "./../../../../apis/projectAPI";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { gettaskAPI } from "../../../../apis/TaskAPI";
 import "./Boards.scss";
-import { Button, Modal } from "antd";
+import { Container, Row, Col, Modal, Form, Pagination } from "react-bootstrap";
+import { Button } from "antd";
 // Lấy tên user từ phía client localstorage
 
 function Boards() {
@@ -130,24 +131,21 @@ function Boards() {
                     </div>
                   </div>
                 </li>
-                <Modal
-                  className="modal fade"
-                  id="infoModal"
-                  // tabIndex={-1}
-                  // role="dialog"
-                  // aria-labelledby="infoModal"
-                  // aria-hidden="true"
-                  open={isModalOpen}
-                  onOk={handleOk}
-                  onCancel={handleCancel}
-                >
-                  {/* <div className="modal-dialog modal-info">
-            <div className="modal-content">
-              <div className="modal-header">huy</div>
-            </div>
-          </div> */}
-                  <p>Huy</p>
-                </Modal>
+                <div>
+                  <Modal
+                    className="Modal-background"
+                    show={isModalOpen}
+                    size="lg"
+                    onHide={handleCancel}
+                  >
+                    <Modal.Header className="text-dark">
+                      <Modal.Title>Thêm người dùng</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body></Modal.Body>
+                    <Modal.Footer></Modal.Footer>
+                  </Modal>
+                </div>
+
                 <li className="list-group-item">
                   <p>
                     Each issue has a single reporter but can have multiple
