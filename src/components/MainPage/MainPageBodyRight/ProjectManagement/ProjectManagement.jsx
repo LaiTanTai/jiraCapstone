@@ -42,6 +42,7 @@ function ProjectManagement() {
   const [listUser, setListProject] = useState([]);
   const [updateUser, setUpdatetUser] = useState({});
   const [foundUser, setFoundUser] = useState([]);
+  const [page, setPage] = useState(1);
   const [showFix, setShowFix] = useState(false);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -139,6 +140,9 @@ function ProjectManagement() {
       // console.log(props);
     }
   };
+  const handlePage = (item) => {
+    setPage(item);
+  };
 
   useEffect(() => {
     getListProjects();
@@ -155,6 +159,7 @@ function ProjectManagement() {
           className={`${style.timkiem} mt-4`}
           value={searchTerm}
           onChange={handleSearch}
+          disabled
         ></input>
       </div>
       <div className="mt-4">
@@ -171,47 +176,315 @@ function ProjectManagement() {
           </thead>
           <tbody>
             {listUser.map((item, index) => {
-              return (
-                <tr className="text-dark text-center" key={index}>
-                  <td>{index + 1}</td>
-                  <td>{item.projectName}</td>
-                  <td>{item.categoryName}</td>
-                  <td>{item.creator?.name}</td>
-                  <td>
-                    {/* {item.members === [] ? (
+              if (page === 1) {
+                if (index < 10) {
+                  return (
+                    <tr className="text-dark text-center" key={index}>
+                      <td>{index + 1}</td>
+                      <td>{item.projectName}</td>
+                      <td>{item.categoryName}</td>
+                      <td>{item.creator?.name}</td>
+                      <td>
+                        {/* {item.members === [] ? (
                       <Antd_Button />
                     ) : (
                       item.members[0]?.name
                     )} */}
-                    <Antd_Button
-                      setList={setListProject}
-                      project={item.id}
-                      members={item.members}
-                    />
-                  </td>
-                  <td>
-                    <div className="d-flex justify-content-between">
-                      <div>
-                        <Button
-                          onClick={() => {
-                            handleChooseUser(item);
-                          }}
-                        >
-                          Sửa
-                        </Button>
-                      </div>
-                      <div className={style.right}>
-                        <Button
-                          className="btn btn-danger"
-                          onClick={() => handleDelete(item.id)}
-                        >
-                          Xóa
-                        </Button>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              );
+                        <Antd_Button
+                          setList={setListProject}
+                          project={item.id}
+                          members={item.members}
+                        />
+                      </td>
+                      <td>
+                        <div className="d-flex justify-content-between">
+                          <div>
+                            <Button
+                              onClick={() => {
+                                handleChooseUser(item);
+                              }}
+                            >
+                              Sửa
+                            </Button>
+                          </div>
+                          <div className={style.right}>
+                            <Button
+                              className="btn btn-danger"
+                              onClick={() => handleDelete(item.id)}
+                            >
+                              Xóa
+                            </Button>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                }
+              } else if (page === 2) {
+                if (index >= 10 && index < 20) {
+                  return (
+                    <tr className="text-dark text-center" key={index}>
+                      <td>{index + 1}</td>
+                      <td>{item.projectName}</td>
+                      <td>{item.categoryName}</td>
+                      <td>{item.creator?.name}</td>
+                      <td>
+                        {/* {item.members === [] ? (
+                      <Antd_Button />
+                    ) : (
+                      item.members[0]?.name
+                    )} */}
+                        <Antd_Button
+                          setList={setListProject}
+                          project={item.id}
+                          members={item.members}
+                        />
+                      </td>
+                      <td>
+                        <div className="d-flex justify-content-between">
+                          <div>
+                            <Button
+                              onClick={() => {
+                                handleChooseUser(item);
+                              }}
+                            >
+                              Sửa
+                            </Button>
+                          </div>
+                          <div className={style.right}>
+                            <Button
+                              className="btn btn-danger"
+                              onClick={() => handleDelete(item.id)}
+                            >
+                              Xóa
+                            </Button>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                }
+              } else if (page === 3) {
+                if (index >= 20 && index < 30) {
+                  return (
+                    <tr className="text-dark text-center" key={index}>
+                      <td>{index + 1}</td>
+                      <td>{item.projectName}</td>
+                      <td>{item.categoryName}</td>
+                      <td>{item.creator?.name}</td>
+                      <td>
+                        {/* {item.members === [] ? (
+                      <Antd_Button />
+                    ) : (
+                      item.members[0]?.name
+                    )} */}
+                        <Antd_Button
+                          setList={setListProject}
+                          project={item.id}
+                          members={item.members}
+                        />
+                      </td>
+                      <td>
+                        <div className="d-flex justify-content-between">
+                          <div>
+                            <Button
+                              onClick={() => {
+                                handleChooseUser(item);
+                              }}
+                            >
+                              Sửa
+                            </Button>
+                          </div>
+                          <div className={style.right}>
+                            <Button
+                              className="btn btn-danger"
+                              onClick={() => handleDelete(item.id)}
+                            >
+                              Xóa
+                            </Button>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                }
+              } else if (page === 4) {
+                if (index >= 30 && index < 40) {
+                  return (
+                    <tr className="text-dark text-center" key={index}>
+                      <td>{index + 1}</td>
+                      <td>{item.projectName}</td>
+                      <td>{item.categoryName}</td>
+                      <td>{item.creator?.name}</td>
+                      <td>
+                        {/* {item.members === [] ? (
+                      <Antd_Button />
+                    ) : (
+                      item.members[0]?.name
+                    )} */}
+                        <Antd_Button
+                          setList={setListProject}
+                          project={item.id}
+                          members={item.members}
+                        />
+                      </td>
+                      <td>
+                        <div className="d-flex justify-content-between">
+                          <div>
+                            <Button
+                              onClick={() => {
+                                handleChooseUser(item);
+                              }}
+                            >
+                              Sửa
+                            </Button>
+                          </div>
+                          <div className={style.right}>
+                            <Button
+                              className="btn btn-danger"
+                              onClick={() => handleDelete(item.id)}
+                            >
+                              Xóa
+                            </Button>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                }
+              } else if (page === 5) {
+                if (index >= 40 && index < 50) {
+                  return (
+                    <tr className="text-dark text-center" key={index}>
+                      <td>{index + 1}</td>
+                      <td>{item.projectName}</td>
+                      <td>{item.categoryName}</td>
+                      <td>{item.creator?.name}</td>
+                      <td>
+                        {/* {item.members === [] ? (
+                      <Antd_Button />
+                    ) : (
+                      item.members[0]?.name
+                    )} */}
+                        <Antd_Button
+                          setList={setListProject}
+                          project={item.id}
+                          members={item.members}
+                        />
+                      </td>
+                      <td>
+                        <div className="d-flex justify-content-between">
+                          <div>
+                            <Button
+                              onClick={() => {
+                                handleChooseUser(item);
+                              }}
+                            >
+                              Sửa
+                            </Button>
+                          </div>
+                          <div className={style.right}>
+                            <Button
+                              className="btn btn-danger"
+                              onClick={() => handleDelete(item.id)}
+                            >
+                              Xóa
+                            </Button>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                }
+              } else if (page === 6) {
+                if (index >= 50 && index < 60) {
+                  return (
+                    <tr className="text-dark text-center" key={index}>
+                      <td>{index + 1}</td>
+                      <td>{item.projectName}</td>
+                      <td>{item.categoryName}</td>
+                      <td>{item.creator?.name}</td>
+                      <td>
+                        {/* {item.members === [] ? (
+                      <Antd_Button />
+                    ) : (
+                      item.members[0]?.name
+                    )} */}
+                        <Antd_Button
+                          setList={setListProject}
+                          project={item.id}
+                          members={item.members}
+                        />
+                      </td>
+                      <td>
+                        <div className="d-flex justify-content-between">
+                          <div>
+                            <Button
+                              onClick={() => {
+                                handleChooseUser(item);
+                              }}
+                            >
+                              Sửa
+                            </Button>
+                          </div>
+                          <div className={style.right}>
+                            <Button
+                              className="btn btn-danger"
+                              onClick={() => handleDelete(item.id)}
+                            >
+                              Xóa
+                            </Button>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                }
+              } else if (page === 7) {
+                if (index >= 60 && index < 70) {
+                  return (
+                    <tr className="text-dark text-center" key={index}>
+                      <td>{index + 1}</td>
+                      <td>{item.projectName}</td>
+                      <td>{item.categoryName}</td>
+                      <td>{item.creator?.name}</td>
+                      <td>
+                        {/* {item.members === [] ? (
+                      <Antd_Button />
+                    ) : (
+                      item.members[0]?.name
+                    )} */}
+                        <Antd_Button
+                          setList={setListProject}
+                          project={item.id}
+                          members={item.members}
+                        />
+                      </td>
+                      <td>
+                        <div className="d-flex justify-content-between">
+                          <div>
+                            <Button
+                              onClick={() => {
+                                handleChooseUser(item);
+                              }}
+                            >
+                              Sửa
+                            </Button>
+                          </div>
+                          <div className={style.right}>
+                            <Button
+                              className="btn btn-danger"
+                              onClick={() => handleDelete(item.id)}
+                            >
+                              Xóa
+                            </Button>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                }
+              }
             })}
           </tbody>
           <Modal
@@ -303,11 +576,70 @@ function ProjectManagement() {
       <Pagination>
         <Pagination.Ellipsis />
         <Pagination.Prev />
-        <Pagination.Item active>{1}</Pagination.Item>
-        <Pagination.Item>{2}</Pagination.Item>
-        <Pagination.Item>{3}</Pagination.Item>
-        <Pagination.Item>{4}</Pagination.Item>
-        <Pagination.Item>{5}</Pagination.Item>
+        <Pagination.Item
+          onClick={() => {
+            handlePage(1);
+          }}
+          active={page === 1 ? 1 : ""}
+        >
+          {1}
+        </Pagination.Item>
+        <Pagination.Item
+          onClick={() => {
+            handlePage(2);
+          }}
+          active={page === 2 ? 2 : ""}
+        >
+          {2}
+        </Pagination.Item>
+        <Pagination.Item
+          onClick={() => {
+            handlePage(3);
+          }}
+          active={page === 3 ? 3 : ""}
+        >
+          {3}
+        </Pagination.Item>
+        <Pagination.Item
+          onClick={() => {
+            handlePage(4);
+          }}
+          active={page === 4 ? 4 : ""}
+        >
+          {4}
+        </Pagination.Item>
+        <Pagination.Item
+          onClick={() => {
+            handlePage(5);
+          }}
+          active={page === 5 ? 5 : ""}
+        >
+          {5}
+        </Pagination.Item>
+        <Pagination.Item
+          onClick={() => {
+            handlePage(6);
+          }}
+          active={page === 6 ? 6 : ""}
+        >
+          {6}
+        </Pagination.Item>
+        <Pagination.Item
+          onClick={() => {
+            handlePage(7);
+          }}
+          active={page === 7 ? 7 : ""}
+        >
+          {7}
+        </Pagination.Item>
+        <Pagination.Item
+          onClick={() => {
+            handlePage(8);
+          }}
+          active={page === 8 ? 8 : ""}
+        >
+          {8}
+        </Pagination.Item>
         <Pagination.Next />
         <Pagination.Ellipsis />
       </Pagination>
