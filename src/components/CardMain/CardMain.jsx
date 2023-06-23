@@ -36,28 +36,32 @@ function stringAvatar(name) {
   };
 }
 
-function CardMain({ value,index,task }) {
+function CardMain({ value,index}) {
   const [name, setName] = useState("");
+  
   const nameLogin = JSON.parse(localStorage.getItem("user"))?.name;
   useEffect(() => {
-    console.log(gettaskAPI());
+    
     setName(nameLogin);
   }, []);
   return (
     <Droppable droppableId={`drop ${index}`}>
         {(provided)=>(
         <div className="container box__card" {...provided.droppableProps} {...provided.droppableProps}   ref={provided.innerRef}>
-          <p className="card__times">{value.projectName}</p>
+          <p className="card__times">{value.statusName}</p>
             <div className="drop_padding">
-              {task.map((item,order)=>{
+              {value.lstTaskDeTail.map((item,order)=>{
                 return(
-                <Draggable key={item.id} draggableId={`drag${item.id}`} index={order}>
+                <Draggable key={item.taskId} draggableId={`drag${item.taskId}`} index={order}>
                 {(provided)=>(
                   <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}  className="cards">
-                    <h5> {value.categoryName } </h5>
+                    <h5> {item.taskName} </h5>
                     <div className="card-body">
-                      <Avatar {...stringAvatar(`${name}`)} />
-                      <p className="card-title">{item.id}</p>
+                      {item.assigness.map((members)=>{
+                        return(
+                        <Avatar {...stringAvatar(`${members.name}`)} />
+                        )
+                      })}
                     </div>
                   </div>
                   )}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import style from "./Boards.module.scss";
 import CardMain from "../../../CardMain/CardMain";
-import { apigetProject } from "./../../../../apis/projectAPI";
+import { apigetProject, apigetProjectDetail } from "./../../../../apis/projectAPI";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { gettaskAPI } from "../../../../apis/TaskAPI";
 import "./Boards.scss";
@@ -10,16 +10,17 @@ import { Button, Modal } from "antd";
 
 function Boards() {
   const [dataproject, setdataproject] = useState([]);
+  const [members,setmembers] = useState([]);
   const [task, settask] = useState([]);
   console.log(dataproject);
-  const getDataAllProject = async (value) => {
-    try {
-      const data = await apigetProject(value);
-      setdataproject(data?.content);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const getDataAllProject = async (value) => {
+  //   try {
+  //     const data = await apigetProject(value);
+  //     setdataproject(data?.content);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
   function handleOnDragEnd(result) {
     const item = task[result.source.index];
     let newtask = task.filter((value, index) => {
@@ -32,7 +33,16 @@ function Boards() {
     settask(newtask);
   }
   useEffect(() => {
-    getDataAllProject("TRELLO PROJECT");
+    apigetProjectDetail(12863).
+    then((res)=>{
+      setdataproject(res.content.lstTask)
+      console.log(res.content.lstTask)
+      setmembers(res.content.members)
+      console.log(res.content.members)
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
   }, []);
   // antd modal
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -49,22 +59,21 @@ function Boards() {
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <div className="container-fluid characters">
-        {/* <div className="row">
+        <div className="row">
           {dataproject.length > 0 ? (
             dataproject.map((value, index) => {
               return (
                 <CardMain
                   value={value}
                   index={index}
-                  task={[{ id: 1 }, { id: 2 }]}
                 />
               );
             })
           ) : (
             <img className={style.img} src="./img/nodatafound.jpg" />
           )}
-        </div> */}
-        <div className="main">
+        </div>
+        {/* <div className="main">
           <div className="header">
             <nav aria-label="breadcrumb">
               <ol className="breadcrumb" style={{ backgroundColor: "white" }}>
@@ -146,7 +155,7 @@ function Boards() {
               <div className="modal-header">huy</div>
             </div>
           </div> */}
-                  <p>Huy</p>
+                  {/*<p>Huy</p>
                 </Modal>
                 <li className="list-group-item">
                   <p>
@@ -196,7 +205,7 @@ function Boards() {
               </ul>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </DragDropContext>
   );
