@@ -46,9 +46,11 @@ function stringAvatar(name) {
   };
 }
 
-function CardMain({ value, index }) {
+function CardMain({ value, index}) {
   const [name, setName] = useState("");
+
   const [comment, setComment] = useState([]);
+
 
   const nameLogin = JSON.parse(localStorage.getItem("user"))?.name;
   useEffect(() => {
@@ -185,11 +187,13 @@ function CardMain({ value, index }) {
                       {comment.map((item, index) => {
                         return (
                           <div className="comment-item mt-3" key={index}>
+
                             <div
                               className="display-comment"
                               style={{ display: "flex" }}
                             >
                               <div className="avatar">
+
                                 <img src={item.avatar} alt />
                               </div>
                               <div>
@@ -204,6 +208,7 @@ function CardMain({ value, index }) {
                                       cursor: "pointer",
                                     }}
                                   >
+
                                     Delete
                                   </span>
                                 </div>
@@ -231,81 +236,76 @@ function CardMain({ value, index }) {
                       <div style={{ display: "flex" }} className="item">
                         <div className="avatar">
                           <img src="./assets/img/download (1).jfif" alt />
-                        </div>
-                        <p className="name">
-                          Pickle Rick
-                          <i
-                            className="fa fa-times"
-                            style={{ marginLeft: 5 }}
-                          />
-                        </p>
-                      </div>
-                      <div style={{ display: "flex", alignItems: "center" }}>
-                        <i className="fa fa-plus" style={{ marginRight: 5 }} />
-                        <span>Add more</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="reporter">
-                    <h6>REPORTER</h6>
-                    <div style={{ display: "flex" }} className="item">
-                      <div className="avatar">
-                        <img src="./assets/img/download (1).jfif" alt />
-                      </div>
-                      <p className="name">
-                        Pickle Rick
-                        <i className="fa fa-times" style={{ marginLeft: 5 }} />
-                      </p>
-                    </div>
-                  </div>
-                  <div className="priority" style={{ marginBottom: 20 }}>
-                    <h6>PRIORITY</h6>
-                    <select>
-                      <option>Highest</option>
-                      <option>Medium</option>
-                      <option>Low</option>
-                      <option>Lowest</option>
-                    </select>
-                  </div>
-                  <div className="estimate">
-                    <h6>ORIGINAL ESTIMATE (HOURS)</h6>
-                    <input type="text" className="estimate-hours" />
-                  </div>
-                  <div className="time-tracking">
-                    <h6>TIME TRACKING</h6>
-                    <div style={{ display: "flex" }}>
-                      <i className="fa fa-clock" />
-                      <div style={{ width: "100%" }}>
-                        <div className="progress">
-                          <div
-                            className="progress-bar"
-                            role="progressbar"
-                            style={{ width: "25%" }}
-                            aria-valuenow={25}
-                            aria-valuemin={0}
-                            aria-valuemax={100}
-                          />
-                        </div>
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <p className="logged">4h logged</p>
-                          <p className="estimate-time">12h estimated</p>
+
                         </div>
                       </div>
+                      <div className="reporter">
+                        <h6>REPORTER</h6>
+                        <div style={{ display: "flex" }} className="item">
+                          <div className="avatar">
+                            <img src="./assets/img/download (1).jfif" alt />
+                          </div>
+                          <p className="name">
+                            Pickle Rick
+                            <i
+                              className="fa fa-times"
+                              style={{ marginLeft: 5 }}
+                            />
+                          </p>
+                        </div>
+                      </div>
+                      <div className="priority" style={{ marginBottom: 20 }}>
+                        <h6>PRIORITY</h6>
+                        <select>
+                          <option>Highest</option>
+                          <option>Medium</option>
+                          <option>Low</option>
+                          <option>Lowest</option>
+                        </select>
+                      </div>
+                      <div className="estimate">
+                        <h6>ORIGINAL ESTIMATE (HOURS)</h6>
+                        <input type="text" className="estimate-hours" />
+                      </div>
+                      <div className="time-tracking">
+                        <h6>TIME TRACKING</h6>
+                        <div style={{ display: "flex" }}>
+                          <i className="fa fa-clock" />
+                          <div style={{ width: "100%" }}>
+                            <div className="progress">
+                              <div
+                                className="progress-bar"
+                                role="progressbar"
+                                style={{ width: "25%" }}
+                                aria-valuenow={25}
+                                aria-valuemin={0}
+                                aria-valuemax={100}
+                              />
+                            </div>
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                              }}
+                            >
+                              <p className="logged">4h logged</p>
+                              <p className="estimate-time">12h estimated</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div style={{ color: "#929398" }}>
+                        Create at a month ago
+                      </div>
+                      <div style={{ color: "#929398" }}>
+                        Update at a few seconds ago
+                      </div>
                     </div>
-                  </div>
-                  <div style={{ color: "#929398" }}>Create at a month ago</div>
-                  <div style={{ color: "#929398" }}>
-                    Update at a few seconds ago
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            );
+          })}
         </Modal.Body>
         <Modal.Footer></Modal.Footer>
       </Modal>

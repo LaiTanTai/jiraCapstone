@@ -1,0 +1,68 @@
+.homeFooter {
+  padding: 50px 10%;
+  background-color: rgba(189, 189, 189, 0.2117647059);
+}
+.homeFooter footer {
+  padding: 0 100px !important;
+}
+.homeFooter footer .products {
+  width: 25%;
+  text-align: center;
+}
+.homeFooter footer .products ul {
+  padding: 0;
+  list-style: none;
+}
+.homeFooter footer .products ul li a {
+  color: black;
+  text-decoration: none;
+}
+.homeFooter footer .resources {
+  width: 25%;
+  text-align: center;
+}
+.homeFooter footer .resources ul {
+  padding: 0;
+  list-style: none;
+}
+.homeFooter footer .resources ul li a {
+  color: black;
+  text-decoration: none;
+}
+.homeFooter footer .expland--learn {
+  width: 25%;
+  text-align: center;
+}
+.homeFooter footer .expland--learn ul {
+  padding: 0;
+  list-style: none;
+}
+.homeFooter footer .expland--learn ul li a {
+  color: black;
+  text-decoration: none;
+}
+.homeFooter footer .contact {
+  width: 25%;
+  text-align: center;
+}
+.homeFooter footer .contact ul {
+  padding: 0;
+  list-style: none;
+}
+.homeFooter footer .contact ul li a {
+  color: black;
+  text-decoration: none;
+}
+.homeFooter .copyright {
+  width: 25%;
+}
+.homeFooter .copyright h6 {
+  margin: 0;
+  width: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.homeFooter .copyright a {
+  width: 10%;
+}/*# sourceMappingURL=FirstPageFooter.css.map */
