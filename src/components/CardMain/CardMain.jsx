@@ -1,10 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { gettaskAPI } from "./../../apis/TaskAPI";
+import {
+  apiGetComment,
+  apiInsertComment,
+  apiUpdateComment,
+  apiDeleteComment,
+} from "./../../apis/commentAPI";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import "./CardMain.scss";
 import Avatar from "@mui/material/Avatar";
-import Button from "react-bootstrap/Button";
+import { Button, Form, Row, Col } from "react-bootstrap";
+import { Select, Space } from "antd";
 import Modal from "react-bootstrap/Modal";
+import { async } from "q";
 
 function stringToColor(string) {
   let hash = 0;
@@ -40,6 +48,10 @@ function stringAvatar(name) {
 
 function CardMain({ value, index}) {
   const [name, setName] = useState("");
+
+  const [comment, setComment] = useState([]);
+
+
   const nameLogin = JSON.parse(localStorage.getItem("user"))?.name;
   useEffect(() => {
     setName(nameLogin);
@@ -47,6 +59,34 @@ function CardMain({ value, index}) {
 
   // // modal bootstrap
   const [show, setShow] = useState(false);
+  const commentRef = useRef();
+  const handleAddComment = async () => {
+    const payload = {
+      taskId: 10156,
+      contentComment: commentRef.current.value,
+    };
+    await apiInsertComment(payload);
+    await getComment();
+  };
+
+  const handleDeleteComment = async (id) => {
+    try {
+      await apiDeleteComment(id);
+      await getComment();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getComment = async () => {
+    try {
+      const data = await apiGetComment(10156);
+      const newData = data.content;
+      setComment(newData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -94,150 +134,109 @@ function CardMain({ value, index}) {
           </div>
         )}
       </Droppable>
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} size="xl" onHide={handleClose}>
         <Modal.Body>
-          {value.lstTaskDeTail.map((item, index) => {
-            {
-            }
-            return (
-              <div className="modal-body">
-                <div className="container-fluid">
-                  <div className="row">
-                    <div className="col-8">
-                      <p className="issue">This is an issue of type: Task.</p>
-                      <div className="description">
-                        <p>Description</p>
-                        {item.description}
-                      </div>
-                      <div style={{ fontWeight: 500, marginBottom: 10 }}>
-                        Jira Software (software projects) issue types:
-                      </div>
-                      <div className="title">
-                        <div className="title-item">
-                          <h3>
-                            BUG <i className="fa fa-bug" />
-                          </h3>
-                          <p>
-                            A bug is a problem which impairs or prevents the
-                            function of a product.
-                          </p>
-                        </div>
-                        <div className="title-item">
-                          <h3>
-                            STORY <i className="fa fa-book-reader" />
-                          </h3>
-                          <p>
-                            A user story is the smallest unit of work that needs
-                            to be done.
-                          </p>
-                        </div>
-                        <div className="title-item">
-                          <h3>
-                            TASK <i className="fa fa-tasks" />
-                          </h3>
-                          <p>A task represents work that needs to be done</p>
-                        </div>
-                      </div>
-                      <div className="comment">
-                        <h6>Comment</h6>
-                        <div
-                          className="block-comment"
-                          style={{ display: "flex" }}
-                        >
-                          <div className="avatar">
-                            <img src="./assets/img/download (1).jfif" alt />
-                          </div>
-                          <div className="input-comment">
-                            <input
-                              type="text"
-                              placeholder="Add a comment ..."
+          <div className="modal-body">
+            <div className="container-fluid">
+              <div className="row">
+                <div className="col-8">
+                  <p className="issue">This is an issue of type: Task.</p>
+                  <div className="description">
+                    <p>Description</p>
+                    <p>
+                      Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                      Esse expedita quis vero tempora error sed reprehenderit
+                      sequi laborum, repellendus quod laudantium tenetur nobis
+                      modi reiciendis sint architecto. Autem libero quibusdam
+                      odit assumenda fugiat? Beatae aliquid labore vitae
+                      obcaecati sapiente asperiores quia amet id aut, natus quo
+                      molestiae quod voluptas, temporibus iusto laudantium sit
+                      tempora sequi. Rem, itaque id, fugit magnam asperiores
+                      voluptas consectetur aliquid vel error illum, delectus eum
+                      eveniet laudantium at repudiandae!
+                    </p>
+                  </div>
+                  <div style={{ fontWeight: 500, marginBottom: 10 }}>
+                    Jira Software (software projects) issue types:
+                  </div>
+                  <div className="comment">
+                    <h6>Comment</h6>
+                    <div className="input-comment">
+                      <Form>
+                        <Row className="mb-3">
+                          <Form.Group as={Col} controlId="formGridEmail">
+                            <Form.Control
+                              size="lg"
+                              placeholder="Add a comment"
+                              ref={commentRef}
                             />
-                            <p>
-                              <span style={{ fontWeight: 500, color: "gray" }}>
-                                Protip:
-                              </span>
-                              <span>
-                                press
-                                <span
-                                  style={{
-                                    fontWeight: "bold",
-                                    background: "#ecedf0",
-                                    color: "#b4bac6",
-                                  }}
-                                >
-                                  M
-                                </span>
-                                to comment
-                              </span>
-                            </p>
-                          </div>
-                        </div>
-                        <div className="lastest-comment">
-                          <div className="comment-item">
+                          </Form.Group>
+                        </Row>
+                      </Form>{" "}
+                    </div>
+                    <div className="mt-3">
+                      <Button
+                        onClick={handleAddComment}
+                        size="lg"
+                        type="primary"
+                      >
+                        Save
+                      </Button>
+                    </div>
+                    <div className="lastest-comment mt-4">
+                      {comment.map((item, index) => {
+                        return (
+                          <div className="comment-item mt-3" key={index}>
+
                             <div
                               className="display-comment"
                               style={{ display: "flex" }}
                             >
                               <div className="avatar">
-                                <img src="./assets/img/download (1).jfif" alt />
+
+                                <img src={item.avatar} alt />
                               </div>
                               <div>
                                 <p style={{ marginBottom: 5 }}>
-                                  Lord Gaben <span>a month ago</span>
-                                </p>
-                                <p style={{ marginBottom: 5 }}>
-                                  Lorem ipsum dolor sit amet, consectetur
-                                  adipisicing elit. Repellendus tempora ex
-                                  voluptatum saepe ab officiis alias totam ad
-                                  accusamus molestiae?
+                                  {item.contentComment}
                                 </p>
                                 <div>
-                                  <span style={{ color: "#929398" }}>Edit</span>
-                                  •
-                                  <span style={{ color: "#929398" }}>
+                                  <span
+                                    onClick={() => handleDeleteComment(item.id)}
+                                    style={{
+                                      color: "#929398",
+                                      cursor: "pointer",
+                                    }}
+                                  >
+
                                     Delete
                                   </span>
                                 </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
+                        );
+                      })}
                     </div>
-                    <div className="col-4">
-                      <div className="status">
-                        <h6>STATUS</h6>
-                        <select className="custom-select">
-                          <option selected>SELECTED FOR DEVELOPMENT</option>
-                          <option value={1}>One</option>
-                          <option value={2}>Two</option>
-                          <option value={3}>Three</option>
-                        </select>
-                      </div>
-                      <div className="assignees">
-                        <h6>ASSIGNEES</h6>
-                        <div style={{ display: "flex" }}>
-                          <div style={{ display: "flex" }} className="item">
-                            <div className="avatar">
-                              <img src="./assets/img/download (1).jfif" alt />
-                            </div>
-                            <p className="name">
-                              Pickle Rick
-                              <i
-                                className="fa fa-times"
-                                style={{ marginLeft: 5 }}
-                              />
-                            </p>
-                          </div>
-                          <div
-                            style={{ display: "flex", alignItems: "center" }}
-                          >
-                            <i
-                              className="fa fa-plus"
-                              style={{ marginRight: 5 }}
-                            />
-                            <span>Add more</span>
-                          </div>
+                  </div>
+                </div>
+                <div className="col-4">
+                  <div className="status">
+                    <h6>STATUS</h6>
+                    <select className="custom-select">
+                      <option selected>SELECTED FOR DEVELOPMENT</option>
+                      <option value={1}>BACKLOG</option>
+                      <option value={2}>IN PROGRESS</option>
+                      <option value={3}>DONE</option>
+                    </select>
+                  </div>
+                  <div className="assignees">
+                    <h6>ASSIGNEES</h6>
+                    <div style={{ display: "flex" }}>
+                      <div style={{ display: "flex" }} className="item">
+                        <div className="avatar">
+                          <img src="./assets/img/download (1).jfif" alt />
+
                         </div>
                       </div>
                       <div className="reporter">
@@ -308,14 +307,7 @@ function CardMain({ value, index}) {
             );
           })}
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
+        <Modal.Footer></Modal.Footer>
       </Modal>
     </>
   );
