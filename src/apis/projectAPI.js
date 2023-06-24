@@ -8,7 +8,14 @@ const apiCreateProject = async (values) => {
   );
   return data;
 };
-
+const apigetProjectDetail = async(value)=>{
+  const {data} = await axiosAdmin.get("/Project/getProjectDetail",{
+    params:{
+      id:12863,
+    }
+  })
+  return data;
+}
 const apiProjectCategory = async (values) => {
   const { data } = await axiosClient.get("/Projectcategory", values);
   return data;
@@ -47,6 +54,7 @@ const apiupdateProject = async (id, values) => {
 };
 
 export {
+  apigetProjectDetail,
   apiCreateProject,
   apiProjectCategory,
   apigetProject,

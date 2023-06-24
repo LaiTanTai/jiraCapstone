@@ -1,26 +1,29 @@
 import React, { useEffect, useState } from "react";
 import style from "./Boards.module.scss";
 import CardMain from "../../../CardMain/CardMain";
-import { apigetProject } from "./../../../../apis/projectAPI";
+import {
+  apigetProject,
+  apigetProjectDetail,
+} from "./../../../../apis/projectAPI";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { gettaskAPI } from "../../../../apis/TaskAPI";
 import "./Boards.scss";
-import { Container, Row, Col, Modal, Form, Pagination } from "react-bootstrap";
-import { Button } from "antd";
+import { Button, Modal } from "antd";
 // Lấy tên user từ phía client localstorage
 
 function Boards() {
   const [dataproject, setdataproject] = useState([]);
+  const [members, setmembers] = useState([]);
   const [task, settask] = useState([]);
   console.log(dataproject);
-  const getDataAllProject = async (value) => {
-    try {
-      const data = await apigetProject(value);
-      setdataproject(data?.content);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const getDataAllProject = async (value) => {
+  //   try {
+  //     const data = await apigetProject(value);
+  //     setdataproject(data?.content);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
   function handleOnDragEnd(result) {
     const item = task[result.source.index];
     let newtask = task.filter((value, index) => {
@@ -33,39 +36,31 @@ function Boards() {
     settask(newtask);
   }
   useEffect(() => {
-    getDataAllProject("TRELLO PROJECT");
+    apigetProjectDetail(12863)
+      .then((res) => {
+        setdataproject(res.content.lstTask);
+        console.log(res.content.lstTask);
+        setmembers(res.content.members);
+        console.log(res.content.members);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
-  // antd modal
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <div className="container-fluid characters">
-        {/* <div className="row">
+        <div className="row">
           {dataproject.length > 0 ? (
             dataproject.map((value, index) => {
-              return (
-                <CardMain
-                  value={value}
-                  index={index}
-                  task={[{ id: 1 }, { id: 2 }]}
-                />
-              );
+              return <CardMain value={value} index={index} />;
             })
           ) : (
             <img className={style.img} src="./img/nodatafound.jpg" />
           )}
-        </div> */}
-        <div className="main">
+        </div>
+        {/* <div className="main">
           <div className="header">
             <nav aria-label="breadcrumb">
               <ol className="breadcrumb" style={{ backgroundColor: "white" }}>
@@ -131,21 +126,24 @@ function Boards() {
                     </div>
                   </div>
                 </li>
-                <div>
-                  <Modal
-                    className="Modal-background"
-                    show={isModalOpen}
-                    size="lg"
-                    onHide={handleCancel}
-                  >
-                    <Modal.Header className="text-dark">
-                      <Modal.Title>Thêm người dùng</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body></Modal.Body>
-                    <Modal.Footer></Modal.Footer>
-                  </Modal>
-                </div>
-
+                <Modal
+                  className="modal fade"
+                  id="infoModal"
+                  // tabIndex={-1}
+                  // role="dialog"
+                  // aria-labelledby="infoModal"
+                  // aria-hidden="true"
+                  open={isModalOpen}
+                  onOk={handleOk}
+                  onCancel={handleCancel}
+                >
+                  {/* <div className="modal-dialog modal-info">
+            <div className="modal-content">
+              <div className="modal-header">huy</div>
+            </div>
+          </div> */}
+        {/*<p>Huy</p>
+                </Modal>
                 <li className="list-group-item">
                   <p>
                     Each issue has a single reporter but can have multiple
@@ -194,7 +192,7 @@ function Boards() {
               </ul>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </DragDropContext>
   );
