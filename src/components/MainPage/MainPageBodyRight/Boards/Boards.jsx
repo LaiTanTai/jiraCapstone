@@ -15,7 +15,7 @@ function Boards() {
   const [dataproject, setdataproject] = useState([]);
   const [members, setmembers] = useState([]);
   const [task, settask] = useState([]);
-  console.log(dataproject);
+  // console.log(dataproject);
   // const getDataAllProject = async (value) => {
   //   try {
   //     const data = await apigetProject(value);
@@ -38,10 +38,9 @@ function Boards() {
   useEffect(() => {
     apigetProjectDetail(12863)
       .then((res) => {
+        console.log(res);
         setdataproject(res.content.lstTask);
-        console.log(res.content.lstTask);
         setmembers(res.content.members);
-        console.log(res.content.members);
       })
       .catch((error) => {
         console.log(error);
@@ -90,7 +89,13 @@ function Boards() {
         <div className="row">
           {dataproject.length > 0 ? (
             dataproject.map((value, index) => {
-              return <CardMain value={value} index={index} />;
+              return (
+                <CardMain
+                  lstTaskDeTail={value.lstTaskDeTail}
+                  value={value}
+                  index={index}
+                />
+              );
             })
           ) : (
             <img className={style.img} src="./img/nodatafound.jpg" />
