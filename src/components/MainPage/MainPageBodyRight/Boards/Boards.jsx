@@ -51,6 +51,42 @@ function Boards() {
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <div className="container-fluid characters">
+        <div>
+          <div className="header">
+            <nav aria-label="breadcrumb">
+              <ol className="breadcrumb" style={{ backgroundColor: "white" }}>
+                <li className="breadcrumb-item">Project</li>
+                <li className="breadcrumb-item">CyberLearn</li>
+                <li className="breadcrumb-item active" aria-current="page">
+                  Cyber Board
+                </li>
+              </ol>
+            </nav>
+          </div>
+          <h3>Cyber Board</h3>
+          <div className="info" style={{ display: "flex" }}>
+            <div className="search-block">
+              <input className="search" />
+              <i className="fa fa-search" />
+            </div>
+            <div className="avatar-group" style={{ display: "flex" }}>
+              {members.map((ava) => {
+                return (
+                  <div className="avatar">
+                    <img src={ava.avatar} alt />
+                  </div>
+                );
+              })}
+            </div>
+            <div style={{ marginLeft: 20 }} className="text">
+              Only My Issues
+            </div>
+            <div style={{ marginLeft: 20 }} className="text">
+              Recently Updated
+            </div>
+          </div>
+        </div>
+
         <div className="row">
           {dataproject.length > 0 ? (
             dataproject.map((value, index) => {
