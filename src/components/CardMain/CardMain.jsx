@@ -1,11 +1,17 @@
 import React, { useRef, useState, useEffect } from "react";
 import { gettaskAPI } from "./../../apis/TaskAPI";
 import {
+  apigetProject,
+  apiremoveProject,
+  apiupdateProject,
+} from "./../../apis/projectAPI";
+import {
   apiGetComment,
   apiInsertComment,
   apiUpdateComment,
   apiDeleteComment,
 } from "./../../apis/commentAPI";
+import Antd_Button from "../Button/Neon_Button/Antd_Button";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import "./CardMain.scss";
 import Avatar from "@mui/material/Avatar";
@@ -46,11 +52,10 @@ function stringAvatar(name) {
   };
 }
 
-function CardMain({ value, index}) {
+function CardMain({ value, index }) {
   const [name, setName] = useState("");
 
   const [comment, setComment] = useState([]);
-
 
   const nameLogin = JSON.parse(localStorage.getItem("user"))?.name;
   useEffect(() => {
@@ -59,6 +64,7 @@ function CardMain({ value, index}) {
 
   // // modal bootstrap
   const [show, setShow] = useState(false);
+  const [listUser, setListProject] = useState([]);
   const commentRef = useRef();
   const handleAddComment = async () => {
     const payload = {
@@ -73,6 +79,15 @@ function CardMain({ value, index}) {
     try {
       await apiDeleteComment(id);
       await getComment();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getListProjects = async () => {
+    try {
+      const data = await apigetProject();
+      setListProject(data.content);
     } catch (error) {
       console.log(error);
     }
@@ -187,16 +202,17 @@ function CardMain({ value, index}) {
                       {comment.map((item, index) => {
                         return (
                           <div className="comment-item mt-3" key={index}>
-
                             <div
                               className="display-comment"
                               style={{ display: "flex" }}
                             >
                               <div className="avatar">
-
-                                <img src={item.avatar} alt />
+                                <img
+                                  src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIACIAIgMBEQACEQEDEQH/xAAZAAADAQEBAAAAAAAAAAAAAAAEBQYHAwL/xAAxEAACAQIEAwYDCQAAAAAAAAABAgMEEQASITEFIkEGE0JRcZEUYdEjMjNDcoGCsfD/xAAaAQADAQEBAQAAAAAAAAAAAAADBAUCAQYA/8QALxEAAQIEAwYFBAMAAAAAAAAAAQACAxEhMQQSUSJBYXGh8BMykbHRBVKB4YLC8f/aAAwDAQACEQMRAD8An+3zZeNpHTSKe7BZHV75s+uh23zC31tiZhtpgcb9hWw7YkRT4/1LKQyCKKppY7FmySIRy3Olv0m5Hy9saewgZgqGHjw3vdCiOsKHrPmKdzTSLL3j0tDzQzrdZZLHmXa+lhvb+V/LAQJUG9PveXNEWPRzdwmKG9jM6/iWqBd6lGgeGYzTMxVYQxOckAADodW6bYJDBIkUlj/DzTa3LastJnn63V0U43Ic8AHdNqmvh6YKY0jJeYyg1KzatijGdbOGtyjSyG+txby/vGWGk5K/iaxMrXB09/TjK/Sap+xU3Cajh1Xw3iTBJA5eCcrzANa4t1BsLj0O4BHXvIqKhTIkJ8N4cKfIQz0ZhkNLHKkkTNnyK4V3IF8yk6XAubG2l998Ca0P8voqY+oOJzRRtWB3cQRevDhZdyKHh/EI5KlY7xp3gRQwIUgsSL9QGK6ag62FhcjWkAlt0riY8R+wTQ8qykN2sv3VaRR9t+yC0kCtVgERqCGp3vt1sMYJbqlz9Nxf2FYdVydzMJAt0DG4PivgkECqofUC/ZLjW3pdcIpHLK8bqCpsSQAP301GO7TSuHwojZumdRWfMJzRV8UKsXVQGFyY7gC24seYHyN97WHXGXOJoF9Cw7WDOakWHsdJajS53JZxziTVnIkZjMrkAE3IBN/LYa+5wSC0Nm4oOOe6KWw23Mh3U8E2i4NP3aXrKReUaOxBHry74AROswqQisYMpY6Y0t7pXWR5lJb79rC/VT/tPX0xphIKDHY1zTIU38/zfj+ygEARtGAPKBfB5TFVNDnQ3Zm9F0+PDQBWhfODq6tuOmOeFKxRRjM3nbbh6m/z1XvhotWfGSxB0h8Lagm9tfW/tfGYhkzKETCAPj+I6mnDiO+asBHwmUCR5iGfmIZSSCfnhAhpM5r0jX42GAxrAQKXU42sKnrnOvthkVJ73hS4my1svt/q5BVwAn0H5n1wy2yiupEkgqX8KQ+W2CuugQ6tHNM+HE/AV4ubGNCR5/aLhd+9UYHmhfy9lWUVPA1FTs0MZJjUklRrphbKNFWfGiBxAcfVf//Z"
+                                  alt
+                                />
                               </div>
-                              <div>
+                              <div className="mx-3">
                                 <p style={{ marginBottom: 5 }}>
                                   {item.contentComment}
                                 </p>
@@ -208,7 +224,6 @@ function CardMain({ value, index}) {
                                       cursor: "pointer",
                                     }}
                                   >
-
                                     Delete
                                   </span>
                                 </div>
@@ -230,28 +245,21 @@ function CardMain({ value, index}) {
                       <option value={3}>DONE</option>
                     </select>
                   </div>
-                  <div className="assignees">
+                  <div className="assignees mt-4">
                     <h6>ASSIGNEES</h6>
                     <div>
                       <div style={{ display: "flex" }} className="item">
                         <div className="avatar">
-                          <img src="./assets/img/download (1).jfif" alt />
-
+                          <img
+                            src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIACIAIgMBEQACEQEDEQH/xAAZAAADAQEBAAAAAAAAAAAAAAAEBQYHAwL/xAAxEAACAQIEAwYDCQAAAAAAAAABAgMEEQASITEFIkEGE0JRcZEUYdEjMjNDcoGCsfD/xAAaAQADAQEBAQAAAAAAAAAAAAADBAUCAQYA/8QALxEAAQIEAwYFBAMAAAAAAAAAAQACAxEhMQQSUSJBYXGh8BMykbHRBVKB4YLC8f/aAAwDAQACEQMRAD8An+3zZeNpHTSKe7BZHV75s+uh23zC31tiZhtpgcb9hWw7YkRT4/1LKQyCKKppY7FmySIRy3Olv0m5Hy9saewgZgqGHjw3vdCiOsKHrPmKdzTSLL3j0tDzQzrdZZLHmXa+lhvb+V/LAQJUG9PveXNEWPRzdwmKG9jM6/iWqBd6lGgeGYzTMxVYQxOckAADodW6bYJDBIkUlj/DzTa3LastJnn63V0U43Ic8AHdNqmvh6YKY0jJeYyg1KzatijGdbOGtyjSyG+txby/vGWGk5K/iaxMrXB09/TjK/Sap+xU3Cajh1Xw3iTBJA5eCcrzANa4t1BsLj0O4BHXvIqKhTIkJ8N4cKfIQz0ZhkNLHKkkTNnyK4V3IF8yk6XAubG2l998Ca0P8voqY+oOJzRRtWB3cQRevDhZdyKHh/EI5KlY7xp3gRQwIUgsSL9QGK6ag62FhcjWkAlt0riY8R+wTQ8qykN2sv3VaRR9t+yC0kCtVgERqCGp3vt1sMYJbqlz9Nxf2FYdVydzMJAt0DG4PivgkECqofUC/ZLjW3pdcIpHLK8bqCpsSQAP301GO7TSuHwojZumdRWfMJzRV8UKsXVQGFyY7gC24seYHyN97WHXGXOJoF9Cw7WDOakWHsdJajS53JZxziTVnIkZjMrkAE3IBN/LYa+5wSC0Nm4oOOe6KWw23Mh3U8E2i4NP3aXrKReUaOxBHry74AROswqQisYMpY6Y0t7pXWR5lJb79rC/VT/tPX0xphIKDHY1zTIU38/zfj+ygEARtGAPKBfB5TFVNDnQ3Zm9F0+PDQBWhfODq6tuOmOeFKxRRjM3nbbh6m/z1XvhotWfGSxB0h8Lagm9tfW/tfGYhkzKETCAPj+I6mnDiO+asBHwmUCR5iGfmIZSSCfnhAhpM5r0jX42GAxrAQKXU42sKnrnOvthkVJ73hS4my1svt/q5BVwAn0H5n1wy2yiupEkgqX8KQ+W2CuugQ6tHNM+HE/AV4ubGNCR5/aLhd+9UYHmhfy9lWUVPA1FTs0MZJjUklRrphbKNFWfGiBxAcfVf//Z"
+                            alt
+                          />
                         </div>
-                      </div>
-                      <div className="reporter">
-                        <h6>REPORTER</h6>
-                        <div style={{ display: "flex" }} className="item">
-                          <div className="avatar">
-                            <img src="./assets/img/download (1).jfif" alt />
-                          </div>
-                          <p className="name">
-                            Pickle Rick
-                            <i
-                              className="fa fa-times"
-                              style={{ marginLeft: 5 }}
-                            />
-                          </p>
+                        <div className="avatar">
+                          <img
+                            src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIACIAIgMBIgACEQEDEQH/xAAaAAACAwEBAAAAAAAAAAAAAAAABgQFBwED/8QAMBAAAgEDAwEFBQkAAAAAAAAAAQIDAAQRBRIhMQYTQVFxBxQygZEiIzNCYcHR4fD/xAAWAQEBAQAAAAAAAAAAAAAAAAAAAQL/xAAYEQEAAwEAAAAAAAAAAAAAAAAAARFBMf/aAAwDAQACEQMRAD8A0zUjiFnZ441B5ZyAoXxz/vGsl9o3anQbnSZtPgupbm6LDu5bdSY15BOXOMg4HTNQvbBf3V5q1lGu42MFtuUHOwysXyfXCj5UnadGvvwh1C3lVAGaZCrBkXAJOBzwOaUXRq7E9pdItpJba5eWN5kXEjuXRTjnJzxnFXmuKs1v7xEQ8ZGVZQcEVmM0FtGouLWOVYnYhWYcKc/CTjG7HOP1q00Ce7TWYIBHPsmZRKmw8xnGGIPhhsg9OhpEEzaed2TxRV22nxgkZ8a7UatRdvffX1mOyZ8nuoykeOMkkep6/wBUs2VwZdRkM0zy7yQZgcF1xjofMfSnX2oWcuj65Y6gsuHkiCxnPIeNsgj03CknUb03+rtcLaW9oZCPuYFKoOOoHh41WVlcwIkVvaqT3Uj96EZh8R+zuAyD0x59KnQ6df6X2rt7O+mDSr3JEwHG04ABHkCMef2frQ3txPb3UIfaXRdykEkc0w6LqUuu9obW51SWJJVw3A2hgmWUY9f3qLhumnCzOCVBDEY3GiutZ6I7F5b9t7HLdOvjRQHtfUPoIZwGZLlNpPJXOc4rI7v8RPnRRTTHm35fX+KvNGAE8jAYYRYB8RyKKKs9I4ml3z8TfWiiioP/2Q=="
+                            alt
+                          />
                         </div>
                       </div>
                       <div className="priority" style={{ marginBottom: 20 }}>
