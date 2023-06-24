@@ -38,11 +38,8 @@ function stringAvatar(name) {
   };
 }
 
-function CardMain({ value, index, lstTaskDeTail }) {
+function CardMain({ value, index}) {
   const [name, setName] = useState("");
-
-  console.log(value);
-
   const nameLogin = JSON.parse(localStorage.getItem("user"))?.name;
   useEffect(() => {
     setName(nameLogin);
@@ -101,7 +98,6 @@ function CardMain({ value, index, lstTaskDeTail }) {
         <Modal.Body>
           {value.lstTaskDeTail.map((item, index) => {
             {
-              console.log(item.description);
             }
             return (
               <div className="modal-body">

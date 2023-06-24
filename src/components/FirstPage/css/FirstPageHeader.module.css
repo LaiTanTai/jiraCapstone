@@ -1,0 +1,9 @@
+.navbar_brand {
+  display: flex;
+  align-items: center;
+}
+
+.navbar_text {
+  font-size: 3rem;
+  color: #ffa526;
+}/*# sourceMappingURL=FirstPageHeader.module.css.map */

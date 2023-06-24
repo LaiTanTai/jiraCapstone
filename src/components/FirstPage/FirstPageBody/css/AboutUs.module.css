@@ -1,0 +1,40 @@
+.feature {
+  width: 100%;
+  padding: 90px 100px;
+}
+
+.text {
+  color: #253858;
+  font-weight: 500;
+  font-size: 3rem;
+}
+
+.button_css {
+  border-radius: 50px;
+  font-size: 1.7rem;
+  line-height: 1.5;
+  color: #091e42;
+  border-color: rgba(0, 0, 0, 0);
+  padding: 10px 1px 10px 1px !important;
+  border-style: solid;
+  background-color: rgba(255, 255, 255, 0);
+  font-weight: 400;
+  opacity: 0.8;
+}
+
+.button_active {
+  background-color: rgba(0, 82, 204, 0.2156862745);
+  opacity: 1;
+  border-radius: 50px;
+  font-size: 1.7rem;
+  line-height: 1.5;
+  color: #091e42;
+  padding: 10px 1px 10px 1px !important;
+  border-style: solid;
+  font-weight: 400;
+  border-color: white;
+}
+
+.container {
+  padding: 0 250px 0 250px;
+}/*# sourceMappingURL=AboutUs.module.css.map */

@@ -1,0 +1,26 @@
+@charset "UTF-8";
+.component_image {
+  width: 100%;
+  height: 100%;
+}
+
+.li_css {
+  list-style: none;
+  padding-left: 0 !important;
+}
+
+.featured_checkmark {
+  display: flex;
+  gap: 15px; /* Khoảng cách giữa svg và p */
+}
+
+.p_text {
+  font-size: 1.3rem;
+  line-height: 1.5;
+  color: #091e42;
+}
+
+.h2_text {
+  font-size: 3rem;
+  color: #091e42;
+}/*# sourceMappingURL=Boards.module.css.map */

@@ -14,7 +14,6 @@ import { Button, Modal } from "antd";
 function Boards() {
   const [dataproject, setdataproject] = useState([]);
   const [members, setmembers] = useState([]);
-  const [task, settask] = useState([]);
   // console.log(dataproject);
   // const getDataAllProject = async (value) => {
   //   try {
@@ -25,22 +24,29 @@ function Boards() {
   //   }
   // };
   function handleOnDragEnd(result) {
-    const item = task[result.source.index];
-    let newtask = task.filter((value, index) => {
-      if (index != result.source.index) {
-        return value;
+    let newdataProject = dataproject
+    console.log(result)
+    const indexdropsource = result.source.droppableId.slice(4)
+    const item = newdataProject[Number.parseInt(indexdropsource,10)].lstTaskDeTail[result.source.index]
+    console.log(item)
+    let sourcelist = newdataProject[Number.parseInt(indexdropsource)].lstTaskDeTail.filter((value,index)=>{
+      if(index != result.source.index){
+        return value
       }
-    });
-    newtask.splice(result.destination.index, 0, item);
-    console.log(newtask);
-    settask(newtask);
+    })
+    newdataProject[Number.parseInt(indexdropsource)].lstTaskDeTail = sourcelist;
+    const indexdropdestination = result.destination.droppableId.slice(4)
+    newdataProject[Number.parseInt(indexdropdestination)].lstTaskDeTail.splice(result.destination.index,0,item)
+    setdataproject(newdataProject)
   }
   useEffect(() => {
     apigetProjectDetail(12863)
       .then((res) => {
         console.log(res);
         setdataproject(res.content.lstTask);
+        console.log(dataproject)
         setmembers(res.content.members);
+        console.log(members)
       })
       .catch((error) => {
         console.log(error);
@@ -48,9 +54,8 @@ function Boards() {
   }, []);
 
   return (
-    <DragDropContext onDragEnd={handleOnDragEnd}>
-      <div className="container-fluid characters">
-        <div>
+    <>
+    <div>
           <div className="header">
             <nav aria-label="breadcrumb">
               <ol className="breadcrumb" style={{ backgroundColor: "white" }}>
@@ -86,6 +91,9 @@ function Boards() {
           </div>
         </div>
 
+    <DragDropContext onDragEnd={handleOnDragEnd}>
+      <div className="container-fluid characters">
+        
         <div className="row">
           {dataproject.length > 0 ? (
             dataproject.map((value, index) => {
@@ -103,6 +111,7 @@ function Boards() {
         </div>
       </div>
     </DragDropContext>
+    </>
   );
 }
 

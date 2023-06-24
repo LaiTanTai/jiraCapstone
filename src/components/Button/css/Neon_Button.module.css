@@ -1,0 +1,50 @@
+.Neon_Button {
+  cursor: pointer;
+  font-weight: 700;
+  background-color: transparent;
+  display: inline-block;
+  color: rgba(0, 102, 204, 0.758);
+  border: rgba(0, 102, 204, 0.758) 0.125em solid;
+  padding: 0.25em 1em;
+  border-radius: 0.25em;
+  text-shadow: 0 0 0.75em hsl(0, 0%, 100%), 0 0 0.45em rgba(0, 102, 204, 0.758);
+  box-shadow: inset 0 0 0.5em 0 rgba(0, 102, 204, 0.758), 0 0 0.5em 0 rgba(0, 102, 204, 0.758);
+  transition: all 0.5s;
+  position: relative;
+}
+
+.Neon_Button::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  background: rgba(0, 102, 204, 0.758);
+  top: 120%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: perspective(1em) rotateX(40deg) scale(1, 0.35);
+  filter: blur(1em);
+  opacity: 0.7;
+}
+
+.Neon_Button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  box-shadow: 0 0 2em 0.5em rgba(0, 102, 204, 0.758);
+  opacity: 0;
+  transition: opacity 100ms linear;
+}
+
+.Neon_Button:hover, .Neon_Button:focus {
+  background-color: rgba(0, 102, 204, 0.758);
+  color: black;
+  text-shadow: none;
+}
+
+.Neon_Button:hover::after {
+  opacity: 1;
+}/*# sourceMappingURL=Neon_Button.module.css.map */

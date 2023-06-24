@@ -1,0 +1,29 @@
+.timkiem {
+  color: black;
+  background-color: rgba(235, 228, 228, 0);
+  padding: 5px 5px;
+  margin-top: 20px;
+}
+
+.feature {
+  width: 100%;
+  padding: 100px 750px;
+}
+
+.text {
+  font-size: 3rem;
+}
+
+.label {
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: black;
+}
+
+.container {
+  padding: 50px 100px 10px 10px;
+}
+
+.background {
+  background-color: white;
+}/*# sourceMappingURL=UserManagement.module.css.map */
