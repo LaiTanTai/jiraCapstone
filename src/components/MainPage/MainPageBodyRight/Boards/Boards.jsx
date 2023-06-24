@@ -24,6 +24,7 @@ function Boards() {
   //   }
   // };
   function handleOnDragEnd(result) {
+    if (!result.destination) return;
     let newdataProject = dataproject
     console.log(result)
     const indexdropsource = result.source.droppableId.slice(4)
