@@ -304,8 +304,8 @@ function CardMain({ value, index}) {
                   </div>
                 </div>
               </div>
-            );
-          })}
+            </div>
+          </div>
         </Modal.Body>
         <Modal.Footer></Modal.Footer>
       </Modal>
