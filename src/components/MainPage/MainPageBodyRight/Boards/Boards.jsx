@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import style from "./Boards.module.scss";
 import CardMain from "../../../CardMain/CardMain";
-import { apigetProject, apigetProjectDetail } from "./../../../../apis/projectAPI";
+import {
+  apigetProject,
+  apigetProjectDetail,
+} from "./../../../../apis/projectAPI";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { gettaskAPI } from "../../../../apis/TaskAPI";
 import "./Boards.scss";
@@ -10,7 +13,7 @@ import { Button, Modal } from "antd";
 
 function Boards() {
   const [dataproject, setdataproject] = useState([]);
-  const [members,setmembers] = useState([]);
+  const [members, setmembers] = useState([]);
   const [task, settask] = useState([]);
   console.log(dataproject);
   // const getDataAllProject = async (value) => {
@@ -33,28 +36,17 @@ function Boards() {
     settask(newtask);
   }
   useEffect(() => {
-    apigetProjectDetail(12863).
-    then((res)=>{
-      setdataproject(res.content.lstTask)
-      console.log(res.content.lstTask)
-      setmembers(res.content.members)
-      console.log(res.content.members)
-    })
-    .catch((error)=>{
-      console.log(error)
-    })
+    apigetProjectDetail(12863)
+      .then((res) => {
+        setdataproject(res.content.lstTask);
+        console.log(res.content.lstTask);
+        setmembers(res.content.members);
+        console.log(res.content.members);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
-  // antd modal
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
@@ -62,12 +54,7 @@ function Boards() {
         <div className="row">
           {dataproject.length > 0 ? (
             dataproject.map((value, index) => {
-              return (
-                <CardMain
-                  value={value}
-                  index={index}
-                />
-              );
+              return <CardMain value={value} index={index} />;
             })
           ) : (
             <img className={style.img} src="./img/nodatafound.jpg" />
@@ -155,7 +142,7 @@ function Boards() {
               <div className="modal-header">huy</div>
             </div>
           </div> */}
-                  {/*<p>Huy</p>
+        {/*<p>Huy</p>
                 </Modal>
                 <li className="list-group-item">
                   <p>
