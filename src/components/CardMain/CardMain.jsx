@@ -3,6 +3,8 @@ import { gettaskAPI } from "./../../apis/TaskAPI";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import "./CardMain.scss";
 import Avatar from "@mui/material/Avatar";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 
 function stringToColor(string) {
   let hash = 0;
@@ -43,6 +45,12 @@ function CardMain({ value, index }) {
   useEffect(() => {
     setName(nameLogin);
   }, []);
+
+  // // modal bootstrap
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   return (
     <Droppable droppableId={`drop ${index}`}>
       {(provided) => (
@@ -67,6 +75,7 @@ function CardMain({ value, index }) {
                       {...provided.dragHandleProps}
                       ref={provided.innerRef}
                       className="cards"
+                      onClick={handleShow}
                     >
                       <h5> {item.taskName} </h5>
                       <div className="card-body">
@@ -84,6 +93,16 @@ function CardMain({ value, index }) {
           </div>
         </div>
       )}
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Droppable>
   );
 }
