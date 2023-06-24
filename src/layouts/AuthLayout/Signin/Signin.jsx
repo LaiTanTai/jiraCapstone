@@ -7,7 +7,9 @@ import * as yup from "yup";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import styles from "./Signin.module.scss";
 import { apiSignup } from "../../../apis/userAPI";
+import { apiLoginFb } from "../../../apis/loginfb";
 import { signin } from "../../../slice/userslice";
+import FacebookLogin from "react-facebook-login";
 import Alert from "@mui/material/Alert";
 
 const schema = yup.object({
@@ -36,12 +38,21 @@ function Signin() {
   const dispatch = useDispatch();
 
   const [searchParams, setSearchParams] = useSearchParams();
+  const [accessFace, setAccessFace] = useState("");
 
+  const responseFacebook = async (response) => {
+    const accessToken = {
+      facebookToken: response.accessToken,
+    };
+    console.log("access", accessToken);
+    const data = await apiLoginFb(accessToken);
+    localStorage.setItem("user", JSON.stringify(data.content));
+    navigate("/Main");
+  };
   const onSubmit = (values) => {
     dispatch(signin(values));
     onError();
   };
-
   const [errorSignIn, setErrorSignIn] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
 
@@ -112,6 +123,17 @@ function Signin() {
             Submit
           </Button>
         </Form>{" "}
+        <div>
+          <FacebookLogin
+            appId="217248044557849"
+            autoLoad={false}
+            size="medium"
+            fields="name,email,picture"
+            callback={responseFacebook}
+            icon="fa-facebook"
+            textButton="Login facebook(mất acc)"
+          />
+        </div>
       </div>
     </div>
   );
