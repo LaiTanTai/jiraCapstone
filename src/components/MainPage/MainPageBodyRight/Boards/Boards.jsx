@@ -43,17 +43,13 @@ function Boards() {
   useEffect(() => {
     apigetProjectDetail(12863)
       .then((res) => {
-        console.log(res);
         setdataproject(res.content.lstTask);
-        console.log(dataproject)
         setmembers(res.content.members);
-        console.log(members)
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
-
   return (
     <>
     <div>

@@ -232,7 +232,7 @@ function CardMain({ value, index}) {
                   </div>
                   <div className="assignees">
                     <h6>ASSIGNEES</h6>
-                    <div style={{ display: "flex" }}>
+                    <div>
                       <div style={{ display: "flex" }} className="item">
                         <div className="avatar">
                           <img src="./assets/img/download (1).jfif" alt />
