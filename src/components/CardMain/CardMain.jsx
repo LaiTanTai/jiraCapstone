@@ -38,7 +38,7 @@ function stringAvatar(name) {
   };
 }
 
-function CardMain({ value, index, lstTaskDeTail }) {
+function CardMain({ value, index }) {
   const [name, setName] = useState("");
 
   console.log(value);
@@ -100,9 +100,6 @@ function CardMain({ value, index, lstTaskDeTail }) {
       <Modal show={show} onHide={handleClose}>
         <Modal.Body>
           {value.lstTaskDeTail.map((item, index) => {
-            {
-              console.log(item.description);
-            }
             return (
               <div className="modal-body">
                 <div className="container-fluid">
@@ -111,6 +108,7 @@ function CardMain({ value, index, lstTaskDeTail }) {
                       <p className="issue">This is an issue of type: Task.</p>
                       <div className="description">
                         <p>Description</p>
+                        <p>ngon</p>
                         {item.description}
                       </div>
                       <div style={{ fontWeight: 500, marginBottom: 10 }}>

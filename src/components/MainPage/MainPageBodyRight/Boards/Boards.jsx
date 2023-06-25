@@ -38,7 +38,6 @@ function Boards() {
   useEffect(() => {
     apigetProjectDetail(12863)
       .then((res) => {
-        console.log(res);
         setdataproject(res.content.lstTask);
         setmembers(res.content.members);
       })
@@ -91,7 +90,7 @@ function Boards() {
             dataproject.map((value, index) => {
               return (
                 <CardMain
-                  lstTaskDeTail={value.lstTaskDeTail}
+                  lstTaskDeTail={value.lstTaskDeTail[index]}
                   value={value}
                   index={index}
                 />
