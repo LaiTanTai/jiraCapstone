@@ -1,0 +1,18 @@
+.info .avatar-group {
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+
+.avatar-group .avatar img {
+  width: 40px;
+  border: 1px solid transparent;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.avatar img {
+  width: 40px;
+  border: 1px solid transparent;
+  height: 40px;
+  border-radius: 50%;
+}/*# sourceMappingURL=Boards.css.map */

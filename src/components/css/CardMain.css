@@ -1,0 +1,64 @@
+.drop_padding {
+  padding: 0px 25px 0px 25px;
+}
+
+.box__card {
+  padding: 0px;
+  margin: 0;
+  background-color: rgba(244, 245, 247, 0.6745098039);
+  height: 97%;
+  border-radius: 20px;
+}
+.box__card .card__times {
+  color: #5d6f84;
+  text-transform: uppercase;
+  font-size: 18px;
+  text-align: center;
+  line-height: 50px;
+  margin-bottom: 0;
+}
+.box__card .cards {
+  border-radius: 8px;
+  border: 2px solid rgba(170, 170, 170, 0.586);
+  margin: 10px 0px 10px 0px;
+  background-color: #fff;
+}
+.box__card .cards h5 {
+  text-align: center;
+  color: #0e2d4c;
+  margin-top: 10px;
+}
+.box__card .cards .card-body {
+  padding-top: 20px;
+  margin-left: 20px;
+  padding-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+.box__card .cards .card-body .card-title {
+  margin: 0;
+  color: #0e2d4c;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+@media screen and (min-width: 400px) {
+  .box__card {
+    width: 100%;
+  }
+}
+@media screen and (min-width: 768px) {
+  .box__card {
+    width: 50%;
+  }
+}
+@media screen and (min-width: 986px) {
+  .box__card {
+    width: 33%;
+  }
+}
+@media screen and (min-width: 1400px) {
+  .box__card {
+    width: 25%;
+  }
+}/*# sourceMappingURL=CardMain.css.map */

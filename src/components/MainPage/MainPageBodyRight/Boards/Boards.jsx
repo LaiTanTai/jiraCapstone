@@ -14,7 +14,6 @@ import { Button, Modal } from "antd";
 function Boards() {
   const [dataproject, setdataproject] = useState([]);
   const [members, setmembers] = useState([]);
-  const [task, settask] = useState([]);
   // console.log(dataproject);
   // const getDataAllProject = async (value) => {
   //   try {
@@ -25,15 +24,30 @@ function Boards() {
   //   }
   // };
   function handleOnDragEnd(result) {
-    const item = task[result.source.index];
-    let newtask = task.filter((value, index) => {
+    if (!result.destination) return;
+    let newdataProject = dataproject;
+    console.log(result);
+    const indexdropsource = result.source.droppableId.slice(4);
+    const item =
+      newdataProject[Number.parseInt(indexdropsource, 10)].lstTaskDeTail[
+        result.source.index
+      ];
+    console.log(item);
+    let sourcelist = newdataProject[
+      Number.parseInt(indexdropsource)
+    ].lstTaskDeTail.filter((value, index) => {
       if (index != result.source.index) {
         return value;
       }
     });
-    newtask.splice(result.destination.index, 0, item);
-    console.log(newtask);
-    settask(newtask);
+    newdataProject[Number.parseInt(indexdropsource)].lstTaskDeTail = sourcelist;
+    const indexdropdestination = result.destination.droppableId.slice(4);
+    newdataProject[Number.parseInt(indexdropdestination)].lstTaskDeTail.splice(
+      result.destination.index,
+      0,
+      item
+    );
+    setdataproject(newdataProject);
   }
   useEffect(() => {
     apigetProjectDetail(12863)
@@ -45,63 +59,64 @@ function Boards() {
         console.log(error);
       });
   }, []);
-
   return (
-    <DragDropContext onDragEnd={handleOnDragEnd}>
-      <div className="container-fluid characters">
-        <div>
-          <div className="header">
-            <nav aria-label="breadcrumb">
-              <ol className="breadcrumb" style={{ backgroundColor: "white" }}>
-                <li className="breadcrumb-item">Project</li>
-                <li className="breadcrumb-item">CyberLearn</li>
-                <li className="breadcrumb-item active" aria-current="page">
-                  Cyber Board
-                </li>
-              </ol>
-            </nav>
-          </div>
-          <h3>Cyber Board</h3>
-          <div className="info" style={{ display: "flex" }}>
-            <div className="search-block">
-              <input className="search" />
-              <i className="fa fa-search" />
-            </div>
-            <div className="avatar-group" style={{ display: "flex" }}>
-              {members.map((ava) => {
-                return (
-                  <div className="avatar">
-                    <img src={ava.avatar} alt />
-                  </div>
-                );
-              })}
-            </div>
-            <div style={{ marginLeft: 20 }} className="text">
-              Only My Issues
-            </div>
-            <div style={{ marginLeft: 20 }} className="text">
-              Recently Updated
-            </div>
-          </div>
+    <>
+      <div>
+        <div className="header">
+          <nav aria-label="breadcrumb">
+            <ol className="breadcrumb" style={{ backgroundColor: "white" }}>
+              <li className="breadcrumb-item">Project</li>
+              <li className="breadcrumb-item">CyberLearn</li>
+              <li className="breadcrumb-item active" aria-current="page">
+                Cyber Board
+              </li>
+            </ol>
+          </nav>
         </div>
-
-        <div className="row">
-          {dataproject.length > 0 ? (
-            dataproject.map((value, index) => {
+        <h3>Cyber Board</h3>
+        <div className="info" style={{ display: "flex" }}>
+          <div className="search-block">
+            <input className="search" />
+            <i className="fa fa-search" />
+          </div>
+          <div className="avatar-group" style={{ display: "flex" }}>
+            {members.map((ava) => {
               return (
-                <CardMain
-                  lstTaskDeTail={value.lstTaskDeTail[index]}
-                  value={value}
-                  index={index}
-                />
+                <div className="avatar">
+                  <img src={ava.avatar} alt />
+                </div>
               );
-            })
-          ) : (
-            <img className={style.img} src="./img/nodatafound.jpg" />
-          )}
+            })}
+          </div>
+          <div style={{ marginLeft: 20 }} className="text">
+            Only My Issues
+          </div>
+          <div style={{ marginLeft: 20 }} className="text">
+            Recently Updated
+          </div>
         </div>
       </div>
-    </DragDropContext>
+
+      <DragDropContext onDragEnd={handleOnDragEnd}>
+        <div className="container-fluid characters">
+          <div className="row">
+            {dataproject.length > 0 ? (
+              dataproject.map((value, index) => {
+                return (
+                  <CardMain
+                    lstTaskDeTail={value.lstTaskDeTail}
+                    value={value}
+                    index={index}
+                  />
+                );
+              })
+            ) : (
+              <img className={style.img} src="./img/nodatafound.jpg" />
+            )}
+          </div>
+        </div>
+      </DragDropContext>
+    </>
   );
 }
 

@@ -1,0 +1,40 @@
+.feature {
+  width: 100%;
+  padding: 90px 100px;
+}
+
+.worldwide_feature {
+  padding: 0 300px;
+}
+
+.Sponsor_background {
+  background-image: url("https://wac-cdn.atlassian.com/dam/jcr:8a9ac4bd-71f9-4af4-b859-f9c132e12f80/JSW_CTA_bg.png?cdnVersion=1040");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 400px;
+  width: 100%;
+}
+
+.h2_text {
+  font-size: 3rem;
+  color: white;
+  font-weight: 600;
+}
+
+.button_text {
+  font-size: 1.5rem;
+  color: #091e42;
+  font-weight: 600;
+}
+
+.Sponsor_position {
+  position: relative;
+}
+
+.Sponsor_children {
+  position: absolute;
+  top: 0;
+  left: 25%;
+  transform: translate(0, 50%);
+}/*# sourceMappingURL=Sponsor.module.css.map */

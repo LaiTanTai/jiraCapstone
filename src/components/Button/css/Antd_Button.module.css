@@ -1,0 +1,10 @@
+.avatar {
+  border-radius: 40px;
+  width: 40px;
+  height: 40px;
+}
+
+.user {
+  background-color: blue !important;
+  border-radius: 15% !important;
+}/*# sourceMappingURL=Antd_Button.module.css.map */

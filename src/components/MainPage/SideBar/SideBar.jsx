@@ -46,14 +46,6 @@ function SideBar() {
             </Space>
           </div>
         </div>
-        <div className="sideBar-bottom pb-5 mb-3">
-          <div className="sideBar-icon">
-            <Space>
-              <QuestionOutlined style={{ color: "#fff", fontSize: "20px" }} />
-              <span className="title">ABOUT</span>
-            </Space>
-          </div>
-        </div>
       </div>
     </>
   );

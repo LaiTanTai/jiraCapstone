@@ -72,7 +72,6 @@ function MainPageHeader() {
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              <Dropdown.Item>Setting</Dropdown.Item>
               <Dropdown.Item onClick={handleSignout}>Log out</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>

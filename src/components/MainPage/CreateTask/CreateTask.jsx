@@ -163,26 +163,11 @@ function CreateTask() {
     }
   };
 
-  // const addUserIntoProject = async () => {
-  //   try {
-  //     const value = {
-  //       projectId: +inputRef.current?.value,
-  //       userId: +inputAssign.current?.value,
-  //     };
-  //     const data = await getAssignUserProject(value);
-  //     const newData = data.content;
-  //     console.log("newData", newData);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
   useEffect(() => {
     getListProject();
     getListStatus();
     getListPriority();
     getListTaskType();
-    // addUserIntoProject();
   }, []);
 
   const [errorSignUp, setErrorSignUp] = useState("");
