@@ -47,6 +47,55 @@
     }
 }
 
+.modal-dialog {
+    .modal-content {
+        .modal-body {
+            .container-fluid {
+                .row {
+                    .col-8 {}
+
+                    .col-4 {
+                        .status {
+                            .custom-select {
+                                border: none;
+                                height: 40px;
+                                width: 150px;
+                                padding: 5px;
+                                border-radius: 20px;
+                                background: #f4f5f7;
+                            }
+                        }
+
+                        .assignees {
+                            .priority {
+                                select {
+                                    border: none;
+                                    height: 40px;
+                                    width: 150px;
+                                    padding: 5px;
+                                    border-radius: 20px;
+                                    background: #f4f5f7;
+                                }
+                            }
+
+                            .estimate {
+                                input {
+                                    border: none;
+                                    height: 40px;
+                                    width: 150px;
+                                    padding: 5px;
+                                    border-radius: 20px;
+                                    background: #f4f5f7;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 @media screen and (min-width:400px) {
     .box__card {
         width: 100%;

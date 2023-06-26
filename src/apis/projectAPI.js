@@ -70,6 +70,14 @@ const apiGetTaskDetail = async (id) => {
   });
   return data;
 };
+const apiRemoveTask = async (id) => {
+  const { data } = await axiosAdmin.delete("/Project/removeTask", {
+    params: {
+      taskId: id || undefined,
+    },
+  });
+  return data;
+};
 
 export {
   apigetProjectDetail,
@@ -81,4 +89,5 @@ export {
   apiupdateProject,
   apiGetProjectDetail,
   apiGetTaskDetail,
+  apiRemoveTask,
 };

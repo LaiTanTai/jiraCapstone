@@ -1,11 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { gettaskAPI } from "./../../apis/TaskAPI";
-import {
-  apigetProject,
-  apiremoveProject,
-  apiupdateProject,
-  apiGetTaskDetail,
-} from "./../../apis/projectAPI";
+import { apiGetTaskDetail, apiRemoveTask } from "./../../apis/projectAPI";
 import {
   apiGetComment,
   apiInsertComment,
@@ -56,6 +50,15 @@ function CardMain({ value, index }) {
 
   const [comment, setComment] = useState([]);
 
+  const getDataTaskDetail = async (taskId) => {
+    try {
+      const data = await apiGetTaskDetail(taskId);
+      setDataTaskDetail(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const getComment = async () => {
     try {
       const data = await apiGetComment(dataTaskDetail?.content.taskId);
@@ -66,6 +69,14 @@ function CardMain({ value, index }) {
     }
   };
 
+  const removeTask = async (taskId) => {
+    try {
+      await apiRemoveTask(taskId);
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const nameLogin = JSON.parse(localStorage.getItem("user"))?.name;
   useEffect(() => {
     setName(nameLogin);
@@ -76,7 +87,6 @@ function CardMain({ value, index }) {
   const commentRef = useRef();
 
   const handleAddComment = async (taskId) => {
-    console.log(taskId);
     const payload = {
       taskId: taskId,
       contentComment: commentRef.current.value,
@@ -89,15 +99,6 @@ function CardMain({ value, index }) {
     try {
       await apiDeleteComment(id);
       await getComment();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getDataTaskDetail = async (taskId) => {
-    try {
-      const data = await apiGetTaskDetail(taskId);
-      setDataTaskDetail(data);
     } catch (error) {
       console.log(error);
     }
@@ -241,14 +242,14 @@ function CardMain({ value, index }) {
                     <select className="custom-select">
                       {dataTaskDetail?.content.statusId === "1" ? (
                         <option value={1}>BACKLOG</option>
-                      ) : "2" ? (
+                      ) : dataTaskDetail?.content.statusId === "2" ? (
                         <option value={2}>SELECTED FOR DEVELOPMENT</option>
-                      ) : "3" ? (
-                        <option value={2}>IN PROGRESS</option>
-                      ) : "4" ? (
-                        <option value={2}>DONE</option>
+                      ) : dataTaskDetail?.content.statusId === "3" ? (
+                        <option value={3}>IN PROGRESS</option>
+                      ) : dataTaskDetail?.content.statusId === "4" ? (
+                        <option value={4}>DONE</option>
                       ) : (
-                        ""
+                        <option value="">No Status</option>
                       )}
                     </select>
                   </div>
@@ -256,7 +257,7 @@ function CardMain({ value, index }) {
                     <h6>ASSIGNEES</h6>
                     <div>
                       <div style={{ display: "flex" }} className="item">
-                        {dataTaskDetail?.content?.assigness?.map(
+                        {dataTaskDetail?.content?.assigness.map(
                           (item, index) => {
                             return (
                               <div className="avatar" key={index}>
@@ -332,6 +333,15 @@ function CardMain({ value, index }) {
                       <div style={{ color: "#929398" }}>
                         Update at a few seconds ago
                       </div>
+                      <button
+                        type="button"
+                        class="btn btn-danger"
+                        onClick={() =>
+                          removeTask(dataTaskDetail?.content.taskId)
+                        }
+                      >
+                        delete task
+                      </button>
                     </div>
                   </div>
                 </div>
