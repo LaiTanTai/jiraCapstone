@@ -8,14 +8,14 @@ const apiCreateProject = async (values) => {
   );
   return data;
 };
-const apigetProjectDetail = async(value)=>{
-  const {data} = await axiosAdmin.get("/Project/getProjectDetail",{
-    params:{
-      id:12863,
-    }
-  })
+const apigetProjectDetail = async (value) => {
+  const { data } = await axiosAdmin.get("/Project/getProjectDetail", {
+    params: {
+      id: 12863,
+    },
+  });
   return data;
-}
+};
 const apiProjectCategory = async (values) => {
   const { data } = await axiosClient.get("/Projectcategory", values);
   return data;
@@ -62,6 +62,15 @@ const apiGetProjectDetail = async (id) => {
   return data;
 };
 
+const apiGetTaskDetail = async (id) => {
+  const { data } = await axiosAdmin.get("/Project/getTaskDetail", {
+    params: {
+      taskId: id || undefined,
+    },
+  });
+  return data;
+};
+
 export {
   apigetProjectDetail,
   apiCreateProject,
@@ -71,4 +80,5 @@ export {
   apiremoveProject,
   apiupdateProject,
   apiGetProjectDetail,
+  apiGetTaskDetail,
 };
