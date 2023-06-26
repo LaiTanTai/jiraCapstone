@@ -4,6 +4,7 @@ import {
   apigetProject,
   apiremoveProject,
   apiupdateProject,
+  apiGetTaskDetail,
 } from "./../../apis/projectAPI";
 import {
   apiGetComment,
@@ -16,9 +17,8 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import "./CardMain.scss";
 import Avatar from "@mui/material/Avatar";
 import { Button, Form, Row, Col } from "react-bootstrap";
-import { Select, Space } from "antd";
 import Modal from "react-bootstrap/Modal";
-import { async } from "q";
+import parse from "html-react-parser";
 
 function stringToColor(string) {
   let hash = 0;
@@ -65,7 +65,9 @@ function CardMain({ value, index }) {
 
   // // modal bootstrap
   const [show, setShow] = useState(false);
-  const [listUser, setListProject] = useState([]);
+  // const [listUser, setListProject] = useState([]);
+  const [dataTaskDetail, setDataTaskDetail] = useState();
+  console.log(dataTaskDetail);
   const commentRef = useRef();
   const handleAddComment = async () => {
     const payload = {
@@ -85,14 +87,23 @@ function CardMain({ value, index }) {
     }
   };
 
-  const getListProjects = async () => {
+  const getDataTaskDetail = async (taskId) => {
     try {
-      const data = await apigetProject();
-      setListProject(data.content);
+      const data = await apiGetTaskDetail(taskId);
+      setDataTaskDetail(data);
     } catch (error) {
       console.log(error);
     }
   };
+
+  // const getListProjects = async () => {
+  //   try {
+  //     const data = await apigetProject();
+  //     setListProject(data.content);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const getComment = async () => {
     try {
@@ -105,7 +116,10 @@ function CardMain({ value, index }) {
   };
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = (value) => {
+    setShow(true);
+    getDataTaskDetail(value);
+  };
   return (
     <>
       <Droppable droppableId={`drop ${index}`}>
@@ -131,7 +145,7 @@ function CardMain({ value, index }) {
                         {...provided.dragHandleProps}
                         ref={provided.innerRef}
                         className="cards"
-                        onClick={handleShow}
+                        onClick={() => handleShow(item.taskId)}
                       >
                         <h5> {item.taskName} </h5>
                         <div className="card-body">
@@ -156,21 +170,13 @@ function CardMain({ value, index }) {
             <div className="container-fluid">
               <div className="row">
                 <div className="col-8">
-                  <p className="issue">This is an issue of type: Task.</p>
+                  <h3 className="issue">
+                    This is an issue of type:{" "}
+                    {dataTaskDetail?.content.taskTypeDetail.taskType}
+                  </h3>
                   <div className="description">
-                    <p>Description</p>
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                      Esse expedita quis vero tempora error sed reprehenderit
-                      sequi laborum, repellendus quod laudantium tenetur nobis
-                      modi reiciendis sint architecto. Autem libero quibusdam
-                      odit assumenda fugiat? Beatae aliquid labore vitae
-                      obcaecati sapiente asperiores quia amet id aut, natus quo
-                      molestiae quod voluptas, temporibus iusto laudantium sit
-                      tempora sequi. Rem, itaque id, fugit magnam asperiores
-                      voluptas consectetur aliquid vel error illum, delectus eum
-                      eveniet laudantium at repudiandae!
-                    </p>
+                    <h3 style={{ display: "inline-block" }}>Description: </h3>
+                    {parse(`${dataTaskDetail?.content.description}`)}
                   </div>
                   <div style={{ fontWeight: 500, marginBottom: 10 }}>
                     Jira Software (software projects) issue types:
@@ -316,7 +322,6 @@ function CardMain({ value, index }) {
             </div>
           </div>
         </Modal.Body>
-        <Modal.Footer></Modal.Footer>
       </Modal>
     </>
   );

@@ -62,6 +62,15 @@ const apiGetProjectDetail = async (id) => {
   return data;
 };
 
+const apiGetTaskDetail = async (id) => {
+  const { data } = await axiosAdmin.get("/Project/getTaskDetail", {
+    params: {
+      taskId: id || undefined,
+    },
+  });
+  return data;
+};
+
 export {
   apigetProjectDetail,
   apiCreateProject,
@@ -71,4 +80,5 @@ export {
   apiremoveProject,
   apiupdateProject,
   apiGetProjectDetail,
+  apiGetTaskDetail,
 };
