@@ -18,7 +18,7 @@ import "./CardMain.scss";
 import Avatar from "@mui/material/Avatar";
 import { Button, Form, Row, Col } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
-import parse from "html-react-parser";
+// import parse from "html-react-parser";
 
 function stringToColor(string) {
   let hash = 0;
@@ -176,7 +176,7 @@ function CardMain({ value, index }) {
                   </h3>
                   <div className="description">
                     <h3 style={{ display: "inline-block" }}>Description: </h3>
-                    {parse(`${dataTaskDetail?.content.description}`)}
+                    {/* {parse(`${dataTaskDetail?.content.description}`)} */}
                   </div>
                   <div style={{ fontWeight: 500, marginBottom: 10 }}>
                     Jira Software (software projects) issue types:
@@ -246,43 +246,57 @@ function CardMain({ value, index }) {
                   <div className="status">
                     <h6>STATUS</h6>
                     <select className="custom-select">
-                      <option selected>SELECTED FOR DEVELOPMENT</option>
-                      <option value={1}>BACKLOG</option>
-                      <option value={2}>IN PROGRESS</option>
-                      <option value={3}>DONE</option>
+                      {dataTaskDetail?.content.statusId === "1" ? (
+                        <option value={1}>BACKLOG</option>
+                      ) : "2" ? (
+                        <option value={2}>SELECTED FOR DEVELOPMENT</option>
+                      ) : "3" ? (
+                        <option value={2}>IN PROGRESS</option>
+                      ) : "4" ? (
+                        <option value={2}>DONE</option>
+                      ) : (
+                        ""
+                      )}
                     </select>
                   </div>
                   <div className="assignees mt-4">
                     <h6>ASSIGNEES</h6>
                     <div>
                       <div style={{ display: "flex" }} className="item">
-                        <div className="avatar">
-                          <img
-                            src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIACIAIgMBEQACEQEDEQH/xAAZAAADAQEBAAAAAAAAAAAAAAAEBQYHAwL/xAAxEAACAQIEAwYDCQAAAAAAAAABAgMEEQASITEFIkEGE0JRcZEUYdEjMjNDcoGCsfD/xAAaAQADAQEBAQAAAAAAAAAAAAADBAUCAQYA/8QALxEAAQIEAwYFBAMAAAAAAAAAAQACAxEhMQQSUSJBYXGh8BMykbHRBVKB4YLC8f/aAAwDAQACEQMRAD8An+3zZeNpHTSKe7BZHV75s+uh23zC31tiZhtpgcb9hWw7YkRT4/1LKQyCKKppY7FmySIRy3Olv0m5Hy9saewgZgqGHjw3vdCiOsKHrPmKdzTSLL3j0tDzQzrdZZLHmXa+lhvb+V/LAQJUG9PveXNEWPRzdwmKG9jM6/iWqBd6lGgeGYzTMxVYQxOckAADodW6bYJDBIkUlj/DzTa3LastJnn63V0U43Ic8AHdNqmvh6YKY0jJeYyg1KzatijGdbOGtyjSyG+txby/vGWGk5K/iaxMrXB09/TjK/Sap+xU3Cajh1Xw3iTBJA5eCcrzANa4t1BsLj0O4BHXvIqKhTIkJ8N4cKfIQz0ZhkNLHKkkTNnyK4V3IF8yk6XAubG2l998Ca0P8voqY+oOJzRRtWB3cQRevDhZdyKHh/EI5KlY7xp3gRQwIUgsSL9QGK6ag62FhcjWkAlt0riY8R+wTQ8qykN2sv3VaRR9t+yC0kCtVgERqCGp3vt1sMYJbqlz9Nxf2FYdVydzMJAt0DG4PivgkECqofUC/ZLjW3pdcIpHLK8bqCpsSQAP301GO7TSuHwojZumdRWfMJzRV8UKsXVQGFyY7gC24seYHyN97WHXGXOJoF9Cw7WDOakWHsdJajS53JZxziTVnIkZjMrkAE3IBN/LYa+5wSC0Nm4oOOe6KWw23Mh3U8E2i4NP3aXrKReUaOxBHry74AROswqQisYMpY6Y0t7pXWR5lJb79rC/VT/tPX0xphIKDHY1zTIU38/zfj+ygEARtGAPKBfB5TFVNDnQ3Zm9F0+PDQBWhfODq6tuOmOeFKxRRjM3nbbh6m/z1XvhotWfGSxB0h8Lagm9tfW/tfGYhkzKETCAPj+I6mnDiO+asBHwmUCR5iGfmIZSSCfnhAhpM5r0jX42GAxrAQKXU42sKnrnOvthkVJ73hS4my1svt/q5BVwAn0H5n1wy2yiupEkgqX8KQ+W2CuugQ6tHNM+HE/AV4ubGNCR5/aLhd+9UYHmhfy9lWUVPA1FTs0MZJjUklRrphbKNFWfGiBxAcfVf//Z"
-                            alt
-                          />
-                        </div>
-                        <div className="avatar">
-                          <img
-                            src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIACIAIgMBIgACEQEDEQH/xAAaAAACAwEBAAAAAAAAAAAAAAAABgQFBwED/8QAMBAAAgEDAwEFBQkAAAAAAAAAAQIDAAQRBRIhMQYTQVFxBxQygZEiIzNCYcHR4fD/xAAWAQEBAQAAAAAAAAAAAAAAAAAAAQL/xAAYEQEAAwEAAAAAAAAAAAAAAAAAARFBMf/aAAwDAQACEQMRAD8A0zUjiFnZ441B5ZyAoXxz/vGsl9o3anQbnSZtPgupbm6LDu5bdSY15BOXOMg4HTNQvbBf3V5q1lGu42MFtuUHOwysXyfXCj5UnadGvvwh1C3lVAGaZCrBkXAJOBzwOaUXRq7E9pdItpJba5eWN5kXEjuXRTjnJzxnFXmuKs1v7xEQ8ZGVZQcEVmM0FtGouLWOVYnYhWYcKc/CTjG7HOP1q00Ce7TWYIBHPsmZRKmw8xnGGIPhhsg9OhpEEzaed2TxRV22nxgkZ8a7UatRdvffX1mOyZ8nuoykeOMkkep6/wBUs2VwZdRkM0zy7yQZgcF1xjofMfSnX2oWcuj65Y6gsuHkiCxnPIeNsgj03CknUb03+rtcLaW9oZCPuYFKoOOoHh41WVlcwIkVvaqT3Uj96EZh8R+zuAyD0x59KnQ6df6X2rt7O+mDSr3JEwHG04ABHkCMef2frQ3txPb3UIfaXRdykEkc0w6LqUuu9obW51SWJJVw3A2hgmWUY9f3qLhumnCzOCVBDEY3GiutZ6I7F5b9t7HLdOvjRQHtfUPoIZwGZLlNpPJXOc4rI7v8RPnRRTTHm35fX+KvNGAE8jAYYRYB8RyKKKs9I4ml3z8TfWiiioP/2Q=="
-                            alt
-                          />
-                        </div>
+                        {dataTaskDetail?.content?.assigness?.map(
+                          (item, index) => {
+                            return (
+                              <div className="avatar" key={index}>
+                                <img src={item.avatar} />
+                              </div>
+                            );
+                          }
+                        )}
                       </div>
                       <div className="priority" style={{ marginBottom: 20 }}>
                         <h6>PRIORITY</h6>
                         <select>
-                          <option>Highest</option>
-                          <option>Medium</option>
-                          <option>Low</option>
-                          <option>Lowest</option>
+                          {dataTaskDetail?.content.priorityTask.priority ===
+                          "Highest" ? (
+                            <option>Highest</option>
+                          ) : "Medium" ? (
+                            <option>Medium</option>
+                          ) : "Low" ? (
+                            <option>Low</option>
+                          ) : (
+                            <option>Lowest</option>
+                          )}
                         </select>
                       </div>
                       <div className="estimate">
                         <h6>ORIGINAL ESTIMATE (HOURS)</h6>
-                        <input type="text" className="estimate-hours" />
+                        <input
+                          type="text"
+                          value={dataTaskDetail?.content.originalEstimate}
+                          className="estimate-hours"
+                        />
                       </div>
-                      <div className="time-tracking">
+                      <div className="time-tracking mt-4">
                         <h6>TIME TRACKING</h6>
                         <div style={{ display: "flex" }}>
                           <i className="fa fa-clock" />
@@ -292,9 +306,13 @@ function CardMain({ value, index }) {
                                 className="progress-bar"
                                 role="progressbar"
                                 style={{ width: "25%" }}
-                                aria-valuenow={25}
+                                aria-valuenow={
+                                  dataTaskDetail?.content
+                                    .timeTrackingRemaining +
+                                  dataTaskDetail?.content.timeTrackingSpent
+                                }
                                 aria-valuemin={0}
-                                aria-valuemax={100}
+                                aria-valuemax={20}
                               />
                             </div>
                             <div
@@ -303,8 +321,14 @@ function CardMain({ value, index }) {
                                 justifyContent: "space-between",
                               }}
                             >
-                              <p className="logged">4h logged</p>
-                              <p className="estimate-time">12h estimated</p>
+                              <p className="logged">
+                                {dataTaskDetail?.content.timeTrackingRemaining}h
+                                logged
+                              </p>
+                              <p className="estimate-time">
+                                {dataTaskDetail?.content.timeTrackingSpent}h
+                                estimated
+                              </p>
                             </div>
                           </div>
                         </div>
