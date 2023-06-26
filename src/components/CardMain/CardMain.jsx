@@ -12,13 +12,12 @@ import {
   apiUpdateComment,
   apiDeleteComment,
 } from "./../../apis/commentAPI";
-import Antd_Button from "../Button/Neon_Button/Antd_Button";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import "./CardMain.scss";
 import Avatar from "@mui/material/Avatar";
 import { Button, Form, Row, Col } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
-// import parse from "html-react-parser";
+import parse from "html-react-parser";
 
 function stringToColor(string) {
   let hash = 0;
@@ -57,21 +56,29 @@ function CardMain({ value, index }) {
 
   const [comment, setComment] = useState([]);
 
+  const getComment = async () => {
+    try {
+      const data = await apiGetComment(dataTaskDetail?.content.taskId);
+      const newData = data.content;
+      setComment(newData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const nameLogin = JSON.parse(localStorage.getItem("user"))?.name;
   useEffect(() => {
     setName(nameLogin);
-    getComment();
   }, []);
 
-  // // modal bootstrap
   const [show, setShow] = useState(false);
-  // const [listUser, setListProject] = useState([]);
   const [dataTaskDetail, setDataTaskDetail] = useState();
-  console.log(dataTaskDetail);
   const commentRef = useRef();
-  const handleAddComment = async () => {
+
+  const handleAddComment = async (taskId) => {
+    console.log(taskId);
     const payload = {
-      taskId: 10156,
+      taskId: taskId,
       contentComment: commentRef.current.value,
     };
     await apiInsertComment(payload);
@@ -96,29 +103,13 @@ function CardMain({ value, index }) {
     }
   };
 
-  // const getListProjects = async () => {
-  //   try {
-  //     const data = await apigetProject();
-  //     setListProject(data.content);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  const getComment = async () => {
-    try {
-      const data = await apiGetComment(10156);
-      const newData = data.content;
-      setComment(newData);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const handleClose = () => setShow(false);
-  const handleShow = (value) => {
-    setShow(true);
+  const handleMouseEnter = (value) => {
     getDataTaskDetail(value);
+  };
+  const handleShow = () => {
+    setShow(true);
+    getComment();
   };
   return (
     <>
@@ -145,7 +136,10 @@ function CardMain({ value, index }) {
                         {...provided.dragHandleProps}
                         ref={provided.innerRef}
                         className="cards"
-                        onClick={() => handleShow(item.taskId)}
+                        onClick={handleShow}
+                        onMouseEnter={() => {
+                          handleMouseEnter(item.taskId);
+                        }}
                       >
                         <h5> {item.taskName} </h5>
                         <div className="card-body">
@@ -176,7 +170,7 @@ function CardMain({ value, index }) {
                   </h3>
                   <div className="description">
                     <h3 style={{ display: "inline-block" }}>Description: </h3>
-                    {/* {parse(`${dataTaskDetail?.content.description}`)} */}
+                    {parse(`${dataTaskDetail?.content.description}`)}
                   </div>
                   <div style={{ fontWeight: 500, marginBottom: 10 }}>
                     Jira Software (software projects) issue types:
@@ -198,7 +192,9 @@ function CardMain({ value, index }) {
                     </div>
                     <div className="mt-3">
                       <Button
-                        onClick={handleAddComment}
+                        onClick={() =>
+                          handleAddComment(dataTaskDetail?.content.taskId)
+                        }
                         size="lg"
                         type="primary"
                       >
@@ -214,10 +210,7 @@ function CardMain({ value, index }) {
                               style={{ display: "flex" }}
                             >
                               <div className="avatar">
-                                <img
-                                  src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIACIAIgMBEQACEQEDEQH/xAAZAAADAQEBAAAAAAAAAAAAAAAEBQYHAwL/xAAxEAACAQIEAwYDCQAAAAAAAAABAgMEEQASITEFIkEGE0JRcZEUYdEjMjNDcoGCsfD/xAAaAQADAQEBAQAAAAAAAAAAAAADBAUCAQYA/8QALxEAAQIEAwYFBAMAAAAAAAAAAQACAxEhMQQSUSJBYXGh8BMykbHRBVKB4YLC8f/aAAwDAQACEQMRAD8An+3zZeNpHTSKe7BZHV75s+uh23zC31tiZhtpgcb9hWw7YkRT4/1LKQyCKKppY7FmySIRy3Olv0m5Hy9saewgZgqGHjw3vdCiOsKHrPmKdzTSLL3j0tDzQzrdZZLHmXa+lhvb+V/LAQJUG9PveXNEWPRzdwmKG9jM6/iWqBd6lGgeGYzTMxVYQxOckAADodW6bYJDBIkUlj/DzTa3LastJnn63V0U43Ic8AHdNqmvh6YKY0jJeYyg1KzatijGdbOGtyjSyG+txby/vGWGk5K/iaxMrXB09/TjK/Sap+xU3Cajh1Xw3iTBJA5eCcrzANa4t1BsLj0O4BHXvIqKhTIkJ8N4cKfIQz0ZhkNLHKkkTNnyK4V3IF8yk6XAubG2l998Ca0P8voqY+oOJzRRtWB3cQRevDhZdyKHh/EI5KlY7xp3gRQwIUgsSL9QGK6ag62FhcjWkAlt0riY8R+wTQ8qykN2sv3VaRR9t+yC0kCtVgERqCGp3vt1sMYJbqlz9Nxf2FYdVydzMJAt0DG4PivgkECqofUC/ZLjW3pdcIpHLK8bqCpsSQAP301GO7TSuHwojZumdRWfMJzRV8UKsXVQGFyY7gC24seYHyN97WHXGXOJoF9Cw7WDOakWHsdJajS53JZxziTVnIkZjMrkAE3IBN/LYa+5wSC0Nm4oOOe6KWw23Mh3U8E2i4NP3aXrKReUaOxBHry74AROswqQisYMpY6Y0t7pXWR5lJb79rC/VT/tPX0xphIKDHY1zTIU38/zfj+ygEARtGAPKBfB5TFVNDnQ3Zm9F0+PDQBWhfODq6tuOmOeFKxRRjM3nbbh6m/z1XvhotWfGSxB0h8Lagm9tfW/tfGYhkzKETCAPj+I6mnDiO+asBHwmUCR5iGfmIZSSCfnhAhpM5r0jX42GAxrAQKXU42sKnrnOvthkVJ73hS4my1svt/q5BVwAn0H5n1wy2yiupEkgqX8KQ+W2CuugQ6tHNM+HE/AV4ubGNCR5/aLhd+9UYHmhfy9lWUVPA1FTs0MZJjUklRrphbKNFWfGiBxAcfVf//Z"
-                                  alt
-                                />
+                                <img src={item.user.avatar} alt />
                               </div>
                               <div className="mx-3">
                                 <p style={{ marginBottom: 5 }}>
