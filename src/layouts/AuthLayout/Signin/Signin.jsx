@@ -8,7 +8,7 @@ import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import styles from "./Signin.module.scss";
 import { apiSignup } from "../../../apis/userAPI";
 import { apiLoginFb } from "../../../apis/loginfb";
-import FacebookLogin from "react-facebook-login";
+// import FacebookLogin from "react-facebook-login";
 import { signin } from "../../../slice/userslice";
 import Alert from "@mui/material/Alert";
 
@@ -124,7 +124,7 @@ function Signin() {
           </Button>
         </Form>{" "}
         <div>
-          <FacebookLogin
+          {/* <FacebookLogin
             appId="217248044557849"
             autoLoad={false}
             size="medium"
@@ -132,7 +132,7 @@ function Signin() {
             callback={responseFacebook}
             icon="fa-facebook"
             textButton="Login facebook(mất acc)"
-          />
+          /> */}
         </div>
       </div>
     </div>
