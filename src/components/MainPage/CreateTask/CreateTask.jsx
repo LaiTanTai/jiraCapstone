@@ -21,6 +21,8 @@ import Alert from "@mui/material/Alert";
 import { Select, Space, DatePicker, Slider, InputNumber } from "antd";
 import { Editor } from "@tinymce/tinymce-react";
 import { NewReleases } from "@mui/icons-material";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const schema = yup.object({
   // listUserAsign: yup.string().required("Danh sách user không được để trống"),
@@ -101,7 +103,7 @@ function CreateTask() {
       setProjectId(Ref);
       getListUser(Ref);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.content);
     }
   };
 
@@ -111,7 +113,7 @@ function CreateTask() {
       const newData = data.content;
       setStatus(newData);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.content);
     }
   };
 
@@ -121,7 +123,7 @@ function CreateTask() {
       const newData = data.content;
       setPriority(newData);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.content);
     }
   };
   const getListTaskType = async () => {
@@ -130,7 +132,7 @@ function CreateTask() {
       const newData = data.content;
       setTaskType(newData);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.content);
     }
   };
   const getListUser = async (ref) => {
@@ -149,7 +151,7 @@ function CreateTask() {
         setUser(newData);
       }
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.content);
     }
   };
 
@@ -159,7 +161,7 @@ function CreateTask() {
       const newData = data.content;
       console.log("newData", newData);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.content);
     }
   };
 
@@ -187,7 +189,7 @@ function CreateTask() {
       await apiCreateTask(payload);
     } catch (error) {
       setErrorSignUp(error);
-      console.log(error.response);
+      toast.error(error.response.data.content);
     }
   };
 
@@ -216,6 +218,7 @@ function CreateTask() {
 
   return (
     <div className={`${styles.bannerBackGround}`}>
+      <ToastContainer />
       <div className={`${styles.feature} `}>
         <h1 className={`${styles.text} text-center mb-4`}>Create Task</h1>
         <Form>

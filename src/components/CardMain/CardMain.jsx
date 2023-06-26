@@ -12,6 +12,8 @@ import Avatar from "@mui/material/Avatar";
 import { Button, Form, Row, Col } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import parse from "html-react-parser";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function stringToColor(string) {
   let hash = 0;
@@ -55,7 +57,7 @@ function CardMain({ value, index }) {
       const data = await apiGetTaskDetail(taskId);
       setDataTaskDetail(data);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.content);
     }
   };
 
@@ -65,7 +67,7 @@ function CardMain({ value, index }) {
       const newData = data.content;
       setComment(newData);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.content);
     }
   };
 
@@ -74,7 +76,7 @@ function CardMain({ value, index }) {
       await apiRemoveTask(taskId);
       window.location.reload();
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.content);
     }
   };
   const nameLogin = JSON.parse(localStorage.getItem("user"))?.name;
@@ -100,7 +102,7 @@ function CardMain({ value, index }) {
       await apiDeleteComment(id);
       await getComment();
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.content);
     }
   };
 
@@ -114,7 +116,7 @@ function CardMain({ value, index }) {
   };
   return (
     <>
-      <Droppable droppableId={`drop ${index}`}>
+      <Droppable style={{ width: "25%" }} droppableId={`drop ${index}`}>
         {(provided) => (
           <div
             className="container box__card"

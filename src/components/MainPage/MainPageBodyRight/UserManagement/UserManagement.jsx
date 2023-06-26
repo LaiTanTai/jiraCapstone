@@ -21,6 +21,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
 import Alert from "@mui/material/Alert";
 import * as yup from "yup";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const schema = yup.object({
   email: yup.string().email().required("email không được để trống"),
@@ -73,7 +75,7 @@ function UserManagement() {
       await apiSignup(value);
     } catch (error) {
       setErrorSignUp(error);
-      console.log(error);
+      toast.error(error.response.data.content);
     }
     getListUsers();
     handleClose();
@@ -84,16 +86,15 @@ function UserManagement() {
   const timeoutRef = useRef();
 
   useEffect(() => {
-    console.log(inputRef.current);
     inputRef.current.focus();
   }, []);
 
   const handleDelete = async (item) => {
     try {
       const id = parseInt(item.userId);
-      const data = await apiDeleteUser(id);
+      await apiDeleteUser(id);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.content);
     }
     getListUsers();
   };
@@ -102,9 +103,9 @@ function UserManagement() {
     const payload = { ...value, id: updateUser.userId };
     console.log(payload);
     try {
-      const data = await apiUpdateUser(payload);
+      await apiUpdateUser(payload);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.content);
     }
     getListUsers();
     setShowFix(false);
@@ -134,7 +135,7 @@ function UserManagement() {
         setListUser(data.content);
       }
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.content);
     }
   };
 
@@ -549,6 +550,7 @@ function UserManagement() {
         <Pagination.Next />
         <Pagination.Ellipsis />
       </Pagination>
+      <ToastContainer />
     </div>
   );
 }

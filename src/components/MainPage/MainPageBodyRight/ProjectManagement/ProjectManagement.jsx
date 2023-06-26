@@ -30,6 +30,9 @@ import Alert from "@mui/material/Alert";
 import { Editor } from "@tinymce/tinymce-react";
 import * as yup from "yup";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const schema = yup.object({
   id: yup.number().required("id không được để trống"),
   projectName: yup.string().required("tên project không được để trống"),
@@ -90,7 +93,7 @@ function ProjectManagement() {
     try {
       const data = await apiremoveProject(id);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.content);
     }
     getListProjects();
   };
@@ -102,7 +105,7 @@ function ProjectManagement() {
     try {
       const data = await apiupdateProject(idUser, payload);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.content);
     }
     getListProjects();
     setShowFix(false);
@@ -129,7 +132,7 @@ function ProjectManagement() {
         setListProject(data.content);
       }
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.content);
     }
   };
   const editorRef = useRef(null);
@@ -149,6 +152,7 @@ function ProjectManagement() {
   }, [foundUser]);
   return (
     <div className={style.container}>
+      <ToastContainer />
       <div>
         <h1 className="text-center text-dark">Quản lý dự án</h1>
       </div>

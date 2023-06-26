@@ -9,6 +9,8 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { gettaskAPI } from "../../../../apis/TaskAPI";
 import "./Boards.scss";
 import { Button, Modal } from "antd";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 // Lấy tên user từ phía client localstorage
 
 function Boards() {
@@ -20,7 +22,7 @@ function Boards() {
   //     const data = await apigetProject(value);
   //     setdataproject(data?.content);
   //   } catch (error) {
-  //     console.log(error);
+  //     toast.error(error.response.data.content);
   //   }
   // };
   function handleOnDragEnd(result) {
@@ -56,7 +58,7 @@ function Boards() {
       setdataproject(data?.content.lstTask);
       setmembers(data?.content.members);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.content);
     }
   };
   useEffect(() => {
@@ -65,6 +67,7 @@ function Boards() {
   return (
     <>
       <div>
+        <ToastContainer />
         <div className="header">
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb" style={{ backgroundColor: "white" }}>

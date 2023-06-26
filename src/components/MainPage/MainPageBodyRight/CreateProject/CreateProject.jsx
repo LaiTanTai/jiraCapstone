@@ -20,6 +20,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Editor } from "@tinymce/tinymce-react";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const schema = yup.object({
   projectName: yup.string().required("Tên dự án không được để trống"),
   description: yup.string().required("Mô tả không được để trống"),
@@ -56,7 +59,7 @@ function CreateProject() {
 
       setCategory(newListSystem);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.content);
     }
   };
 
@@ -65,7 +68,7 @@ function CreateProject() {
     try {
       const data = await apiCreateProject(value);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.content);
     }
   };
 
@@ -84,6 +87,7 @@ function CreateProject() {
 
   return (
     <div className={`mt-4 ${style.inputSchedule}`}>
+      <ToastContainer />
       <div>
         <h3 className="text-dark">Create Project</h3>
       </div>
