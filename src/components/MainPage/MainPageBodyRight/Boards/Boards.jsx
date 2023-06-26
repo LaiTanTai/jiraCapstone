@@ -49,15 +49,18 @@ function Boards() {
     );
     setdataproject(newdataProject);
   }
+
+  const getDetail = async () => {
+    try {
+      const data = await apigetProjectDetail(12863);
+      setdataproject(data?.content.lstTask);
+      setmembers(data?.content.members);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
-    apigetProjectDetail(12863)
-      .then((res) => {
-        setdataproject(res.content.lstTask);
-        setmembers(res.content.members);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    getDetail();
   }, []);
   return (
     <>

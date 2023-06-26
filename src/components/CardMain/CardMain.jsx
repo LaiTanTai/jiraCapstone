@@ -60,6 +60,7 @@ function CardMain({ value, index }) {
   const nameLogin = JSON.parse(localStorage.getItem("user"))?.name;
   useEffect(() => {
     setName(nameLogin);
+    getComment();
   }, []);
 
   // // modal bootstrap
