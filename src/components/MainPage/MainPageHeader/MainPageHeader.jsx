@@ -8,6 +8,8 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import { signout } from "../../../slice/userslice";
 import Avatar from "@mui/material/Avatar";
+// import { Header } from "antd/es/layout/layout";
+import Header from "../../Header/Header";
 
 function stringToColor(string) {
   let hash = 0;
@@ -57,14 +59,7 @@ function MainPageHeader() {
   return (
     <Navbar bg="light" expand="lg" sticky="top">
       <Container>
-        <div className={styles.navbar_brand}>
-          <DiJira style={{ fontSize: "2rem", color: "#ffa526" }} />
-          <Navbar.Brand
-            style={{ fontSize: "2rem", fontWeight: "700", color: "#d085e5" }}
-          >
-            Jira Scrypt
-          </Navbar.Brand>
-        </div>
+        <Header />
         <div>
           <Dropdown>
             <Dropdown.Toggle>

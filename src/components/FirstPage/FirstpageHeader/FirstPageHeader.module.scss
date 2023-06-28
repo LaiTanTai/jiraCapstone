@@ -1,9 +1,11 @@
 @import './../../Color/Color.scss';
-.navbar_brand{
+
+.navbar_brand {
     display: flex;
     align-items: center;
 }
-.navbar_text{
+
+.navbar_text {
     font-size: 3rem;
     color: $fourth-color;
 }
