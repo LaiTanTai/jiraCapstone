@@ -4,7 +4,7 @@ import { PlusOutlined, CloseCircleFilled } from "@ant-design/icons";
 import style from "./Antd_Button.module.scss";
 import { apiremoveUser, apigetProject } from "../../../apis/projectAPI";
 import { getAssignUserProject } from "../../../apis/TaskAPI";
-import { apiGetUser } from "../../../apis/userAPI";
+import { apiGetUser, apiGetUserById } from "../../../apis/userAPI";
 import {
   Container,
   Row,
@@ -16,9 +16,10 @@ import {
   Table,
 } from "react-bootstrap";
 
-function Antd_Button({ setList, members, project }) {
+function Antd_Button({ setList, project }) {
   const [show, setShow] = useState(false);
   const [userId, setUserId] = useState([]);
+  const [members, setMembers] = useState([]);
   const [user, setUser] = useState([]);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -30,6 +31,7 @@ function Antd_Button({ setList, members, project }) {
         projectId: project,
       };
       const data = await apiremoveUser(payload);
+      getUserId(project);
     } catch (error) {
       console.log(error);
     }
@@ -38,6 +40,15 @@ function Antd_Button({ setList, members, project }) {
     try {
       const data = await apiGetUser();
       setUser(data.content);
+      getUserId(project);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const getUserId = async (project) => {
+    try {
+      const data = await apiGetUserById(project);
+      setMembers(data.content);
     } catch (err) {
       console.log(err);
     }
@@ -45,7 +56,8 @@ function Antd_Button({ setList, members, project }) {
 
   useEffect(() => {
     getUser();
-  }, []);
+    getUserId(project);
+  }, [user]);
   const getIdUser = async (value) => {
     console.log("value1", value);
     for (let i = 0; i < value.length; i++) {

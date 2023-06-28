@@ -188,11 +188,7 @@ function ProjectManagement() {
                   <td>{item.categoryName}</td>
                   <td>{item.creator?.name}</td>
                   <td>
-                    <Antd_Button
-                      setList={setListProject}
-                      project={item.id}
-                      members={item.members}
-                    />
+                    <Antd_Button setList={setListProject} project={item.id} />
                   </td>
                   <td>
                     <div className="d-flex justify-content-between">

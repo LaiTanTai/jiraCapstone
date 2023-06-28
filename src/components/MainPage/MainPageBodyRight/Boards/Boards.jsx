@@ -105,14 +105,15 @@ function Boards() {
         <div>
           <Row className="mb-3">
             <Form.Group as={Col} controlId="formGridEmail">
-              <Form.Label className="text-dark">Chọn dự án</Form.Label>
+              <Form.Label className="text-dark">CHỌN DỰ ÁN</Form.Label>
               <Form.Select ref={projectRef} onChange={getProject}>
-                <option>Chọn dự án</option>
+                <option>Chọn dự án để hiện task</option>
                 {selectedProject.map((item) => {
                   return <option value={item.id}>{item.projectName}</option>;
                 })}
               </Form.Select>
             </Form.Group>
+            <Form.Group as={Col} controlId="formGridEmail"></Form.Group>
             <Form.Group as={Col} controlId="formGridEmail"></Form.Group>
           </Row>
         </div>
