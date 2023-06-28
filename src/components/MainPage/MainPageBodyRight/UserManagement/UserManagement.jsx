@@ -232,27 +232,175 @@ function UserManagement() {
           </thead>
           <tbody>
             {listUser.map((item, index) => {
-              return (
-                <tr className="text-dark text-center" key={index}>
-                  <td>{index + 1}</td>
-                  <td>{item.userId}</td>
-                  <td>{item.email}</td>
-                  <td>{item.name}</td>
-                  <td>{item.phoneNumber}</td>
-                  <td>
-                    <Button
-                      onClick={() => {
-                        handleChooseUser(item);
-                      }}
-                    >
-                      Sửa
-                    </Button>
-                  </td>
-                  <td>
-                    <Button onClick={() => handleDelete(item)}>Xóa</Button>
-                  </td>
-                </tr>
-              );
+              if (page === 1) {
+                if (index < 10) {
+                  return (
+                    <tr className="text-dark text-center" key={index}>
+                      <td>{index + 1}</td>
+                      <td>{item.userId}</td>
+                      <td>{item.email}</td>
+                      <td>{item.name}</td>
+                      <td>{item.phoneNumber}</td>
+                      <td>
+                        <Button
+                          onClick={() => {
+                            handleChooseUser(item);
+                          }}
+                        >
+                          Sửa
+                        </Button>
+                      </td>
+                      <td>
+                        <Button onClick={() => handleDelete(item)}>Xóa</Button>
+                      </td>
+                    </tr>
+                  );
+                }
+              } else if (page === 2) {
+                if (index >= 10 && index < 20) {
+                  return (
+                    <tr className="text-dark text-center" key={index}>
+                      <td>{index + 1}</td>
+                      <td>{item.userId}</td>
+                      <td>{item.email}</td>
+                      <td>{item.name}</td>
+                      <td>{item.phoneNumber}</td>
+                      <td>
+                        <Button
+                          onClick={() => {
+                            handleChooseUser(item);
+                          }}
+                        >
+                          Sửa
+                        </Button>
+                      </td>
+                      <td>
+                        <Button onClick={() => handleDelete(item)}>Xóa</Button>
+                      </td>
+                    </tr>
+                  );
+                }
+              } else if (page === 3) {
+                if (index >= 20 && index < 30) {
+                  return (
+                    <tr className="text-dark text-center" key={index}>
+                      <td>{index + 1}</td>
+                      <td>{item.userId}</td>
+                      <td>{item.email}</td>
+                      <td>{item.name}</td>
+                      <td>{item.phoneNumber}</td>
+                      <td>
+                        <Button
+                          onClick={() => {
+                            handleChooseUser(item);
+                          }}
+                        >
+                          Sửa
+                        </Button>
+                      </td>
+                      <td>
+                        <Button onClick={() => handleDelete(item)}>Xóa</Button>
+                      </td>
+                    </tr>
+                  );
+                }
+              } else if (page === 4) {
+                if (index >= 30 && index < 40) {
+                  return (
+                    <tr className="text-dark text-center" key={index}>
+                      <td>{index + 1}</td>
+                      <td>{item.userId}</td>
+                      <td>{item.email}</td>
+                      <td>{item.name}</td>
+                      <td>{item.phoneNumber}</td>
+                      <td>
+                        <Button
+                          onClick={() => {
+                            handleChooseUser(item);
+                          }}
+                        >
+                          Sửa
+                        </Button>
+                      </td>
+                      <td>
+                        <Button onClick={() => handleDelete(item)}>Xóa</Button>
+                      </td>
+                    </tr>
+                  );
+                }
+              } else if (page === 5) {
+                if (index >= 40 && index < 50) {
+                  return (
+                    <tr className="text-dark text-center" key={index}>
+                      <td>{index + 1}</td>
+                      <td>{item.userId}</td>
+                      <td>{item.email}</td>
+                      <td>{item.name}</td>
+                      <td>{item.phoneNumber}</td>
+                      <td>
+                        <Button
+                          onClick={() => {
+                            handleChooseUser(item);
+                          }}
+                        >
+                          Sửa
+                        </Button>
+                      </td>
+                      <td>
+                        <Button onClick={() => handleDelete(item)}>Xóa</Button>
+                      </td>
+                    </tr>
+                  );
+                }
+              } else if (page === 6) {
+                if (index >= 50 && index < 60) {
+                  return (
+                    <tr className="text-dark text-center" key={index}>
+                      <td>{index + 1}</td>
+                      <td>{item.userId}</td>
+                      <td>{item.email}</td>
+                      <td>{item.name}</td>
+                      <td>{item.phoneNumber}</td>
+                      <td>
+                        <Button
+                          onClick={() => {
+                            handleChooseUser(item);
+                          }}
+                        >
+                          Sửa
+                        </Button>
+                      </td>
+                      <td>
+                        <Button onClick={() => handleDelete(item)}>Xóa</Button>
+                      </td>
+                    </tr>
+                  );
+                }
+              } else if (page === 7) {
+                if (index >= 60 && index < 70) {
+                  return (
+                    <tr className="text-dark text-center" key={index}>
+                      <td>{index + 1}</td>
+                      <td>{item.userId}</td>
+                      <td>{item.email}</td>
+                      <td>{item.name}</td>
+                      <td>{item.phoneNumber}</td>
+                      <td>
+                        <Button
+                          onClick={() => {
+                            handleChooseUser(item);
+                          }}
+                        >
+                          Sửa
+                        </Button>
+                      </td>
+                      <td>
+                        <Button onClick={() => handleDelete(item)}>Xóa</Button>
+                      </td>
+                    </tr>
+                  );
+                }
+              }
             })}
           </tbody>
           <Modal
@@ -332,6 +480,76 @@ function UserManagement() {
         </Table>
       </div>
 
+      <Pagination>
+        <Pagination.Ellipsis />
+        <Pagination.Prev />
+        <Pagination.Item
+          onClick={() => {
+            handlePage(1);
+          }}
+          active={page === 1 ? 1 : ""}
+        >
+          {1}
+        </Pagination.Item>
+        <Pagination.Item
+          onClick={() => {
+            handlePage(2);
+          }}
+          active={page === 2 ? 2 : ""}
+        >
+          {2}
+        </Pagination.Item>
+        <Pagination.Item
+          onClick={() => {
+            handlePage(3);
+          }}
+          active={page === 3 ? 3 : ""}
+        >
+          {3}
+        </Pagination.Item>
+        <Pagination.Item
+          onClick={() => {
+            handlePage(4);
+          }}
+          active={page === 4 ? 4 : ""}
+        >
+          {4}
+        </Pagination.Item>
+        <Pagination.Item
+          onClick={() => {
+            handlePage(5);
+          }}
+          active={page === 5 ? 5 : ""}
+        >
+          {5}
+        </Pagination.Item>
+        <Pagination.Item
+          onClick={() => {
+            handlePage(6);
+          }}
+          active={page === 6 ? 6 : ""}
+        >
+          {6}
+        </Pagination.Item>
+        <Pagination.Item
+          onClick={() => {
+            handlePage(7);
+          }}
+          active={page === 7 ? 7 : ""}
+        >
+          {7}
+        </Pagination.Item>
+        <Pagination.Item
+          onClick={() => {
+            handlePage(8);
+          }}
+          active={page === 8 ? 8 : ""}
+        >
+          {8}
+        </Pagination.Item>
+        <Pagination.Next />
+        <Pagination.Ellipsis />
+      </Pagination>
       <ToastContainer />
     </div>
   );
