@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import style from "./Boards.module.scss";
 import CardMain from "../../../CardMain/CardMain";
 import {
@@ -9,13 +9,16 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { gettaskAPI } from "../../../../apis/TaskAPI";
 import "./Boards.scss";
 import { Button, Modal } from "antd";
+import { Container, Row, Col, Form, Pagination } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { set } from "react-hook-form";
 // Lấy tên user từ phía client localstorage
 
 function Boards() {
   const [dataproject, setdataproject] = useState([]);
   const [members, setmembers] = useState([]);
+  const [selectedProject, setSelectProject] = useState([]);
   // console.log(dataproject);
   // const getDataAllProject = async (value) => {
   //   try {
@@ -51,18 +54,37 @@ function Boards() {
     );
     setdataproject(newdataProject);
   }
-
+  const projectRef = useRef();
   const getDetail = async () => {
     try {
-      const data = await apigetProjectDetail(12863);
+      let id = projectRef.current.value;
+      const data = await apigetProjectDetail(id);
       setdataproject(data?.content.lstTask);
       setmembers(data?.content.members);
     } catch (error) {
       toast.error(error.response.data.content);
     }
   };
+
+  const getProject = async () => {
+    try {
+      const value = "";
+      const data = await apigetProject(value);
+      const id = JSON.parse(localStorage.getItem("user"))?.id;
+      console.log("id", id);
+      const newData = data?.content.filter((item) => {
+        return item.creator.id === id;
+      });
+      setSelectProject(newData);
+      getDetail();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getDetail();
+    getProject();
   }, []);
   return (
     <>
@@ -80,6 +102,21 @@ function Boards() {
           </nav>
         </div>
         <h3>Cyber Board</h3>
+        <div>
+          <Row className="mb-3">
+            <Form.Group as={Col} controlId="formGridEmail">
+              <Form.Label className="text-dark">CHỌN DỰ ÁN</Form.Label>
+              <Form.Select ref={projectRef} onChange={getProject}>
+                <option>Chọn dự án để hiện task</option>
+                {selectedProject.map((item) => {
+                  return <option value={item.id}>{item.projectName}</option>;
+                })}
+              </Form.Select>
+            </Form.Group>
+            <Form.Group as={Col} controlId="formGridEmail"></Form.Group>
+            <Form.Group as={Col} controlId="formGridEmail"></Form.Group>
+          </Row>
+        </div>
         <div className="info" style={{ display: "flex" }}>
           <div className="search-block">
             <input className="search" />

@@ -12,6 +12,7 @@ import {
   Pagination,
   Button,
 } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import style from "./CreateProject.module.scss";
 import Table from "react-bootstrap/Table";
 import { useForm } from "react-hook-form";
@@ -30,6 +31,7 @@ const schema = yup.object({
 
 function CreateProject() {
   const [category, setCategory] = useState([]);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -67,6 +69,9 @@ function CreateProject() {
     console.log("value", value);
     try {
       const data = await apiCreateProject(value);
+      if (data.statusCode === 200) {
+        toast.success("Tạo task thành công");
+      }
     } catch (error) {
       toast.error(error.response.data.content);
     }

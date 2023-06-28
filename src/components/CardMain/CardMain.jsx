@@ -86,6 +86,7 @@ function CardMain({ value, index }) {
 
   const [show, setShow] = useState(false);
   const [dataTaskDetail, setDataTaskDetail] = useState();
+  console.log(dataTaskDetail);
   const commentRef = useRef();
 
   const handleAddComment = async (taskId) => {
