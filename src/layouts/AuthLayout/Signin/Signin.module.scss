@@ -10,13 +10,17 @@
     background-size: auto 100%, auto;
     width: 100%;
     min-height: 100vh;
+    position: relative;
 }
 .feature{
-    width: 100%;
-    padding: 200px 600px;
+    position: absolute;
+    width: 400px;
+    top: 50%;
+    left:50%;
+    transform: translate(-50%,-50%);
 }
 .text{
-    font-size: 3rem;
+    font-size: 3em;
 }
 .icon{
     width: 100%;

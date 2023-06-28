@@ -72,7 +72,7 @@ function Signin() {
   };
 
   return (
-    <div className={`${styles.bannerBackGround}`}>
+    <div className={`text-center ${styles.bannerBackGround}`}>
       <div className={`${styles.feature} `}>
         <h1 className={`${styles.text} text-center mb-4`}>Đăng Nhập</h1>
         <Form>
