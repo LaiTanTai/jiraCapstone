@@ -2,48 +2,38 @@
     display: flex;
     height: 100%;
 }
+
 .pageRightOpen {
-    margin-left: 200px;
-    flex-basis: 90%;
+    margin-left: 30px;
     width: 100%;
-}
-.pageRightClose {
-    margin-left: 100px;
-    flex-basis: 70%;
-    width: 100%;
-}
-@media screen and (min-width:500px){
-    .pageRightOpen {
-        flex-basis: 70%;
-        width: 100%;
-    }
-    .pageRightClose {
-        flex-basis: 70%;
-        width: 100%;
-    }
-}
-.sideBarOpen {
-    flex-basis: 80px;
 }
 
-.sideBarClose {
-    flex-basis: 50px;
+.pageRightClose {
+    margin-left: 20px;
+    width: 100%;
 }
+
+// @media screen and (min-width:500px) {
+//     .pageRightOpen {
+//         flex-basis: 70%;
+//         width: 100%;
+//     }
+
+//     .pageRightClose {
+//         flex-basis: 70%;
+//         width: 100%;
+//     }
+// }
 
 .pageLeftOpen {
-    flex-basis: 30px;
+    width: 20%;
 }
 
 .pageLeftClose {
-    transform: translateX(55px);
-    position: fixed;
-    height: 720px;
-    flex-basis: 0%;
-    width: 20px;
+    // transform: translateX(55px);
+    height: 100%;
+    width: 30px;
     border-right: 1px solid rgb(66 153 225 / .5);
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
 }
-
-
-

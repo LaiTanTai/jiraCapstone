@@ -7,7 +7,7 @@ import ProjectManagement from "./ProjectManagement/ProjectManagement";
 
 function MainPageBodyRight({ render }) {
   return (
-    <div>
+    <div style={{ height: "100vh" }}>
       {render == "Boards" ? (
         <Boards />
       ) : render == "CreateProject" ? (

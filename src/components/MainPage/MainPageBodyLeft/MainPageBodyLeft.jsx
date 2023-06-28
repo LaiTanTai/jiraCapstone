@@ -8,6 +8,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import NewReleasesRoundedIcon from "@mui/icons-material/NewReleasesRounded";
 import GppGoodRoundedIcon from "@mui/icons-material/GppGoodRounded";
 import SettingsInputComponentRoundedIcon from "@mui/icons-material/SettingsInputComponentRounded";
+import { useNavigate } from "react-router-dom";
 
 function MainPageBodyLeft({ open, setOpen, setRender }) {
   const [renderOpen, setRenderOpen] = useState(false);
@@ -23,6 +24,12 @@ function MainPageBodyLeft({ open, setOpen, setRender }) {
     setOpen(false);
     setRenderOpen(true);
     setRenderClose(false);
+  };
+
+  // nav Create Task
+  const navigate = useNavigate();
+  const handleCreateTask = () => {
+    return navigate("/Main/CreateTask");
   };
   return (
     <>
@@ -111,6 +118,18 @@ function MainPageBodyLeft({ open, setOpen, setRender }) {
               >
                 <SettingsIcon sx={{ width: "25%" }} />
                 Project Management
+              </a>
+              <a
+                href="#"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  height: "35px",
+                }}
+                onClick={handleCreateTask}
+              >
+                <SettingsIcon sx={{ width: "25%" }} />
+                Create Task
               </a>
             </div>
 

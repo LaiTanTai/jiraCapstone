@@ -117,11 +117,7 @@ function Boards() {
             <Form.Group as={Col} controlId="formGridEmail"></Form.Group>
           </Row>
         </div>
-        <div className="info" style={{ display: "flex" }}>
-          <div className="search-block">
-            <input className="search" />
-            <i className="fa fa-search" />
-          </div>
+        <div className="info mb-3" style={{ display: "flex" }}>
           <div className="avatar-group" style={{ display: "flex" }}>
             {members.map((ava) => {
               return (

@@ -105,12 +105,26 @@
 @media screen and (min-width:768px) {
     .box__card {
         width: 50%;
+
+        .card__times {
+            font-size: 15px;
+        }
+
+
     }
 }
 
 @media screen and (min-width:986px) {
     .box__card {
         width: 33%;
+
+        .card__times {
+            font-size: 16px;
+        }
+
+        .drop_padding {
+            font-size: 14px;
+        }
     }
 }
 

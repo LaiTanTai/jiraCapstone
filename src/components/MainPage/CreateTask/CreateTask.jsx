@@ -23,6 +23,8 @@ import { Editor } from "@tinymce/tinymce-react";
 import { NewReleases } from "@mui/icons-material";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Header from "../../Header/Header";
+import Footer from "../../Footer/Footer";
 
 const schema = yup.object({
   // listUserAsign: yup.string().required("Danh sách user không được để trống"),
@@ -221,6 +223,7 @@ function CreateTask() {
 
   return (
     <div className={`${styles.bannerBackGround}`}>
+      <Header />
       <ToastContainer />
       <div className={`${styles.feature} `}>
         <h1 className={`${styles.text} text-center mb-4`}>Create Task</h1>
@@ -392,6 +395,7 @@ function CreateTask() {
           </Button>
         </Form>{" "}
       </div>
+      <Footer />
     </div>
   );
 }

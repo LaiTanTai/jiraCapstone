@@ -12,15 +12,7 @@ import {
   apiremoveProject,
   apiupdateProject,
 } from "../../../../apis/projectAPI";
-import {
-  Container,
-  Row,
-  Col,
-  Modal,
-  Button,
-  Form,
-  Pagination,
-} from "react-bootstrap";
+import { Container, Row, Col, Modal, Button, Form } from "react-bootstrap";
 import style from "./ProjectManagement.module.scss";
 import Table from "react-bootstrap/Table";
 import Antd_Button from "../../../Button/Neon_Button/Antd_Button";
@@ -29,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import Alert from "@mui/material/Alert";
 import { Editor } from "@tinymce/tinymce-react";
 import * as yup from "yup";
+import { Pagination } from "antd";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -151,6 +144,21 @@ function ProjectManagement() {
   useEffect(() => {
     getListProjects();
   }, [foundUser]);
+
+  // antd pagination
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handlePageChange = (page, pageSize) => {
+    setCurrentPage(page);
+  };
+
+  // Tính toán chỉ mục bắt đầu và chỉ mục kết thúc của phần tử trong trang hiện tại
+  const startIndex = (currentPage - 1) * 10;
+  const endIndex = startIndex + 10;
+
+  // Lấy danh sách phần tử trong trang hiện tại
+  const currentItems = listUser.slice(startIndex, endIndex);
+
   return (
     <div className={style.container}>
       <ToastContainer />
@@ -180,7 +188,7 @@ function ProjectManagement() {
             </tr>
           </thead>
           <tbody>
-            {listUser.map((item, index) => {
+            {currentItems.map((item, index) => {
               return (
                 <tr className="text-dark text-center" key={index}>
                   <td>{index + 1}</td>
@@ -294,6 +302,12 @@ function ProjectManagement() {
             </Modal.Footer>
           </Modal>
         </Table>
+        <Pagination
+          current={currentPage}
+          pageSize={10}
+          total={listUser.length}
+          onChange={handlePageChange}
+        />
       </div>
     </div>
   );
