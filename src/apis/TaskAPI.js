@@ -1,11 +1,7 @@
 import axiosAdmin from "./axiosAdmin";
 import axiosClient from "./axiosClient";
 const gettaskAPI = async () => {
-  const { data } = await axiosAdmin.get("/Project/getTaskDetail", {
-    params: {
-      taskId: 10156 || undefined,
-    },
-  });
+  const { data } = await axiosAdmin.get("/Project/getTaskDetail");
   return data;
 };
 

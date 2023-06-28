@@ -92,11 +92,11 @@ function CreateTask() {
   const getListProject = async () => {
     try {
       const name = "";
+      const id = JSON.parse(localStorage.getItem("user"))?.id;
       const data = await apigetProject(name);
-      const newData = data.content;
-      //   const newListSystem = newData.map((item) => {
-      //     return item.projectName;
-      //   });
+      const newData = data?.content.filter((item) => {
+        return item.creator.id === id;
+      });
 
       setProjectName(newData);
       let Ref = inputRef.current?.value;
@@ -185,8 +185,11 @@ function CreateTask() {
         priorityId: +value.priorityId,
         originalEstimate: +value.originalEstimate,
       };
-      console.log("payload", payload);
-      await apiCreateTask(payload);
+      const data = await apiCreateTask(payload);
+      if (data.statusCode === 200) {
+        toast.success("Tạo task thành công");
+        navigate("/Main");
+      }
     } catch (error) {
       setErrorSignUp(error);
       toast.error(error.response.data.content);

@@ -11,7 +11,7 @@ const apiCreateProject = async (values) => {
 const apigetProjectDetail = async (value) => {
   const { data } = await axiosAdmin.get("/Project/getProjectDetail", {
     params: {
-      id: 12863,
+      id: value,
     },
   });
   return data;
