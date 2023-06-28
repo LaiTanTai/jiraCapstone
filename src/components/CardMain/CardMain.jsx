@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { apiGetTaskDetail, apiRemoveTask } from "./../../apis/projectAPI";
+import { apiUpdateTask } from "./../../apis/TaskAPI";
 import {
   apiGetComment,
   apiInsertComment,
@@ -7,13 +8,31 @@ import {
   apiDeleteComment,
 } from "./../../apis/commentAPI";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { useForm } from "react-hook-form";
 import "./CardMain.scss";
+import { Editor } from "@tinymce/tinymce-react";
 import Avatar from "@mui/material/Avatar";
 import { Button, Form, Row, Col } from "react-bootstrap";
+import { Select, Space, DatePicker, Slider, InputNumber } from "antd";
 import Modal from "react-bootstrap/Modal";
 import parse from "html-react-parser";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+const schema = yup.object({
+  // listUserAsign: yup.string().required("Danh sách user không được để trống"),
+  // taskName: yup.string().required("task name không được để trống"),
+  // description: yup.string().required("mô tả không được để trống"),
+  // statusId: yup.number().required("trạng thái không được để trống"),
+  // originalEstimate: yup
+  //   .number()
+  //   .required("thời gian dự kiến không được để trống"),
+  // projectId: yup.number().required("dự án không được để trống"),
+  // typeId: yup.number().required("loại task không được để trống"),
+  // priorityId: yup.number().required("ưu tiên không được để trống"),
+});
 
 function stringToColor(string) {
   let hash = 0;
@@ -47,10 +66,63 @@ function stringAvatar(name) {
   };
 }
 
-function CardMain({ value, index }) {
+function CardMain({ lstTaskDeTail, value, index }) {
+  console.log("value", value);
   const [name, setName] = useState("");
-
+  const [inputValue, setInputValue] = useState(1);
   const [comment, setComment] = useState([]);
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    // declare initial value for inputs
+    defaultValues: {
+      taskId: 0,
+      // listUserAsign: [],
+      // taskName: "",
+      description: "",
+      statusId: 0,
+      originalEstimate: 0,
+      // timeTrackingSpent: 0,
+      // timeTrackingRemaining: 0,
+      projectId: 0,
+      typeId: 0,
+      priorityId: 0,
+    },
+    mode: "onTouched",
+    // Khai báo schema validation bằng yup
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = async (value) => {
+    const newSign = lstTaskDeTail.map((item) => {
+      return item.assigness.map((item) => item.id);
+    });
+    console.log("newSign", newSign);
+    try {
+      // const payload = {
+      //   ...value,
+      //   taskId: dataTaskDetail?.content.taskId,
+      // taskName: dataTaskDetail?.content.taskId,
+      //   listUserAsign: [],
+      //   timeTrackingSpent: +inputSpent.current.value,
+      //   timeTrackingRemaining: +inputRemaining.current.value,
+      //   projectId: lstTaskDeTail[0]?.projectId,
+      //   typeId: +value.typeId,
+      //   priorityId: +value.priorityId,
+      //   originalEstimate: +value.originalEstimate,
+      // };
+      // const data = await apiUpdateTask(payload);
+      // if (data.statusCode === 200) {
+      //   toast.success("Cập nhật task thành công");
+      // }
+    } catch (error) {
+      toast.error(error.response.data.content);
+    }
+  };
 
   const getDataTaskDetail = async (taskId) => {
     try {
@@ -70,6 +142,20 @@ function CardMain({ value, index }) {
       toast.error(error.response.data.content);
     }
   };
+  const onChange = () => {
+    let Spent = inputSpent.current.value;
+    let Timing = inputRemaining.current.value;
+    if (Spent !== undefined && Timing !== undefined) {
+      let Sum = parseInt(Spent) + parseInt(Timing);
+      setInputValue(Sum);
+    } else if (Timing !== undefined) {
+      setInputValue(Timing);
+    } else if (Spent !== undefined) {
+      setInputValue(Spent);
+    }
+  };
+  const inputSpent = useRef();
+  const inputRemaining = useRef();
 
   const removeTask = async (taskId) => {
     try {
@@ -85,6 +171,7 @@ function CardMain({ value, index }) {
   }, []);
 
   const [show, setShow] = useState(false);
+  const [editshow, setEditShow] = useState(false);
   const [dataTaskDetail, setDataTaskDetail] = useState();
   console.log(dataTaskDetail);
   const commentRef = useRef();
@@ -108,6 +195,7 @@ function CardMain({ value, index }) {
   };
 
   const handleClose = () => setShow(false);
+  const handleEditClose = () => setEditShow(false);
   const handleMouseEnter = (value) => {
     getDataTaskDetail(value);
   };
@@ -115,6 +203,17 @@ function CardMain({ value, index }) {
     setShow(true);
     getComment();
   };
+  const handleEditShow = () => {
+    setEditShow(true);
+    getComment();
+  };
+  const editorRef = useRef(null);
+  const handleDescription = () => {
+    if (editorRef.current) {
+      setValue("description", editorRef.current.getContent());
+    }
+  };
+
   return (
     <>
       <Droppable style={{ width: "25%" }} droppableId={`drop ${index}`}>
@@ -145,6 +244,13 @@ function CardMain({ value, index }) {
                           handleMouseEnter(item.taskId);
                         }}
                       >
+                        <button
+                          type="button"
+                          className="cards_button"
+                          onClick={handleEditShow}
+                        >
+                          Edit task
+                        </button>
                         <h5> {item.taskName} </h5>
                         <div className="card-body">
                           {item.assigness.map((members) => {
@@ -338,12 +444,167 @@ function CardMain({ value, index }) {
                       </div>
                       <button
                         type="button"
-                        class="btn btn-danger"
+                        className="btn btn-danger"
                         onClick={() =>
                           removeTask(dataTaskDetail?.content.taskId)
                         }
                       >
                         delete task
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
+      <Modal show={editshow} size="xl" onHide={handleEditClose}>
+        <Modal.Body>
+          <div className="modal-body">
+            <div className="container-fluid">
+              <div className="row">
+                <div className="col-8">
+                  <Row className="mb-3">
+                    <Form.Group as={Col} controlId="formGridEmail">
+                      <Form.Label>Task Type</Form.Label>
+                      <Form.Select {...register("typeId")}>
+                        <option>Chọn Task Type</option>
+                        <option value="1">Bug</option>
+                        <option value="2">New Task</option>
+                      </Form.Select>
+                    </Form.Group>
+                  </Row>
+                  <Row className="mb-3">
+                    <Form.Group as={Col} controlId="formGridEmail">
+                      <Form.Label className="text-dark">Description</Form.Label>
+                      <Editor
+                        onInit={(evt, editor) => (editorRef.current = editor)}
+                        init={{
+                          height: 200,
+                          menubar: false,
+                          plugins: [
+                            "advlist autolink lists link image charmap print preview anchor",
+                            "searchreplace visualblocks code fullscreen",
+                            "insertdatetime media table paste code help wordcount",
+                          ],
+                          toolbar:
+                            "undo redo | formatselect | " +
+                            "bold italic backcolor | alignleft aligncenter " +
+                            "alignright alignjustify | bullist numlist outdent indent | " +
+                            "removeformat | help",
+                          content_style:
+                            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                        }}
+                        placeholder="Description"
+                        onEditorChange={handleDescription}
+                        {...register("description")}
+                      />
+                    </Form.Group>
+                  </Row>
+                </div>
+                <div className="col-4">
+                  <Row className="mb-3">
+                    <Form.Group as={Col} controlId="formGridEmail">
+                      <Form.Label>Status</Form.Label>
+                      <Form.Select {...register("statusId")}>
+                        <option>Chọn trạng thái</option>
+                        <option value="1">BACKLOG</option>
+                        <option value="2">SELECTED FOR DEVELOPMENT</option>
+                        <option value="3">IN PROGRESS</option>
+                        <option value="4">DONE</option>
+                      </Form.Select>
+                    </Form.Group>
+                  </Row>
+
+                  <div className="assignees mt-4">
+                    <h6>ASSIGNEES</h6>
+                    <div>
+                      <div style={{ display: "flex" }} className="item">
+                        {dataTaskDetail?.content?.assigness.map(
+                          (item, index) => {
+                            return (
+                              <div className="avatar" key={index}>
+                                <img src={item.avatar} />
+                              </div>
+                            );
+                          }
+                        )}
+                      </div>
+                      <div className="priority" style={{ marginBottom: 20 }}>
+                        <Row className="mb-3">
+                          <Form.Group as={Col} controlId="formGridEmail">
+                            <Form.Label>Priority</Form.Label>
+                            <Form.Select {...register("priorityId")}>
+                              <option value="1">Highest</option>
+                              <option value="2">Medium</option>
+                              <option value="3">Low</option>
+                              <option value="4">Lowest</option>
+                            </Form.Select>
+                          </Form.Group>
+                          <Form.Group
+                            as={Col}
+                            controlId="formGridEmail"
+                          ></Form.Group>
+                        </Row>
+                      </div>
+                      <div className="estimate">
+                        <Form.Label>Time tracking</Form.Label>
+                        <Slider
+                          min={1}
+                          max={40}
+                          value={inputValue !== undefined ? inputValue : 0}
+                        />
+                      </div>
+                      <div className="time-tracking mt-4">
+                        <Row className="mb-3">
+                          <Form.Group as={Col} controlId="formGridEmail">
+                            <Form.Label>Original Estimate</Form.Label>
+                            <Form.Control
+                              placeholder="Nhập thời gian dự kiến"
+                              {...register("originalEstimate")}
+                            />
+                          </Form.Group>
+                          <Form.Group as={Col} controlId="formGridEmail">
+                            <Form.Label>Time Spent</Form.Label>
+                            <InputNumber
+                              min={1}
+                              max={20}
+                              ref={inputSpent}
+                              onChange={onChange}
+                              className="form-control"
+                            />
+                          </Form.Group>
+                        </Row>
+                        <Row className="mb-3">
+                          <Form.Group as={Col} controlId="formGridEmail">
+                            <Form.Label>Time Remaining</Form.Label>
+                            <InputNumber
+                              min={1}
+                              max={20}
+                              ref={inputRemaining}
+                              onChange={onChange}
+                              className="form-control"
+                            />
+                          </Form.Group>
+                          <Form.Group
+                            as={Col}
+                            controlId="formGridEmail"
+                          ></Form.Group>
+                        </Row>
+                      </div>
+                      <div style={{ color: "#929398" }}>
+                        Create at a month ago
+                      </div>
+                      <div style={{ color: "#929398" }}>
+                        Update at a few seconds ago
+                      </div>
+                      <button
+                        type="button"
+                        className="btn btn-success mt-3"
+                        onClick={() => handleSubmit(onSubmit)}
+                      >
+                        Update Task
                       </button>
                     </div>
                   </div>

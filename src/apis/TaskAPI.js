@@ -29,6 +29,11 @@ const apiCreateTask = async (values) => {
   return data;
 };
 
+const apiUpdateTask = async (values) => {
+  const { data } = await axiosAdmin.post("/Project/updateTask", values);
+  return data;
+};
+
 const getTaskType = async () => {
   const { data } = await axiosClient.get("/TaskType/getAll");
   return data;
@@ -42,4 +47,5 @@ export {
   getAssignUserTask,
   apiCreateTask,
   getAssignUserProject,
+  apiUpdateTask,
 };
