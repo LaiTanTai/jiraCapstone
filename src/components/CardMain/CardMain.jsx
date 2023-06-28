@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { gettaskAPI } from "./../../apis/TaskAPI";
+import { apiGetTaskDetail, apiRemoveTask } from "./../../apis/projectAPI";
 import {
   apiGetComment,
   apiInsertComment,
@@ -10,9 +10,10 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import "./CardMain.scss";
 import Avatar from "@mui/material/Avatar";
 import { Button, Form, Row, Col } from "react-bootstrap";
-import { Select, Space } from "antd";
 import Modal from "react-bootstrap/Modal";
-import { async } from "q";
+import parse from "html-react-parser";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function stringToColor(string) {
   let hash = 0;
@@ -46,23 +47,51 @@ function stringAvatar(name) {
   };
 }
 
-function CardMain({ value, index}) {
+function CardMain({ value, index }) {
   const [name, setName] = useState("");
 
   const [comment, setComment] = useState([]);
 
+  const getDataTaskDetail = async (taskId) => {
+    try {
+      const data = await apiGetTaskDetail(taskId);
+      setDataTaskDetail(data);
+    } catch (error) {
+      toast.error(error.response.data.content);
+    }
+  };
 
+  const getComment = async () => {
+    try {
+      const data = await apiGetComment(dataTaskDetail?.content.taskId);
+      const newData = data.content;
+      setComment(newData);
+    } catch (error) {
+      toast.error(error.response.data.content);
+    }
+  };
+
+  const removeTask = async (taskId) => {
+    try {
+      await apiRemoveTask(taskId);
+      window.location.reload();
+    } catch (error) {
+      toast.error(error.response.data.content);
+    }
+  };
   const nameLogin = JSON.parse(localStorage.getItem("user"))?.name;
   useEffect(() => {
     setName(nameLogin);
   }, []);
 
-  // // modal bootstrap
   const [show, setShow] = useState(false);
+  const [dataTaskDetail, setDataTaskDetail] = useState();
+  console.log(dataTaskDetail);
   const commentRef = useRef();
-  const handleAddComment = async () => {
+
+  const handleAddComment = async (taskId) => {
     const payload = {
-      taskId: 10156,
+      taskId: taskId,
       contentComment: commentRef.current.value,
     };
     await apiInsertComment(payload);
@@ -74,25 +103,21 @@ function CardMain({ value, index}) {
       await apiDeleteComment(id);
       await getComment();
     } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getComment = async () => {
-    try {
-      const data = await apiGetComment(10156);
-      const newData = data.content;
-      setComment(newData);
-    } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.content);
     }
   };
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleMouseEnter = (value) => {
+    getDataTaskDetail(value);
+  };
+  const handleShow = () => {
+    setShow(true);
+    getComment();
+  };
   return (
     <>
-      <Droppable droppableId={`drop ${index}`}>
+      <Droppable style={{ width: "25%" }} droppableId={`drop ${index}`}>
         {(provided) => (
           <div
             className="container box__card"
@@ -116,6 +141,9 @@ function CardMain({ value, index}) {
                         ref={provided.innerRef}
                         className="cards"
                         onClick={handleShow}
+                        onMouseEnter={() => {
+                          handleMouseEnter(item.taskId);
+                        }}
                       >
                         <h5> {item.taskName} </h5>
                         <div className="card-body">
@@ -140,21 +168,13 @@ function CardMain({ value, index}) {
             <div className="container-fluid">
               <div className="row">
                 <div className="col-8">
-                  <p className="issue">This is an issue of type: Task.</p>
+                  <h3 className="issue">
+                    This is an issue of type:{" "}
+                    {dataTaskDetail?.content.taskTypeDetail.taskType}
+                  </h3>
                   <div className="description">
-                    <p>Description</p>
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                      Esse expedita quis vero tempora error sed reprehenderit
-                      sequi laborum, repellendus quod laudantium tenetur nobis
-                      modi reiciendis sint architecto. Autem libero quibusdam
-                      odit assumenda fugiat? Beatae aliquid labore vitae
-                      obcaecati sapiente asperiores quia amet id aut, natus quo
-                      molestiae quod voluptas, temporibus iusto laudantium sit
-                      tempora sequi. Rem, itaque id, fugit magnam asperiores
-                      voluptas consectetur aliquid vel error illum, delectus eum
-                      eveniet laudantium at repudiandae!
-                    </p>
+                    <h3 style={{ display: "inline-block" }}>Description: </h3>
+                    {parse(`${dataTaskDetail?.content.description}`)}
                   </div>
                   <div style={{ fontWeight: 500, marginBottom: 10 }}>
                     Jira Software (software projects) issue types:
@@ -176,7 +196,9 @@ function CardMain({ value, index}) {
                     </div>
                     <div className="mt-3">
                       <Button
-                        onClick={handleAddComment}
+                        onClick={() =>
+                          handleAddComment(dataTaskDetail?.content.taskId)
+                        }
                         size="lg"
                         type="primary"
                       >
@@ -187,16 +209,14 @@ function CardMain({ value, index}) {
                       {comment.map((item, index) => {
                         return (
                           <div className="comment-item mt-3" key={index}>
-
                             <div
                               className="display-comment"
                               style={{ display: "flex" }}
                             >
                               <div className="avatar">
-
-                                <img src={item.avatar} alt />
+                                <img src={item.user.avatar} alt />
                               </div>
-                              <div>
+                              <div className="mx-3">
                                 <p style={{ marginBottom: 5 }}>
                                   {item.contentComment}
                                 </p>
@@ -208,7 +228,6 @@ function CardMain({ value, index}) {
                                       cursor: "pointer",
                                     }}
                                   >
-
                                     Delete
                                   </span>
                                 </div>
@@ -224,50 +243,57 @@ function CardMain({ value, index}) {
                   <div className="status">
                     <h6>STATUS</h6>
                     <select className="custom-select">
-                      <option selected>SELECTED FOR DEVELOPMENT</option>
-                      <option value={1}>BACKLOG</option>
-                      <option value={2}>IN PROGRESS</option>
-                      <option value={3}>DONE</option>
+                      {dataTaskDetail?.content.statusId === "1" ? (
+                        <option value={1}>BACKLOG</option>
+                      ) : dataTaskDetail?.content.statusId === "2" ? (
+                        <option value={2}>SELECTED FOR DEVELOPMENT</option>
+                      ) : dataTaskDetail?.content.statusId === "3" ? (
+                        <option value={3}>IN PROGRESS</option>
+                      ) : dataTaskDetail?.content.statusId === "4" ? (
+                        <option value={4}>DONE</option>
+                      ) : (
+                        <option value="">No Status</option>
+                      )}
                     </select>
                   </div>
-                  <div className="assignees">
+                  <div className="assignees mt-4">
                     <h6>ASSIGNEES</h6>
-                    <div style={{ display: "flex" }}>
+                    <div>
                       <div style={{ display: "flex" }} className="item">
-                        <div className="avatar">
-                          <img src="./assets/img/download (1).jfif" alt />
-
-                        </div>
-                      </div>
-                      <div className="reporter">
-                        <h6>REPORTER</h6>
-                        <div style={{ display: "flex" }} className="item">
-                          <div className="avatar">
-                            <img src="./assets/img/download (1).jfif" alt />
-                          </div>
-                          <p className="name">
-                            Pickle Rick
-                            <i
-                              className="fa fa-times"
-                              style={{ marginLeft: 5 }}
-                            />
-                          </p>
-                        </div>
+                        {dataTaskDetail?.content?.assigness.map(
+                          (item, index) => {
+                            return (
+                              <div className="avatar" key={index}>
+                                <img src={item.avatar} />
+                              </div>
+                            );
+                          }
+                        )}
                       </div>
                       <div className="priority" style={{ marginBottom: 20 }}>
                         <h6>PRIORITY</h6>
                         <select>
-                          <option>Highest</option>
-                          <option>Medium</option>
-                          <option>Low</option>
-                          <option>Lowest</option>
+                          {dataTaskDetail?.content.priorityTask.priority ===
+                          "Highest" ? (
+                            <option>Highest</option>
+                          ) : "Medium" ? (
+                            <option>Medium</option>
+                          ) : "Low" ? (
+                            <option>Low</option>
+                          ) : (
+                            <option>Lowest</option>
+                          )}
                         </select>
                       </div>
                       <div className="estimate">
                         <h6>ORIGINAL ESTIMATE (HOURS)</h6>
-                        <input type="text" className="estimate-hours" />
+                        <input
+                          type="text"
+                          value={dataTaskDetail?.content.originalEstimate}
+                          className="estimate-hours"
+                        />
                       </div>
-                      <div className="time-tracking">
+                      <div className="time-tracking mt-4">
                         <h6>TIME TRACKING</h6>
                         <div style={{ display: "flex" }}>
                           <i className="fa fa-clock" />
@@ -277,9 +303,13 @@ function CardMain({ value, index}) {
                                 className="progress-bar"
                                 role="progressbar"
                                 style={{ width: "25%" }}
-                                aria-valuenow={25}
+                                aria-valuenow={
+                                  dataTaskDetail?.content
+                                    .timeTrackingRemaining +
+                                  dataTaskDetail?.content.timeTrackingSpent
+                                }
                                 aria-valuemin={0}
-                                aria-valuemax={100}
+                                aria-valuemax={20}
                               />
                             </div>
                             <div
@@ -288,8 +318,14 @@ function CardMain({ value, index}) {
                                 justifyContent: "space-between",
                               }}
                             >
-                              <p className="logged">4h logged</p>
-                              <p className="estimate-time">12h estimated</p>
+                              <p className="logged">
+                                {dataTaskDetail?.content.timeTrackingRemaining}h
+                                logged
+                              </p>
+                              <p className="estimate-time">
+                                {dataTaskDetail?.content.timeTrackingSpent}h
+                                estimated
+                              </p>
                             </div>
                           </div>
                         </div>
@@ -300,14 +336,22 @@ function CardMain({ value, index}) {
                       <div style={{ color: "#929398" }}>
                         Update at a few seconds ago
                       </div>
+                      <button
+                        type="button"
+                        class="btn btn-danger"
+                        onClick={() =>
+                          removeTask(dataTaskDetail?.content.taskId)
+                        }
+                      >
+                        delete task
+                      </button>
                     </div>
                   </div>
                 </div>
               </div>
-            );
-          })}
+            </div>
+          </div>
         </Modal.Body>
-        <Modal.Footer></Modal.Footer>
       </Modal>
     </>
   );
