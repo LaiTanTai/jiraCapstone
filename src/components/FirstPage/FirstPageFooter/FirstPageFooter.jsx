@@ -9,7 +9,7 @@ function FirstPageFooter() {
     <div className="homeFooter">
       <footer className="container-fluid d-flex">
         <div className="products">
-          <h5>Products</h5>
+          <h5 className="footer_title">Products</h5>
           <ul>
             <li>
               <a href="#">Jira Home</a>
@@ -23,7 +23,7 @@ function FirstPageFooter() {
           </ul>
         </div>
         <div className="resources">
-          <h5>Resources</h5>
+          <h5 className="footer_title">Resources</h5>
           <ul>
             <li>
               <a href="#">Account</a>
@@ -37,7 +37,7 @@ function FirstPageFooter() {
           </ul>
         </div>
         <div className="expland--learn">
-          <h5>Expland--Learn</h5>
+          <h5 className="footer_title">Expland--Learn</h5>
           <ul>
             <li>
               <a href="#">Jira Home</a>
@@ -51,7 +51,7 @@ function FirstPageFooter() {
           </ul>
         </div>
         <div className="contact">
-          <h5>Contact</h5>
+          <h5 className="footer_title">Contact</h5>
           <ul>
             <li>
               <a href="#">Blogs</a>
@@ -66,8 +66,9 @@ function FirstPageFooter() {
         </div>
       </footer>
       <hr />
-      <div className="container-fluid copyright d-flex pt-3">
+      <div className="copyright pt-3 d-flex justify-center">
         <h6>Copyright © 2023 Atlassian: </h6>
+        <div className="icon-dark">
         <a href="#">
           <FacebookIcon className="text-dark" />
         </a>
@@ -80,6 +81,7 @@ function FirstPageFooter() {
         <a href="#">
           <LinkedInIcon className="text-dark" />
         </a>
+        </div>
       </div>
     </div>
   );

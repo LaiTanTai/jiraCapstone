@@ -3,7 +3,6 @@
     background-color: #bdbdbd36;
 
     footer {
-        padding: 0 100px !important;
 
         .products {
             width: 25%;
@@ -75,8 +74,8 @@
     }
 
     .copyright {
-        width: 25%;
-
+        width: 100%;
+        height:41px;
         h6 {
             margin: 0;
             width: 60%;
@@ -89,4 +88,12 @@
             width: 10%;
         }
     }
+}
+@media screen and (max-width : 560px) {
+    .footer_title{
+        font-size: 100%;
+    }
+}
+.icon-dark{
+    margin-left: 1%;
 }

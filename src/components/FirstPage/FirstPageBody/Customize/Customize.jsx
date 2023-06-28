@@ -6,7 +6,7 @@ function Customize() {
     <div className={`${styles.Customize_background}`}>
       <div className={`${styles.feature}`}>
         <div className="row">
-          <div className="col-6">
+          <div className="col-lg-6 col-sm-12">
             <div>
               {" "}
               <img
@@ -18,7 +18,7 @@ function Customize() {
               />{" "}
             </div>
           </div>
-          <div className="col-6">
+          <div className="col-lg-6 col-sm-12">
             <div>
               <div className="component component--heading mt-5">
                 {" "}
@@ -44,7 +44,7 @@ function Customize() {
       </div>
       <div className={`${styles.feature}`}>
         <div className="row">
-          <div className="col-6">
+          <div className="col-lg-6 col-sm-12">
             <div>
               <div className="component component--heading mt-5">
                 {" "}
@@ -68,7 +68,7 @@ function Customize() {
             </div>
           </div>
 
-          <div className="col-6">
+          <div className="col-lg-6 col-sm-12">
             <div>
               {" "}
               <img
@@ -84,7 +84,7 @@ function Customize() {
       </div>
       <div className={`${styles.feature}`}>
         <div className="row">
-          <div className="col-6">
+          <div className="col-lg-6 col-sm-12">
             <div>
               {" "}
               <img
@@ -96,7 +96,7 @@ function Customize() {
               />{" "}
             </div>
           </div>
-          <div className="col-6">
+          <div className="col-lg-6 col-sm-12">
             <div>
               <div className="component component--heading mt-5">
                 {" "}

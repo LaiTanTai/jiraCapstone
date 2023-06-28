@@ -3,10 +3,6 @@
     padding: 90px 100px;
 }
 
-.worldwide_feature{
-    padding: 0 300px;
-}
-
 
 .Sponsor_background{
     background-image: url("https://wac-cdn.atlassian.com/dam/jcr:8a9ac4bd-71f9-4af4-b859-f9c132e12f80/JSW_CTA_bg.png?cdnVersion=1040");
@@ -17,24 +13,28 @@
     width: 100%;
 }
 .h2_text{
-    font-size: 3rem;
+    font-size: 200%;
     color: white;
     font-weight: 600;
     
 }
 
 .button_text{
-    font-size: 1.5rem;
+    font-size: 150%;
     color: #091e42;
     font-weight: 600;
 }
-
+.component__image{
+    height: 100px;
+    margin-left: 10px;
+    width: 100%;
+}
 .Sponsor_position{
     position: relative;
 }
 .Sponsor_children{
     position: absolute;
-    top: 0;
-    left: 25%;
-    transform: translate(0, 50%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 50%);
 }
