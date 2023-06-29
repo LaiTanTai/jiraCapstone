@@ -78,11 +78,6 @@ function ProjectManagement() {
   const inputRef = useRef();
   const timeoutRef = useRef();
 
-  useEffect(() => {
-    console.log(inputRef.current);
-    inputRef.current.focus();
-  }, []);
-
   const handleDelete = async (id) => {
     try {
       const data = await apiremoveProject(id);
@@ -105,17 +100,17 @@ function ProjectManagement() {
     setShowFix(false);
   };
 
-  const handleSearch = (evt) => {
-    setSearchTerm(evt.target.value);
-    const searchUser = listUser.filter((user) => {
-      const search = searchTerm.toLowerCase();
-      let findUser = user.name.toLowerCase();
-      return findUser.indexOf(search) !== -1;
-    });
-    clearTimeout(timeoutRef.current);
-    setFoundUser(searchUser);
-    getListProjects();
-  };
+  // const handleSearch = (evt) => {
+  //   setSearchTerm(evt.target.value);
+  //   const searchUser = listUser.filter((user) => {
+  //     const search = searchTerm.toLowerCase();
+  //     let findUser = user.name.toLowerCase();
+  //     return findUser.indexOf(search) !== -1;
+  //   });
+  //   clearTimeout(timeoutRef.current);
+  //   setFoundUser(searchUser);
+  //   getListProjects();
+  // };
 
   const getListProjects = async () => {
     try {
@@ -165,16 +160,7 @@ function ProjectManagement() {
       <div>
         <h1 className="text-center text-dark">Quản lý dự án</h1>
       </div>
-      <div>
-        <input
-          ref={inputRef}
-          placeholder="Tìm kiếm"
-          className={`${style.timkiem} mt-4`}
-          value={searchTerm}
-          onChange={handleSearch}
-          disabled
-        ></input>
-      </div>
+      <div></div>
       <div className="mt-4">
         <Table bordered hover>
           <thead>
