@@ -98,27 +98,27 @@ function CardMain({ lstTaskDeTail, value, index }) {
   });
 
   const onSubmit = async (value) => {
-    const newSign = lstTaskDeTail.map((item) => {
-      return item.assigness.map((item) => item.id);
-    });
-    console.log("newSign", newSign);
     try {
-      // const payload = {
-      //   ...value,
-      //   taskId: dataTaskDetail?.content.taskId,
-      // taskName: dataTaskDetail?.content.taskId,
-      //   listUserAsign: [],
-      //   timeTrackingSpent: +inputSpent.current.value,
-      //   timeTrackingRemaining: +inputRemaining.current.value,
-      //   projectId: lstTaskDeTail[0]?.projectId,
-      //   typeId: +value.typeId,
-      //   priorityId: +value.priorityId,
-      //   originalEstimate: +value.originalEstimate,
-      // };
-      // const data = await apiUpdateTask(payload);
-      // if (data.statusCode === 200) {
-      //   toast.success("Cập nhật task thành công");
-      // }
+      const newSign = lstTaskDeTail.map((item) => {
+        return item.assigness.map((item) => item.id);
+      });
+
+      const payload = {
+        ...value,
+        taskId: dataTaskDetail?.content.taskId,
+        taskName: dataTaskDetail?.content.taskId,
+        listUserAsign: newSign[0],
+        timeTrackingSpent: +inputSpent.current.value,
+        timeTrackingRemaining: +inputRemaining.current.value,
+        projectId: lstTaskDeTail[0]?.projectId,
+        typeId: +value.typeId,
+        priorityId: +value.priorityId,
+        originalEstimate: +value.originalEstimate,
+      };
+      const data = await apiUpdateTask(payload);
+      if (data.statusCode === 200) {
+        toast.success("Cập nhật task thành công");
+      }
     } catch (error) {
       toast.error(error.response.data.content);
     }
@@ -602,7 +602,7 @@ function CardMain({ lstTaskDeTail, value, index }) {
                       <button
                         type="button"
                         className="btn btn-success mt-3"
-                        onClick={() => handleSubmit(onSubmit)}
+                        onClick={handleSubmit(onSubmit)}
                       >
                         Update Task
                       </button>

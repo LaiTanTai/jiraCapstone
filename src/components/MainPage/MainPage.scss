@@ -2,12 +2,11 @@
     height: 100%;
 }
 .pageRightOpen {
-    margin-left: 10px;
+
     width: 100%;
 }
 
 .pageRightClose {
-    margin-left: 10px;
     width: 100%;
 }
 
@@ -24,24 +23,26 @@
 // }
 
 .pageLeftOpen {
+    z-index: 99;
     width: 20%;
     position: relative;
 }
-.pageLeftOpen::after{
+.pageLeftOpen::before{
     content: "";
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5); /* Màu nền overlay */
-  z-index: 97; /* Đảm bảo overlay hiển thị trên các phần tử khác */
+ /* Đảm bảo overlay hiển thị trên các phần tử khác */
 }
 .pageLeftClose {
+    position: absolute;
     // transform: translateX(55px);
     height: 100%;
-    width: 30px;
-    border-right: 1px solid rgb(66 153 225 / .5);
+    width: 1%;
+    
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
 }

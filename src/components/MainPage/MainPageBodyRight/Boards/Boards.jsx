@@ -138,7 +138,7 @@ function Boards() {
 
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <div className="container-fluid">
-          <div className="row img_not_found">
+          <div className="row ">
             {dataproject.length > 0 ? (
               dataproject.map((value, index) => {
                 return (
@@ -150,7 +150,10 @@ function Boards() {
                 );
               })
             ) : (
+              <div className="img_not_found">
               <img className={style.img} src="./img/nodatafound.jpg" />
+              </div>
+              
             )}
           </div>
         </div>
