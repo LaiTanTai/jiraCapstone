@@ -1,15 +1,13 @@
 .MainPage {
-    display: flex;
     height: 100%;
 }
-
 .pageRightOpen {
-    margin-left: 30px;
+    margin-left: 10px;
     width: 100%;
 }
 
 .pageRightClose {
-    margin-left: 20px;
+    margin-left: 10px;
     width: 100%;
 }
 
@@ -27,8 +25,18 @@
 
 .pageLeftOpen {
     width: 20%;
+    position: relative;
 }
-
+.pageLeftOpen::after{
+    content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Màu nền overlay */
+  z-index: 97; /* Đảm bảo overlay hiển thị trên các phần tử khác */
+}
 .pageLeftClose {
     // transform: translateX(55px);
     height: 100%;

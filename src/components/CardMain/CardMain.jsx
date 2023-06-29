@@ -216,10 +216,10 @@ function CardMain({ lstTaskDeTail, value, index }) {
 
   return (
     <>
-      <Droppable style={{ width: "25%" }} droppableId={`drop ${index}`}>
+      <Droppable droppableId={`drop ${index}`}>
         {(provided) => (
           <div
-            className="container box__card"
+            className="container col-xl-3 col-lg-4 col-md-6 col-sm-12 box__card"
             {...provided.droppableProps}
             {...provided.droppableProps}
             ref={provided.innerRef}

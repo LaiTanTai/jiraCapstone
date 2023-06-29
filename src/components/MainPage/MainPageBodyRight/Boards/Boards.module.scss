@@ -6,10 +6,9 @@
     height: 100%;
     width: 100%;
 }
-
 .img {
-    margin-left: 37%;
-    margin-top: 12%;
-    width: 20%;
-    height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,50%);
 }

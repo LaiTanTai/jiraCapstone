@@ -11,6 +11,7 @@ function MainPage() {
   return (
     <>
       <MainPageHeader />
+      
       <div className="MainPage">
         <div className={`${open ? "pageLeftOpen" : "pageLeftClose"}`}>
           <MainPageBodyLeft
@@ -18,12 +19,14 @@ function MainPage() {
             setRender={setRender}
             setOpen={setOpen}
           />
+          
         </div>
-        <div className={`${open ? "pageRightOpen" : "pageRightClose"}`}>
+        
+        <div className={`container-fluid ${open ? "pageRightOpen" : "pageRightClose"}`}>
           <MainPageBodyRight render={render} />
-          <Footer />
         </div>
       </div>
+      <Footer/>
     </>
   );
 }

@@ -87,8 +87,8 @@ function Boards() {
     getProject();
   }, []);
   return (
-    <>
-      <div>
+    <div>
+      <div className="container-fluid">
         <ToastContainer />
         <div className="header">
           <nav aria-label="breadcrumb">
@@ -137,8 +137,8 @@ function Boards() {
       </div>
 
       <DragDropContext onDragEnd={handleOnDragEnd}>
-        <div className="container-fluid characters">
-          <div className="row">
+        <div className="container-fluid">
+          <div className="row img_not_found">
             {dataproject.length > 0 ? (
               dataproject.map((value, index) => {
                 return (
@@ -155,7 +155,7 @@ function Boards() {
           </div>
         </div>
       </DragDropContext>
-    </>
+    </div>
   );
 }
 
