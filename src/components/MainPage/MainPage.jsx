@@ -21,9 +21,9 @@ function MainPage() {
         </div>
         <div className={`${open ? "pageRightOpen" : "pageRightClose"}`}>
           <MainPageBodyRight render={render} />
-          <Footer />
         </div>
       </div>
+      <Footer />
     </>
   );
 }
